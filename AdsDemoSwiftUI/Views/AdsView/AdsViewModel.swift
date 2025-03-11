@@ -63,7 +63,16 @@ extension AdsViewModel: MediationAdDelegate {
     }
     
     
-    func onNativeAdLoaded(nativeAd: any AdsFramework.MediationNativeAd) {
+    func onNativeAdLoaded(nativeAd: MediationNativeAd) {
+        setNativeAd(nativeAd: nativeAd)
+        self.isLoading = false
+    }
+    
+    func setNativeAd(nativeAd: MediationNativeAd) {
+        self.mediationNativeAd = nativeAd
+    }
+    
+    func setNativeAdFromAdster(nativeAd: MediationNativeAd) {
         nativeAd.eventDelegate = self
         let bundle = Bundle(for: MediationNativeAdView.self)
         let nib = UINib(nibName: "NativeView", bundle: bundle)
@@ -78,7 +87,6 @@ extension AdsViewModel: MediationAdDelegate {
             addMediaViewToParentView(childView: mediaView, parentView: adView.mediaView)
         }
         addBannerViewToView(adView)
-        self.isLoading = false
     }
     
     func addMediaViewToParentView(childView: UIView, parentView: UIView) {

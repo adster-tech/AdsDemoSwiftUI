@@ -49,8 +49,6 @@ struct NativeAdView: View {
     private var mediaView: some View {
         if let media = ad.mediaView {
             BannerAdView(bannerView: media)
-                .background(Color.red)
-                .frame(width: 200, height: 200)
         }
     }
     
