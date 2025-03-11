@@ -1,0 +1,274 @@
+// swift-interface-format-version: 1.0
+// swift-compiler-version: Apple Swift version 6.0.3 effective-5.10 (swiftlang-6.0.3.1.10 clang-1600.0.30.1)
+// swift-module-flags: -target arm64-apple-ios14.0-simulator -enable-objc-interop -enable-library-evolution -swift-version 5 -enforce-exclusivity=checked -O -enable-bare-slash-regex -module-name AdsFramework
+@_exported import AdsFramework
+import AppTrackingTransparency
+import Compression
+import Foundation
+import Network
+import Swift
+import UIKit
+import _Concurrency
+import _StringProcessing
+import _SwiftConcurrencyShims
+public enum AdSterAdType : Swift.String, Swift.Codable {
+  case native
+  case banner
+  case interstitial
+  case rewarded
+  case appOpen
+  case unifiedAoi
+  case unified
+  case nativeCustom
+  case video
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum SDK : Swift.String, Swift.Codable {
+  case admob
+  case meta
+  case gam
+  case amazon
+  case amazonDirect
+  case adster
+  case liftoff
+  case jio
+  case inmobi
+  case unity
+  case headerBiddingAdapter
+  public init(from decoder: any Swift.Decoder) throws
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+@objc @_inheritsConvenienceInitializers @_hasMissingDesignatedInitializers @_Concurrency.MainActor @preconcurrency public class MediationNativeAdView : UIKit.UIView {
+  @objc @IBOutlet @_Concurrency.MainActor @preconcurrency weak public var headlineView: UIKit.UIView!
+  @objc @IBOutlet @_Concurrency.MainActor @preconcurrency weak public var mediaView: UIKit.UIView!
+  @objc @IBOutlet @_Concurrency.MainActor @preconcurrency public var ctaView: UIKit.UIView!
+  @objc @IBOutlet @_Concurrency.MainActor @preconcurrency weak public var bodyView: UIKit.UIView!
+  @objc @IBOutlet @_Concurrency.MainActor @preconcurrency weak public var logoView: UIKit.UIView!
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func layoutSubviews()
+  @_Concurrency.MainActor @preconcurrency public func setNativeAd(nativeAd: any AdsFramework.MediationNativeAd)
+  @objc deinit
+}
+public struct AdapterStatus {
+}
+public struct AdError : Swift.Error {
+  public let description: Swift.String?
+}
+public protocol MediaionAdEventDelegate : AnyObject {
+  func recordClick()
+  func recordImpression()
+}
+public protocol MediationBannerAdEventDelegate : AdsFramework.MediaionAdEventDelegate {
+}
+public protocol MediationNativeAdEventDelegate : AdsFramework.MediaionAdEventDelegate {
+}
+public protocol MediationNativeCustomAdEventDelegate : AdsFramework.MediaionAdEventDelegate {
+}
+public protocol MediationInterstitialAdEventDelegate : AdsFramework.MediaionAdEventDelegate {
+  func ad(didFailToPresentFullScreenContentWithError error: AdsFramework.AdError)
+  func adWillPresentFullScreenContent()
+  func adDidDismissFullScreenContent()
+}
+public protocol MediationRewardedAdEventDelegate : AdsFramework.MediaionAdEventDelegate {
+  func didRewardUser()
+  func didStartVideo()
+  func didEndVideo()
+  func ad(didFailToPresentFullScreenContentWithError error: AdsFramework.AdError)
+}
+public typealias AdSterInitializationCompletionHandler = ([AdsFramework.AdapterStatus]?) -> Swift.Void
+@_hasMissingDesignatedInitializers final public class AdSter {
+  public static func sharedInstance() -> AdsFramework.AdSter
+  final public func start(completionHandler: AdsFramework.AdSterInitializationCompletionHandler? = nil)
+  @objc deinit
+}
+@objc @_inheritsConvenienceInitializers public class AdSterAdLoader : ObjectiveC.NSObject {
+  weak public var delegate: (any AdsFramework.MediationAdDelegate)?
+  public func loadAd(adRequestConfiguration: AdsFramework.AdRequestConfiguration)
+  @objc override dynamic public init()
+  @objc deinit
+}
+public struct AdRequestConfiguration {
+  public init(placement: Swift.String, viewController: UIKit.UIViewController? = nil, publisherProvidedId: Swift.String? = nil, customTargetingValues: [Swift.String : Swift.String] = [:], adaptiveAdWidth: Swift.Int? = nil, adaptiveAdHeight: Swift.Int? = nil, adaptiveType: Swift.String? = nil)
+}
+public protocol MediationAdDelegate : AnyObject {
+  func onBannerAdLoaded(bannerAd: any AdsFramework.MediationBannerAd)
+  func onInterstitialAdLoaded(interstitialAd: any AdsFramework.MediationInterstitialAd)
+  func onRewardedAdLoaded(rewardedAd: any AdsFramework.MediationRewardedAd)
+  func onNativeAdLoaded(nativeAd: any AdsFramework.MediationNativeAd)
+  func onCustomNativeAdLoaded(customNativeAd: any AdsFramework.MediationNativeCustomFormatAd)
+  func onAdFailedToLoad(error: AdsFramework.AdError)
+}
+public protocol Ad : AnyObject {
+  var adType: AdsFramework.AdSterAdType { get }
+  var sdk: AdsFramework.SDK { get }
+  var ttl: Swift.Int64 { get }
+  var eCPM: Swift.Double? { get }
+  func destroy()
+}
+public protocol MediationBannerAd : AdsFramework.Ad {
+  var view: UIKit.UIView? { get }
+  var eventDelegate: (any AdsFramework.MediationBannerAdEventDelegate)? { get set }
+}
+public protocol MediationInterstitialAd : AdsFramework.Ad {
+  func presentInterstitial(from viewController: UIKit.UIViewController?)
+  var eventDelegate: (any AdsFramework.MediationInterstitialAdEventDelegate)? { get set }
+}
+public protocol MediationRewardedAd : AdsFramework.Ad {
+  func presentRewarded(from viewController: UIKit.UIViewController?)
+  var eventDelegate: (any AdsFramework.MediationRewardedAdEventDelegate)? { get set }
+}
+public protocol MediationNativeAd : AdsFramework.Ad {
+  var eventDelegate: (any AdsFramework.MediationNativeAdEventDelegate)? { get set }
+  var headline: Swift.String? { get }
+  var callToAction: Swift.String? { get }
+  var icon: Swift.String? { get }
+  var body: Swift.String? { get }
+  var starRating: Swift.Double? { get }
+  var store: Swift.String? { get }
+  var price: Swift.String? { get }
+  var advertiser: Swift.String? { get }
+  var mediaView: UIKit.UIView? { get }
+  func registerAdView(_ adView: UIKit.UIView, clickableAssetViews: [Swift.String : UIKit.UIView?])
+}
+public protocol MediationUnifiedAd : AdsFramework.Ad {
+  var nativeAd: (any AdsFramework.MediationNativeAd)? { get set }
+  var bannerAd: (any AdsFramework.MediationBannerAd)? { get set }
+  var customNativeAd: (any AdsFramework.MediationNativeCustomFormatAd)? { get set }
+}
+public protocol MediationNativeCustomFormatAd : AdsFramework.Ad {
+  var eventDelegate: (any AdsFramework.MediationNativeCustomAdEventDelegate)? { get set }
+  func getText(for assetName: Swift.String) -> Swift.String?
+  func getCustomFormatId() -> Swift.String?
+  func getAvailableAssetNames() -> [Swift.String]?
+  func performClick(on assetName: Swift.String)
+  func recordImpression()
+  func destroy()
+}
+public class AdsterProvider : AdsFramework.AdsterDelegate {
+  public init()
+  public func configuration(withConfigKey: Swift.String, withEnvironment: AdsFramework.AdEnvironment, response: @escaping (Foundation.NSError?, Swift.Bool) -> Swift.Void)
+  public func loadAd(for adRequest: AdsFramework.ADRequest)
+  public func displayAd(for adRequest: AdsFramework.ADRequest)
+  public func setAdSDK(_ sdk: AdsFramework.AdSDK)
+  @objc deinit
+}
+public protocol AdsterDelegate {
+  func configuration(withConfigKey: Swift.String, withEnvironment: AdsFramework.AdEnvironment, response: @escaping (_ objError: Foundation.NSError?, _ statusValue: Swift.Bool) -> Swift.Void)
+  func loadAd(for adRequest: AdsFramework.ADRequest)
+  func displayAd(for adRequest: AdsFramework.ADRequest)
+}
+public protocol AdsterAdsDelegate {
+  func didReceiveAd(for adRequest: AdsFramework.ADRequest)
+  func didFailAd(for adRequest: AdsFramework.ADRequest, error: any Swift.Error)
+}
+public enum AdEnvironment {
+  case Development
+  case Production
+  public static func == (a: AdsFramework.AdEnvironment, b: AdsFramework.AdEnvironment) -> Swift.Bool
+  public func hash(into hasher: inout Swift.Hasher)
+  public var hashValue: Swift.Int {
+    get
+  }
+}
+public enum AdSDK : Swift.String {
+  case AdMob
+  case GAM
+  case Meta
+  case Amazon
+  case AdsterNative
+  case Unknown
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum AdType : Swift.String {
+  case Banner
+  case Interstitial
+  case Native
+  case NativeFullScreen
+  case Rewarded
+  case RewardedInterstitial
+  case AppOpen
+  case Unknown
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum AdEventType : Swift.String {
+  case INIT_REQUEST
+  case INIT_RESPONSE
+  case AD_REQUEST
+  case AD_REQUEST_BACKFILL
+  case AD_OPPORTUNITY
+  case AD_REQUEST_ADAPTER
+  case AD_RESPONSE
+  case AD_RESPONSE_ERROR
+  case AD_CLICKED
+  case AD_IMPRESSION
+  case AD_CACHED
+  case AD_CACHE_HIT
+  case AD_CACHE_MISS
+  case EXCEPTION
+  public init?(rawValue: Swift.String)
+  public typealias RawValue = Swift.String
+  public var rawValue: Swift.String {
+    get
+  }
+}
+public enum MyError : Swift.Error {
+  case noInternetConnection
+  case decodingError
+  case somethingWentWrong
+  case customErr(Swift.String)
+}
+extension AdsFramework.MyError : Foundation.LocalizedError {
+  public var errorDescription: Swift.String? {
+    get
+  }
+}
+extension Swift.String {
+  public var trimmed: Swift.String {
+    get
+  }
+}
+public func printLog<T>(_ message: T, _ file: Swift.String = #file, _ lineNumber: Swift.Int = #line, _ function: Swift.String = #function)
+public func getCurrentTimeInMillis() -> Swift.Int64
+public func runOnMainThread(block: @escaping () -> ())
+public func runInBackground(block: @escaping () -> ())
+public func runOnMainThreadWithoutDeadlock(block: @escaping () -> ())
+public func runAfterTime(time: Swift.Double, block: @escaping () -> ())
+public func fetchIDFA() -> Swift.String?
+public struct ADRequest {
+  public var adKey: Swift.String {
+    get
+  }
+  public init(adKey: Swift.String = "", adView: UIKit.UIView? = nil, viewController: UIKit.UIViewController? = nil, delegateNew: (any AdsFramework.AdsterAdsDelegate)? = nil, identifyer: Swift.String? = nil)
+}
+extension AdsFramework.AdSterAdType : Swift.Equatable {}
+extension AdsFramework.AdSterAdType : Swift.Hashable {}
+extension AdsFramework.AdSterAdType : Swift.RawRepresentable {}
+extension AdsFramework.SDK : Swift.Equatable {}
+extension AdsFramework.SDK : Swift.Hashable {}
+extension AdsFramework.SDK : Swift.RawRepresentable {}
+extension AdsFramework.AdEnvironment : Swift.Equatable {}
+extension AdsFramework.AdEnvironment : Swift.Hashable {}
+extension AdsFramework.AdSDK : Swift.Equatable {}
+extension AdsFramework.AdSDK : Swift.Hashable {}
+extension AdsFramework.AdSDK : Swift.RawRepresentable {}
+extension AdsFramework.AdType : Swift.Equatable {}
+extension AdsFramework.AdType : Swift.Hashable {}
+extension AdsFramework.AdType : Swift.RawRepresentable {}
+extension AdsFramework.AdEventType : Swift.Equatable {}
+extension AdsFramework.AdEventType : Swift.Hashable {}
+extension AdsFramework.AdEventType : Swift.RawRepresentable {}
