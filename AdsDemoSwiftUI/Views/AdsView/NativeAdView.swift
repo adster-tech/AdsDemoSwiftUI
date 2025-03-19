@@ -48,7 +48,7 @@ struct NativeAdView: View {
     @ViewBuilder
     private var mediaView: some View {
         if let media = ad.mediaView {
-            BannerAdView(bannerView: media)
+            MediaAdView(bannerView: media)
         }
     }
     

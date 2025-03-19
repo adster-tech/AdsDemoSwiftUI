@@ -64,7 +64,7 @@ extension AdsViewModel: MediationAdDelegate {
     
     
     func onNativeAdLoaded(nativeAd: MediationNativeAd) {
-        setNativeAd(nativeAd: nativeAd)
+        setNativeAdFromAdster(nativeAd: nativeAd)
         self.isLoading = false
     }
     
