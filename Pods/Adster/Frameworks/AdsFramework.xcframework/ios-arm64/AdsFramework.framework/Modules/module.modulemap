@@ -1,6 +1,0 @@
-framework module AdsFramework {
-  umbrella header "AdsFramework.h"
-  export *
-
-  module * { export * }
-}
