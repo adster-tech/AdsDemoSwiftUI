@@ -26,7 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		868172A4677A44126CF4381990FEA417 /* PBXContainerItemProxy */ = {
+		0921A3C9305341E5B32A35A3BB98C84D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 			proxyType = 1;
@@ -39,17 +39,19 @@
 		039CACF5B83287776C724B39BF963A25 /* Pods-AdsDemoSwiftUI-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-AdsDemoSwiftUI-frameworks.sh"; sourceTree = "<group>"; };
 		04881BE96AD70B2763A89CB48F5148E9 /* Pods-AdsDemoSwiftUI.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-AdsDemoSwiftUI.modulemap"; sourceTree = "<group>"; };
 		0575F954A8749B6D9A758F7CF0B3975E /* Pods-AdsDemoSwiftUI-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-AdsDemoSwiftUI-umbrella.h"; sourceTree = "<group>"; };
+		0B4D5C6E99D2D0EA4BC561A53CBA4E47 /* FBAudienceNetwork.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = FBAudienceNetwork.xcframework; path = Frameworks/FBAudienceNetwork.xcframework; sourceTree = "<group>"; };
 		118D11B00F99B2D7ECD373E3900DCFD5 /* Pods-AdsDemoSwiftUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AdsDemoSwiftUI.release.xcconfig"; sourceTree = "<group>"; };
-		26A13A20F444ADBF7981BAAA054365FA /* Adster.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Adster.release.xcconfig; sourceTree = "<group>"; };
-		28C41A63D1A765B4390172AD32B590F6 /* Adster.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Adster.debug.xcconfig; sourceTree = "<group>"; };
+		1CBF4797A2D4CC0099C0BC0B92E8F486 /* Adster.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Adster.debug.xcconfig; sourceTree = "<group>"; };
+		28125EBE25C70F8F7959B233267FFCE2 /* AdsFramework.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = AdsFramework.xcframework; path = Frameworks/AdsFramework.xcframework; sourceTree = "<group>"; };
 		384DDA2CB25005BD6479B5987C619DD4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
-		5B102DE00DA448D8E4E0E19373BA095E /* Adster-xcframeworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Adster-xcframeworks.sh"; sourceTree = "<group>"; };
+		5D1337AD9B1C46CA341F29F04917E80F /* Adster.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Adster.release.xcconfig; sourceTree = "<group>"; };
 		5E00C606D743B3ADB533126F2F3516F0 /* Pods-AdsDemoSwiftUI-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-AdsDemoSwiftUI-acknowledgements.markdown"; sourceTree = "<group>"; };
-		8D98A623684A3EB007418363E817290E /* AdsFramework.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = AdsFramework.xcframework; path = Frameworks/AdsFramework.xcframework; sourceTree = "<group>"; };
 		95BBF6022EE3AE0CB59DD31F7C386F97 /* Pods-AdsDemoSwiftUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-AdsDemoSwiftUI.debug.xcconfig"; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		A6A1565EE285B4750FF896F1A2A90498 /* Pods-AdsDemoSwiftUI-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AdsDemoSwiftUI-acknowledgements.plist"; sourceTree = "<group>"; };
 		CE5846A43A9AB251BA0D8B2A40B859EF /* Pods-AdsDemoSwiftUI-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-AdsDemoSwiftUI-Info.plist"; sourceTree = "<group>"; };
+		D3CC7B87E87829AFA232FE59F6A4C9EB /* DTBiOSSDK.xcframework */ = {isa = PBXFileReference; includeInIndex = 1; name = DTBiOSSDK.xcframework; path = Frameworks/DTBiOSSDK.xcframework; sourceTree = "<group>"; };
+		F561D03479CA186B7D61FACE9B596E21 /* Adster-xcframeworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Adster-xcframeworks.sh"; sourceTree = "<group>"; };
 		F601BAC23C2E067382A58F39DF8E26C3 /* Pods-AdsDemoSwiftUI */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-AdsDemoSwiftUI"; path = Pods_AdsDemoSwiftUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F70F4463463EF3A7CD98E8F424FA4F1A /* Pods-AdsDemoSwiftUI-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-AdsDemoSwiftUI-dummy.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -66,23 +68,35 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		40C3B34737CA916CDFDD27BCC25893EB /* Frameworks */ = {
+		18FFAB3E7C89518B8BDB9FF4DFAC80E6 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				8D98A623684A3EB007418363E817290E /* AdsFramework.xcframework */,
+				F561D03479CA186B7D61FACE9B596E21 /* Adster-xcframeworks.sh */,
+				1CBF4797A2D4CC0099C0BC0B92E8F486 /* Adster.debug.xcconfig */,
+				5D1337AD9B1C46CA341F29F04917E80F /* Adster.release.xcconfig */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Adster";
+			sourceTree = "<group>";
+		};
+		1EFC7BB10A4E7568BE0CFEDC5A9A6B33 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				28125EBE25C70F8F7959B233267FFCE2 /* AdsFramework.xcframework */,
+				D3CC7B87E87829AFA232FE59F6A4C9EB /* DTBiOSSDK.xcframework */,
+				0B4D5C6E99D2D0EA4BC561A53CBA4E47 /* FBAudienceNetwork.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		67AF447A8E8224F4EEB57A2C3167B2B6 /* Support Files */ = {
+		74D5DA34774168304BF3579222E4A356 /* Adster */ = {
 			isa = PBXGroup;
 			children = (
-				5B102DE00DA448D8E4E0E19373BA095E /* Adster-xcframeworks.sh */,
-				28C41A63D1A765B4390172AD32B590F6 /* Adster.debug.xcconfig */,
-				26A13A20F444ADBF7981BAAA054365FA /* Adster.release.xcconfig */,
+				1EFC7BB10A4E7568BE0CFEDC5A9A6B33 /* Frameworks */,
+				18FFAB3E7C89518B8BDB9FF4DFAC80E6 /* Support Files */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/Adster";
+			name = Adster;
+			path = Adster;
 			sourceTree = "<group>";
 		};
 		7BE4FF1EFA13B6C4FB17FA27F8645BF9 /* Targets Support Files */ = {
@@ -96,19 +110,9 @@
 		92B9AF2318269D6ADBE14227F02C50E9 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				9E2B9F6163FA34C071239CAC845FD0BA /* Adster */,
+				74D5DA34774168304BF3579222E4A356 /* Adster */,
 			);
 			name = Pods;
-			sourceTree = "<group>";
-		};
-		9E2B9F6163FA34C071239CAC845FD0BA /* Adster */ = {
-			isa = PBXGroup;
-			children = (
-				40C3B34737CA916CDFDD27BCC25893EB /* Frameworks */,
-				67AF447A8E8224F4EEB57A2C3167B2B6 /* Support Files */,
-			);
-			name = Adster;
-			path = Adster;
 			sourceTree = "<group>";
 		};
 		A2D795E15DBB6E98EDE4F6F5E14DA5F2 /* Pods-AdsDemoSwiftUI */ = {
@@ -189,7 +193,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				393B5C70D03E2217FE7F2668B95430DC /* PBXTargetDependency */,
+				8D515AE1A46C3B63F8425949E034541F /* PBXTargetDependency */,
 			);
 			name = "Pods-AdsDemoSwiftUI";
 			productName = Pods_AdsDemoSwiftUI;
@@ -268,11 +272,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		393B5C70D03E2217FE7F2668B95430DC /* PBXTargetDependency */ = {
+		8D515AE1A46C3B63F8425949E034541F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Adster;
 			target = C532A25337090BE8D1AD0D980CE152D8 /* Adster */;
-			targetProxy = 868172A4677A44126CF4381990FEA417 /* PBXContainerItemProxy */;
+			targetProxy = 0921A3C9305341E5B32A35A3BB98C84D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -381,7 +385,7 @@
 		};
 		503AA00BC9BF7D9AF67C83BF1CF05849 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 28C41A63D1A765B4390172AD32B590F6 /* Adster.debug.xcconfig */;
+			baseConfigurationReference = 1CBF4797A2D4CC0099C0BC0B92E8F486 /* Adster.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -399,7 +403,7 @@
 		};
 		8DCE0F2A35EC7F5C07E8DAC8B4ECF96A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 26A13A20F444ADBF7981BAAA054365FA /* Adster.release.xcconfig */;
+			baseConfigurationReference = 5D1337AD9B1C46CA341F29F04917E80F /* Adster.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

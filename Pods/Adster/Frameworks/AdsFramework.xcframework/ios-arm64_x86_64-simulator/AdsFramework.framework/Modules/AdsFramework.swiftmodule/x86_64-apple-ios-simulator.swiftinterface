@@ -11,6 +11,7 @@ import UIKit
 import _Concurrency
 import _StringProcessing
 import _SwiftConcurrencyShims
+import zlib
 public enum AdSterAdType : Swift.String, Swift.Codable {
   case native
   case banner
@@ -53,6 +54,7 @@ public enum SDK : Swift.String, Swift.Codable {
   @objc @IBOutlet @_Concurrency.MainActor @preconcurrency weak public var bodyView: UIKit.UIView!
   @objc @IBOutlet @_Concurrency.MainActor @preconcurrency weak public var logoView: UIKit.UIView!
   @_Concurrency.MainActor @preconcurrency @objc override dynamic public func layoutSubviews()
+  @_Concurrency.MainActor @preconcurrency @objc override dynamic public func didMoveToWindow()
   @_Concurrency.MainActor @preconcurrency public func setNativeAd(nativeAd: any AdsFramework.MediationNativeAd)
   @objc deinit
 }
@@ -130,12 +132,17 @@ public protocol MediationNativeAd : AdsFramework.Ad {
   var callToAction: Swift.String? { get }
   var icon: Swift.String? { get }
   var body: Swift.String? { get }
+  var landingUrl: Swift.String? { get }
   var starRating: Swift.Double? { get }
   var store: Swift.String? { get }
   var price: Swift.String? { get }
   var advertiser: Swift.String? { get }
   var mediaView: UIKit.UIView? { get }
+  var overrideImpressionHandling: Swift.Bool { get set }
+  var overrideClickHandling: Swift.Bool { get set }
   func registerAdView(_ adView: UIKit.UIView, clickableAssetViews: [Swift.String : UIKit.UIView?])
+  func recordClick()
+  func recordImpression()
 }
 public protocol MediationUnifiedAd : AdsFramework.Ad {
   var nativeAd: (any AdsFramework.MediationNativeAd)? { get set }

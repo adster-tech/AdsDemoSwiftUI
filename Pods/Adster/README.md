@@ -7,13 +7,15 @@ The AdSter SDK provides integration for multiple ad types, including Banner, Int
 
 ## SDK Initialization
 
-Before requesting any ads, you need to initialize the SDK. This is a one-time setup step that should be done at the start of your application.
+Before requesting any ads, you need to initialize the SDK. This is a one-time setup step that should be done at the start of your application. This framework depends on RealmSwift. Please install RealmSwift via Swift Package Manager - https://github.com/realm/realm-swift.git.
 
-📦 Installation via CocoaPods
+### Installation via CocoaPods
+
 To integrate YourSDK into your Xcode project using CocoaPods, follow these steps:
+
 Open your project's Podfile and add:
- ```
- pod 'YourSDK'
+```ruby
+ pod 'Adster', '~> 1.0.2'
  ```
  
 Run the following command in the terminal:
@@ -21,7 +23,7 @@ Run the following command in the terminal:
  pod install
   ```
   
-After installation, close Xcode and open the .xcworkspace file instead of .xcodeproj.
+After installation, close Xcode and open the .xcworkspace file instead of .xcodeproj.a
 
 
 ### Example:

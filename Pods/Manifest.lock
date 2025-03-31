@@ -1,16 +1,16 @@
 PODS:
-  - Adster (1.0.1)
+  - Adster (1.0.7)
 
 DEPENDENCIES:
-  - Adster
+  - Adster (= 1.0.7)
 
 SPEC REPOS:
   trunk:
     - Adster
 
 SPEC CHECKSUMS:
-  Adster: fa9ae183721b6a0fe63d79390fb5c302c6396a0d
+  Adster: 583f27288bdfb323a15be7fcc7ee360cf9f12a3d
 
-PODFILE CHECKSUM: 43e6c10bcc078ae44e7ed922b2fac60a2759bee3
+PODFILE CHECKSUM: e3e583057411f8303f25ffd8d5fd1dc8b796bd8f
 
 COCOAPODS: 1.16.2

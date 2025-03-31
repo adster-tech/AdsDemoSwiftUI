@@ -23,6 +23,18 @@ variant_for_slice()
   "AdsFramework.xcframework/ios-arm64_x86_64-simulator")
     echo "simulator"
     ;;
+  "DTBiOSSDK.xcframework/ios-arm64")
+    echo ""
+    ;;
+  "DTBiOSSDK.xcframework/ios-arm64_x86_64-simulator")
+    echo "simulator"
+    ;;
+  "FBAudienceNetwork.xcframework/ios-arm64")
+    echo ""
+    ;;
+  "FBAudienceNetwork.xcframework/ios-arm64_x86_64-simulator")
+    echo "simulator"
+    ;;
   esac
 }
 
@@ -33,6 +45,18 @@ archs_for_slice()
     echo "arm64"
     ;;
   "AdsFramework.xcframework/ios-arm64_x86_64-simulator")
+    echo "arm64 x86_64"
+    ;;
+  "DTBiOSSDK.xcframework/ios-arm64")
+    echo "arm64"
+    ;;
+  "DTBiOSSDK.xcframework/ios-arm64_x86_64-simulator")
+    echo "arm64 x86_64"
+    ;;
+  "FBAudienceNetwork.xcframework/ios-arm64")
+    echo "arm64"
+    ;;
+  "FBAudienceNetwork.xcframework/ios-arm64_x86_64-simulator")
     echo "arm64 x86_64"
     ;;
   esac
@@ -118,4 +142,6 @@ install_xcframework() {
 }
 
 install_xcframework "${PODS_ROOT}/Adster/Frameworks/AdsFramework.xcframework" "Adster" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
+install_xcframework "${PODS_ROOT}/Adster/Frameworks/DTBiOSSDK.xcframework" "Adster" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
+install_xcframework "${PODS_ROOT}/Adster/Frameworks/FBAudienceNetwork.xcframework" "Adster" "framework" "ios-arm64" "ios-arm64_x86_64-simulator"
 
