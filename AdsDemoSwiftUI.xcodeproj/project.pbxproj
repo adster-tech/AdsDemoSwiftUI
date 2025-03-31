@@ -6,18 +6,9 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXCopyFilesBuildPhase section */
-		C375E2F52D99BF4D002AC7FA /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
+/* Begin PBXBuildFile section */
+		C39D9E1F2D9A991F002A596C /* Adster in Frameworks */ = {isa = PBXBuildFile; productRef = C39D9E1E2D9A991F002A596C /* Adster */; };
+/* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		C32310FC2D7F0C2C00BB8E91 /* AdsDemoSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AdsDemoSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -49,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C39D9E1F2D9A991F002A596C /* Adster in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +51,7 @@
 			isa = PBXGroup;
 			children = (
 				C32310FE2D7F0C2C00BB8E91 /* AdsDemoSwiftUI */,
+				C325DF192D9A9617005E2800 /* Frameworks */,
 				C32310FD2D7F0C2C00BB8E91 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -71,6 +64,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		C325DF192D9A9617005E2800 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -81,7 +81,6 @@
 				C32310F82D7F0C2C00BB8E91 /* Sources */,
 				C32310F92D7F0C2C00BB8E91 /* Frameworks */,
 				C32310FA2D7F0C2C00BB8E91 /* Resources */,
-				C375E2F52D99BF4D002AC7FA /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -119,6 +118,9 @@
 			);
 			mainGroup = C32310F32D7F0C2C00BB8E91;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				C39D9E1D2D9A991F002A596C /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C32310FD2D7F0C2C00BB8E91 /* Products */;
 			projectDirPath = "";
@@ -376,6 +378,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C39D9E1D2D9A991F002A596C /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/adster-tech/orchestration-sdk-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.8;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C39D9E1E2D9A991F002A596C /* Adster */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C39D9E1D2D9A991F002A596C /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */;
+			productName = Adster;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C32310F42D7F0C2C00BB8E91 /* Project object */;
 }
