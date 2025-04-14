@@ -30,7 +30,7 @@ struct BannerAdView: UIViewRepresentable {
             bannerView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             bannerView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             containerView.leadingAnchor.constraint(equalTo: bannerView.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: bannerView.trailingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: bannerView.trailingAnchor, constant: 80),
             containerView.topAnchor.constraint(equalTo: bannerView.topAnchor),
             containerView.bottomAnchor.constraint(equalTo: bannerView.bottomAnchor)
         ])
