@@ -47,8 +47,10 @@ struct NativeAdView: View {
     
     @ViewBuilder
     private var mediaView: some View {
-        if let media = ad.mediaView {
-            MediaAdView(bannerView: media)
+        if ad.mediaView != nil {
+            MediaAdView(mediationAd: ad)
+                .frame(height: 200)
+                .frame(maxWidth: .infinity)
         }
     }
     
@@ -58,6 +60,7 @@ struct NativeAdView: View {
             bodyView
             ctaView
             mediaView
+            Spacer()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -70,6 +73,22 @@ struct NativeAdView: View {
             app.open(url, options: [:], completionHandler: nil)
         } else {
             print("Unable to open URL: \(url.absoluteString)")
+        }
+    }
+}
+
+class NativeAdContainerView: UIView {
+
+    private var mediationNativeAd: MediationNativeAd?
+
+    func configure(with ad: MediationNativeAd) {
+        self.mediationNativeAd = ad
+        
+        if let adView = ad.mediaView {
+            ad.registerAdView(adView, clickableAssetViews: [:])
+            adView.frame = bounds
+            adView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            addSubview(adView)
         }
     }
 }

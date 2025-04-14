@@ -15,10 +15,13 @@ struct AdView: View {
             Spacer()
             if let bannerView = viewModel.bannerView {
                 bannerView
+                    .frame(maxWidth: .infinity, maxHeight: 250, alignment: .center)
             }
             if let mediationNativeAd = viewModel.mediationNativeAd {
                 NativeAdView(ad: mediationNativeAd)
+                    .frame(alignment: .center)
             }
+            Spacer()
         }.frame(maxWidth: .infinity, alignment: .leading)
         .onAppear {
             guard !viewModel.didAppear else { return }
