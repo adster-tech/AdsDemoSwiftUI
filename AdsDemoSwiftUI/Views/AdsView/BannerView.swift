@@ -21,16 +21,19 @@ struct BannerAdView: UIViewRepresentable {
         containerView.addSubview(bannerView)
         
         bannerView.translatesAutoresizingMaskIntoConstraints = false
+        let screenWidth = UIScreen.main.bounds.width
         
         NSLayoutConstraint.activate([
-            // Set bannerView's size constraints
-            bannerView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            bannerView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            bannerView.topAnchor.constraint(equalTo: containerView.topAnchor),
-            bannerView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
+            containerView.widthAnchor.constraint(equalToConstant: screenWidth),
+            // Center bannerView inside containerView
+            bannerView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
+            bannerView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             
-            // Container view should size to fit the banner view
-            containerView.widthAnchor.constraint(equalTo: bannerView.widthAnchor),
+            // Set bannerView’s size explicitly or rely on its intrinsic size
+            bannerView.widthAnchor.constraint(equalToConstant: bannerView.frame.size.width),
+            bannerView.heightAnchor.constraint(equalToConstant: bannerView.frame.size.height),
+            
+            // Make containerView match bannerView’s size
             containerView.heightAnchor.constraint(equalTo: bannerView.heightAnchor)
         ])
         

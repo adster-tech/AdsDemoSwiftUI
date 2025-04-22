@@ -15,7 +15,7 @@ struct AdView: View {
             Spacer()
             if let bannerView = viewModel.bannerView {
                 bannerView
-                    .frame(maxWidth: .infinity, maxHeight: 250, alignment: .center)
+                    .frame(maxWidth: .infinity, alignment: .center)
             }
             if let mediationNativeAd = viewModel.mediationNativeAd {
                 NativeAdView(ad: mediationNativeAd)
