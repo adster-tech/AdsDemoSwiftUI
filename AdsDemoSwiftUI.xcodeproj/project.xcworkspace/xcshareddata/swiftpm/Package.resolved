@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/adster-tech/orchestration-sdk-ios",
       "state" : {
-        "revision" : "25369e19fe6e1b9facc14e657fe17802ac57a532",
-        "version" : "1.0.9"
+        "revision" : "3671f9e156c28619602c54265cded892f530aceb",
+        "version" : "1.0.10"
       }
     },
     {
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/realm/realm-swift.git",
       "state" : {
-        "revision" : "bae6c4be7df169fdb047d0ad63f902c1e2665e83",
-        "version" : "20.0.1"
+        "revision" : "f8d74e90eafa2ac0e760bc674b49f40b593b1483",
+        "version" : "20.0.2"
       }
     }
   ],
