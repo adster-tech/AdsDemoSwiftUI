@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C333E7822DC8DCCD0010717B /* Adster in Frameworks */ = {isa = PBXBuildFile; productRef = C333E7812DC8DCCD0010717B /* Adster */; };
+		C391A61F2DE4721700452A9E /* Adster in Frameworks */ = {isa = PBXBuildFile; productRef = C391A61E2DE4721700452A9E /* Adster */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,7 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C333E7822DC8DCCD0010717B /* Adster in Frameworks */,
+				C391A61F2DE4721700452A9E /* Adster in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,7 +119,7 @@
 			mainGroup = C32310F32D7F0C2C00BB8E91;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				C333E7802DC8DCCD0010717B /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */,
+				C391A61D2DE4721700452A9E /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C32310FD2D7F0C2C00BB8E91 /* Products */;
@@ -384,20 +384,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		C333E7802DC8DCCD0010717B /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */ = {
+		C391A61D2DE4721700452A9E /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/adster-tech/orchestration-sdk-ios";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.10;
+				minimumVersion = 1.1.9;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C333E7812DC8DCCD0010717B /* Adster */ = {
+		C391A61E2DE4721700452A9E /* Adster */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C333E7802DC8DCCD0010717B /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */;
+			package = C391A61D2DE4721700452A9E /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */;
 			productName = Adster;
 		};
 /* End XCSwiftPackageProductDependency section */

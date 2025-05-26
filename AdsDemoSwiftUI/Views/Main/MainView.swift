@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import AdsFramework
 
 struct MainView: View {
     @StateObject var viewModel: MainViewModel
-    
+    @State var hasAppeared = false
     var body: some View {
         NavigationStack {
             ScrollView(showsIndicators: false) {
@@ -26,6 +27,14 @@ struct MainView: View {
                     }
                 }
             )
+        }.onAppear {
+            guard !hasAppeared else { return }
+            hasAppeared = true
+            AdSter.sharedInstance().start(completionHandler: { status in
+                if let status {
+                    print("Ad initialized \(status)")
+                }
+            })
         }
     }
     

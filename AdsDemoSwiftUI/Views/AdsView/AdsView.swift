@@ -5,7 +5,7 @@
 //  Created by Adster on 10/03/25.
 //
 import SwiftUI
-
+import AdsFramework
 struct AdView: View {
     @StateObject var viewModel: AdsViewModel
     
