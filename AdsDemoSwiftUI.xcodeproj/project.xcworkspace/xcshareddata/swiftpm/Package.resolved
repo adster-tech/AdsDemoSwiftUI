@@ -1,0 +1,33 @@
+{
+  "originHash" : "f58d44f630ae260d9d5313760fdfdb5d08ddd6d7f3f8c561d6e7cb7cc8e12326",
+  "pins" : [
+    {
+      "identity" : "orchestration-sdk-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/adster-tech/orchestration-sdk-ios",
+      "state" : {
+        "revision" : "1cec7e26e6717519fd3c4211838f778b6dd8d824",
+        "version" : "1.2.0"
+      }
+    },
+    {
+      "identity" : "realm-core",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/realm/realm-core.git",
+      "state" : {
+        "revision" : "15493076ad9fef22c16cc64cbfbf9e5b65c385f9",
+        "version" : "20.1.0"
+      }
+    },
+    {
+      "identity" : "realm-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/realm/realm-swift.git",
+      "state" : {
+        "revision" : "bae6c4be7df169fdb047d0ad63f902c1e2665e83",
+        "version" : "20.0.1"
+      }
+    }
+  ],
+  "version" : 3
+}

@@ -7,32 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0CF63C5365B7BB6A3FA9FD57 /* Pods_AdsDemoSwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97F213E6E430156D92CD9BAB /* Pods_AdsDemoSwiftUI.framework */; };
-		C3F78ECA2D9A691F0036130E /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C3F78EC92D9A691F0036130E /* RealmSwift */; };
-		C3F791B42D9A851C0036130E /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = C3F78EC92D9A691F0036130E /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		C391A6222DE6C7AA00452A9E /* Adster in Frameworks */ = {isa = PBXBuildFile; productRef = C391A6212DE6C7AA00452A9E /* Adster */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		C375E2F52D99BF4D002AC7FA /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				C3F791B42D9A851C0036130E /* RealmSwift in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
-		97F213E6E430156D92CD9BAB /* Pods_AdsDemoSwiftUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AdsDemoSwiftUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9CB2CD5E23875D1E3BC79C8C /* Pods-AdsDemoSwiftUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdsDemoSwiftUI.debug.xcconfig"; path = "Target Support Files/Pods-AdsDemoSwiftUI/Pods-AdsDemoSwiftUI.debug.xcconfig"; sourceTree = "<group>"; };
 		C32310FC2D7F0C2C00BB8E91 /* AdsDemoSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AdsDemoSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C375E2D02D99BD74002AC7FA /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.2.sdk/System/Library/Frameworks/AdSupport.framework; sourceTree = DEVELOPER_DIR; };
-		C375E2D22D99BD7A002AC7FA /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.2.sdk/System/Library/Frameworks/WebKit.framework; sourceTree = DEVELOPER_DIR; };
-		DD0918073F60A0C5296BAC4C /* Pods-AdsDemoSwiftUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AdsDemoSwiftUI.release.xcconfig"; path = "Target Support Files/Pods-AdsDemoSwiftUI/Pods-AdsDemoSwiftUI.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -61,40 +40,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C3F78ECA2D9A691F0036130E /* RealmSwift in Frameworks */,
-				0CF63C5365B7BB6A3FA9FD57 /* Pods_AdsDemoSwiftUI.framework in Frameworks */,
+				C391A6222DE6C7AA00452A9E /* Adster in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		31567E719A250D8DCFF7530A /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				C375E2D22D99BD7A002AC7FA /* WebKit.framework */,
-				C375E2D02D99BD74002AC7FA /* AdSupport.framework */,
-				97F213E6E430156D92CD9BAB /* Pods_AdsDemoSwiftUI.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		C01E622858A84E0CF6894061 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				9CB2CD5E23875D1E3BC79C8C /* Pods-AdsDemoSwiftUI.debug.xcconfig */,
-				DD0918073F60A0C5296BAC4C /* Pods-AdsDemoSwiftUI.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		C32310F32D7F0C2C00BB8E91 = {
 			isa = PBXGroup;
 			children = (
 				C32310FE2D7F0C2C00BB8E91 /* AdsDemoSwiftUI */,
+				C325DF192D9A9617005E2800 /* Frameworks */,
 				C32310FD2D7F0C2C00BB8E91 /* Products */,
-				C01E622858A84E0CF6894061 /* Pods */,
-				31567E719A250D8DCFF7530A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -106,6 +64,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		C325DF192D9A9617005E2800 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -113,12 +78,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C323110B2D7F0C2F00BB8E91 /* Build configuration list for PBXNativeTarget "AdsDemoSwiftUI" */;
 			buildPhases = (
-				B15DC648F6DB683C06F1235E /* [CP] Check Pods Manifest.lock */,
 				C32310F82D7F0C2C00BB8E91 /* Sources */,
 				C32310F92D7F0C2C00BB8E91 /* Frameworks */,
 				C32310FA2D7F0C2C00BB8E91 /* Resources */,
-				C375E2F52D99BF4D002AC7FA /* Embed Frameworks */,
-				337E16EFC4E225E2D34A3E89 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -157,7 +119,7 @@
 			mainGroup = C32310F32D7F0C2C00BB8E91;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				C3F78EC82D9A691F0036130E /* XCRemoteSwiftPackageReference "realm-swift" */,
+				C391A6202DE6C7AA00452A9E /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C32310FD2D7F0C2C00BB8E91 /* Products */;
@@ -178,48 +140,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		337E16EFC4E225E2D34A3E89 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AdsDemoSwiftUI/Pods-AdsDemoSwiftUI-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-AdsDemoSwiftUI/Pods-AdsDemoSwiftUI-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AdsDemoSwiftUI/Pods-AdsDemoSwiftUI-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B15DC648F6DB683C06F1235E /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AdsDemoSwiftUI-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C32310F82D7F0C2C00BB8E91 /* Sources */ = {
@@ -289,6 +209,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = 1.0;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -344,19 +265,19 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_BUNDLE_IDENTIFIER = 1.0;
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
 		};
 		C323110C2D7F0C2F00BB8E91 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9CB2CD5E23875D1E3BC79C8C /* Pods-AdsDemoSwiftUI.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = AdsDemoSwiftUI/AdsDemoSwiftUI.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"AdsDemoSwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = 44VHM66V89;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -389,19 +310,19 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
 				XROS_DEPLOYMENT_TARGET = 2.2;
 			};
 			name = Debug;
 		};
 		C323110D2D7F0C2F00BB8E91 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DD0918073F60A0C5296BAC4C /* Pods-AdsDemoSwiftUI.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = AdsDemoSwiftUI/AdsDemoSwiftUI.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"AdsDemoSwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = 44VHM66V89;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -434,6 +355,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
 				XROS_DEPLOYMENT_TARGET = 2.2;
 			};
 			name = Release;
@@ -462,21 +384,21 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		C3F78EC82D9A691F0036130E /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+		C391A6202DE6C7AA00452A9E /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/realm/realm-swift.git";
+			repositoryURL = "https://github.com/adster-tech/orchestration-sdk-ios";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 20.0.1;
+				minimumVersion = 1.2.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C3F78EC92D9A691F0036130E /* RealmSwift */ = {
+		C391A6212DE6C7AA00452A9E /* Adster */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C3F78EC82D9A691F0036130E /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = RealmSwift;
+			package = C391A6202DE6C7AA00452A9E /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */;
+			productName = Adster;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

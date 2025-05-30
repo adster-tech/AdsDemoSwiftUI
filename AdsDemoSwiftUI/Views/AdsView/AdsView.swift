@@ -5,7 +5,7 @@
 //  Created by Adster on 10/03/25.
 //
 import SwiftUI
-
+import AdsFramework
 struct AdView: View {
     @StateObject var viewModel: AdsViewModel
     
@@ -15,10 +15,13 @@ struct AdView: View {
             Spacer()
             if let bannerView = viewModel.bannerView {
                 bannerView
+                    .frame(maxWidth: .infinity, alignment: .center)
             }
             if let mediationNativeAd = viewModel.mediationNativeAd {
                 NativeAdView(ad: mediationNativeAd)
+                    .frame(alignment: .center)
             }
+            Spacer()
         }.frame(maxWidth: .infinity, alignment: .leading)
         .onAppear {
             guard !viewModel.didAppear else { return }

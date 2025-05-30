@@ -64,7 +64,7 @@ extension AdsViewModel: MediationAdDelegate {
     
     
     func onNativeAdLoaded(nativeAd: MediationNativeAd) {
-        setNativeAdFromAdster(nativeAd: nativeAd)
+        setNativeAd(nativeAd: nativeAd)
         self.isLoading = false
     }
     
@@ -100,7 +100,6 @@ extension AdsViewModel: MediationAdDelegate {
                childView.bottomAnchor.constraint(equalTo: parentView.bottomAnchor)
            ])
     }
-    
     
     func addBannerViewToView(_ bannerView: UIView) {
         self.bannerView = .init(bannerView: bannerView)
