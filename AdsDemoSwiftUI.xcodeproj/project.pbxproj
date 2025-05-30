@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C391A61F2DE4721700452A9E /* Adster in Frameworks */ = {isa = PBXBuildFile; productRef = C391A61E2DE4721700452A9E /* Adster */; };
+		C391A6222DE6C7AA00452A9E /* Adster in Frameworks */ = {isa = PBXBuildFile; productRef = C391A6212DE6C7AA00452A9E /* Adster */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,7 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C391A61F2DE4721700452A9E /* Adster in Frameworks */,
+				C391A6222DE6C7AA00452A9E /* Adster in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,7 +119,7 @@
 			mainGroup = C32310F32D7F0C2C00BB8E91;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				C391A61D2DE4721700452A9E /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */,
+				C391A6202DE6C7AA00452A9E /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C32310FD2D7F0C2C00BB8E91 /* Products */;
@@ -277,7 +277,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = AdsDemoSwiftUI/AdsDemoSwiftUI.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"AdsDemoSwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = 44VHM66V89;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -322,7 +322,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = AdsDemoSwiftUI/AdsDemoSwiftUI.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 4;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"AdsDemoSwiftUI/Preview Content\"";
 				DEVELOPMENT_TEAM = 44VHM66V89;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -384,20 +384,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		C391A61D2DE4721700452A9E /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */ = {
+		C391A6202DE6C7AA00452A9E /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/adster-tech/orchestration-sdk-ios";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.1.9;
+				minimumVersion = 1.2.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C391A61E2DE4721700452A9E /* Adster */ = {
+		C391A6212DE6C7AA00452A9E /* Adster */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C391A61D2DE4721700452A9E /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */;
+			package = C391A6202DE6C7AA00452A9E /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */;
 			productName = Adster;
 		};
 /* End XCSwiftPackageProductDependency section */
