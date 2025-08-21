@@ -1,0 +1,15 @@
+{
+  "originHash" : "f58d44f630ae260d9d5313760fdfdb5d08ddd6d7f3f8c561d6e7cb7cc8e12326",
+  "pins" : [
+    {
+      "identity" : "orchestration-sdk-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/adster-tech/orchestration-sdk-ios",
+      "state" : {
+        "revision" : "c6f6ea91cd7b3b32d0c6e4004e3783f5332195bd",
+        "version" : "1.2.3"
+      }
+    }
+  ],
+  "version" : 3
+}
