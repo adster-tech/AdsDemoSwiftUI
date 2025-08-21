@@ -151,6 +151,38 @@ struct EMIView: View {
                                     y: .value("Balance", month.balance)
                                 )
                             }
+                            .chartXAxis {
+                                let totalMonths = schedule.last?.month ?? 1
+                                let maxYear = (totalMonths + 11) / 12
+                                
+                                if maxYear <= 7 {
+                                    // Generate an array of month values at the start of each year
+                                    let yearMonths = (1...maxYear).map { Double(($0 - 1) * 12 + 1) }
+                                    
+                                    AxisMarks(values: yearMonths) { value in
+                                        let monthNum = value.as(Int.self) ?? 0
+                                        let year = (monthNum + 11) / 12
+                                        
+                                        AxisValueLabel("Y\(year)")
+                                            .font(.caption2)
+                                        AxisGridLine()
+                                    }
+                                } else {
+                                    // Generate a custom array of 7 evenly spaced year labels
+                                    let step = max(1, Int(Double(maxYear) / 6.0))
+                                    let years = stride(from: 1, through: maxYear, by: step)
+                                    let desiredMonths = years.map { Double(($0 - 1) * 12 + 1) }
+                                    
+                                    AxisMarks(values: desiredMonths) { value in
+                                        let monthNum = value.as(Int.self) ?? 0
+                                        let year = (monthNum + 11) / 12
+                                        
+                                        AxisValueLabel("Y\(year)")
+                                            .font(.caption2)
+                                        AxisGridLine()
+                                    }
+                                }
+                            }
                             .frame(height: 200)
                         }
                         
