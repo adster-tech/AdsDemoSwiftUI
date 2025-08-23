@@ -10,11 +10,13 @@ import SwiftUI
 struct SettingsView: View {
     var items: [SettingsViewType] {
         var base: [SettingsViewType] = [.about]
-        if Bundle.main.isDebugOrTestFlight {
+        if showAdster || Bundle.main.isDebugOrTestFlight {
             base.append(.adster)
         }
         return base
     }
+    
+    private let showAdster = true
     
     
     var body: some View {
