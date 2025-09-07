@@ -14,7 +14,7 @@ enum SdkType: String, CaseIterable, Identifiable {
     case admob = "AdMob"
     case meta = "Meta"
     case amazon = "Amazon"
-    case liftoff = "LiftOff"
+    case vungle = "Vungle"
     case applovin = "Applovin"
     case inmobi = "InMobi"
     case unity = "Unity"

@@ -9,7 +9,7 @@ import Combine
 class MainViewModel: ObservableObject {
     let sdkTypes: [[SdkType]] = [
         [.gam, .admob, .adster],
-        [ .amazon, .applovin, .liftoff],
+        [ .amazon, .applovin, .vungle],
         [.adsease, .inmobi, .unity],
         [.meta]
     ]
