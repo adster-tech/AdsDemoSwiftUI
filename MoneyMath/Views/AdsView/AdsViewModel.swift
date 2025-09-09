@@ -11,18 +11,26 @@ import SwiftUI
 class AdsViewModel: ObservableObject {
     let key: String
     let displayKey: String
+    let isAdsterInitialized: Bool
     @Published var didAppear = false
     @Published var error: String? = nil
     @Published var isLoading: Bool = false
     @Published var bannerView: BannerAdView?
     @Published var mediationNativeAd: MediationNativeAd? = nil
-    init(key: String) {
+    
+    init(key: String, isAdsterInitialized: Bool = false) {
         self.displayKey = key
         self.key = key.replacingOccurrences(of: "-", with: "_").lowercased()
+        self.isAdsterInitialized = isAdsterInitialized
     }
     
     func loadAdActivity() {
         Task { @MainActor in
+            guard isAdsterInitialized else {
+                self.error = "Adster SDK is not initialized. Please initialize it first."
+                return
+            }
+            
             self.isLoading = true
             self.error = nil
             self.bannerView = nil

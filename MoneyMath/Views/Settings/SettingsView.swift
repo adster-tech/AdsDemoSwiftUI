@@ -12,6 +12,7 @@ struct SettingsView: View {
         var base: [SettingsViewType] = [.about]
         if showAdster || Bundle.main.isDebugOrTestFlight {
             base.append(.adster)
+            base.append(.googleAdManager)
         }
         return base
     }
@@ -38,6 +39,8 @@ struct SettingsView: View {
             MainView(viewModel: .init())
         case .about:
             AboutView()
+        case .googleAdManager:
+            GoogleAdManagerView()
         }
     }
 }
@@ -45,6 +48,7 @@ struct SettingsView: View {
 enum SettingsViewType: String, Hashable {
     case about = "About"
     case adster = "Ads"
+    case googleAdManager = "Google Ad Manager"
 }
 
 extension Bundle {

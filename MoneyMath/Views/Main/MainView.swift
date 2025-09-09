@@ -10,9 +10,13 @@ import AdsFramework
 
 struct MainView: View {
     @StateObject var viewModel: MainViewModel
+    @State private var isAdsterInitialized = false
+    @State private var adsterStatusMessage = "Adster SDK not initialized"
+    @State private var isInitializing = false
     
     var body: some View {
         ScrollView(showsIndicators: false) {
+            adsterStatusView
             selectionView
             keyListView
         }
@@ -20,10 +24,50 @@ struct MainView: View {
             isPresented: $viewModel.isLinkClicked,
             destination: {
                 if let key = viewModel.selectedKey {
-                    AdView(viewModel: .init(key: key))
+                    AdView(viewModel: .init(key: key, isAdsterInitialized: isAdsterInitialized))
                 }
             }
         )
+    }
+    
+    private var adsterStatusView: some View {
+        VStack(spacing: 16) {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Adster SDK Status")
+                    .font(.headline)
+                    .foregroundColor(.primary)
+                
+                Text(adsterStatusMessage)
+                    .font(.subheadline)
+                    .foregroundColor(isAdsterInitialized ? .green : .orange)
+                    .padding(12)
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(8)
+            }
+            
+            if isInitializing {
+                ProgressView()
+                    .progressViewStyle(.circular)
+                    .tint(.blue)
+                    .frame(width: 50, height: 50)
+                    .padding(16)
+            }
+            
+            Button(action: initializeAdsterSDK) {
+                HStack {
+                    Image(systemName: "power")
+                    Text("Initialize Adster SDK")
+                }
+                .frame(maxWidth: .infinity)
+            }
+            .buttonStyle(.borderedProminent)
+            .disabled(isAdsterInitialized || isInitializing)
+        }
+        .padding()
+        .background(Color.blue.opacity(0.1))
+        .cornerRadius(12)
+        .padding(.horizontal)
+        .padding(.top)
     }
     
     private var selectionView: some View {
@@ -33,7 +77,8 @@ struct MainView: View {
         }
         .padding(.vertical, 32)
         .padding(.horizontal, 8)
-        .background(Color.gray.opacity(0.5))
+        .background(Color.gray.opacity(isAdsterInitialized ? 0.5 : 0.2))
+        .disabled(!isAdsterInitialized)
     }
     
     private var sdkView: some View {
@@ -100,14 +145,31 @@ struct MainView: View {
                 let text = "\(viewModel.selectedSdkType.rawValue)-\(viewModel.selectedAdType.rawValue)-\(count)"
                 Text(text)
                     .font(.body)
+                    .foregroundColor(isAdsterInitialized ? .primary : .secondary)
                     .onTapGesture {
-                        viewModel.select(text)
+                        if isAdsterInitialized {
+                            viewModel.select(text)
+                        }
                     }
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.horizontal, 16)
         .padding(.vertical, 24)
+    }
+    
+    // MARK: Adster SDK Functions
+    private func initializeAdsterSDK() {
+        isInitializing = true
+        adsterStatusMessage = "Initializing Adster SDK..."
+        
+        // Simulate SDK initialization
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            let _ = AdsterProvider() // Initialize the Adster SDK
+            self.isInitializing = false
+            self.isAdsterInitialized = true
+            self.adsterStatusMessage = "Adster SDK initialized successfully"
+        }
     }
 }
 

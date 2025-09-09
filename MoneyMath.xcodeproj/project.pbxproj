@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C3883D8E2E70335F00FAD5B8 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = C3883D8D2E70335F00FAD5B8 /* GoogleMobileAds */; };
 		C3FAA8FE2E49F8AE00995175 /* Adster in Frameworks */ = {isa = PBXBuildFile; productRef = C3FAA8FD2E49F8AE00995175 /* Adster */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C3883D8E2E70335F00FAD5B8 /* GoogleMobileAds in Frameworks */,
 				C3FAA8FE2E49F8AE00995175 /* Adster in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -120,6 +122,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				C3FAA8FC2E49F8AE00995175 /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */,
+				C3883D8C2E70335F00FAD5B8 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C32310FD2D7F0C2C00BB8E91 /* Products */;
@@ -308,7 +311,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.2;
 				MARKETING_VERSION = 2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.nis.public;
+				PRODUCT_BUNDLE_IDENTIFIER = com.adster.demoAdsApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;
@@ -356,7 +359,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.2;
 				MARKETING_VERSION = 2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.nis.public;
+				PRODUCT_BUNDLE_IDENTIFIER = com.adster.demoAdsApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;
@@ -394,6 +397,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		C3883D8C2E70335F00FAD5B8 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.11.0;
+			};
+		};
 		C3FAA8FC2E49F8AE00995175 /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/adster-tech/orchestration-sdk-ios";
@@ -405,6 +416,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		C3883D8D2E70335F00FAD5B8 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C3883D8C2E70335F00FAD5B8 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
 		C3FAA8FD2E49F8AE00995175 /* Adster */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C3FAA8FC2E49F8AE00995175 /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */;

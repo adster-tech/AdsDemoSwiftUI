@@ -32,6 +32,7 @@ struct AdView: View {
     
     private var detailsView: some View {
         VStack(alignment: .leading, spacing: 24) {
+            initializationStatusView
             selectedKeyView
                 .onTapGesture {
                     viewModel.loadAdActivity()
@@ -48,6 +49,21 @@ struct AdView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
+    }
+    
+    private var initializationStatusView: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("SDK Status")
+                .font(.headline)
+                .foregroundColor(.primary)
+            
+            Text(viewModel.isAdsterInitialized ? "Adster SDK is initialized" : "Adster SDK not initialized")
+                .font(.subheadline)
+                .foregroundColor(viewModel.isAdsterInitialized ? .green : .red)
+                .padding(8)
+                .background(viewModel.isAdsterInitialized ? Color.green.opacity(0.1) : Color.red.opacity(0.1))
+                .cornerRadius(6)
+        }
     }
     
     private var selectedKeyView: some View {
