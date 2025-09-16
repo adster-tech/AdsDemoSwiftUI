@@ -7,11 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C3FAA8FE2E49F8AE00995175 /* Adster in Frameworks */ = {isa = PBXBuildFile; productRef = C3FAA8FD2E49F8AE00995175 /* Adster */; };
+		C36442C32E6768BA002DF96F /* AdsFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C36442C02E6768B0002DF96F /* AdsFramework.framework */; };
+		C36442C42E6768BA002DF96F /* AdsFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C36442C02E6768B0002DF96F /* AdsFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C36442BF2E6768B0002DF96F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C36442082E6768B0002DF96F /* AdsFramework.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8F42D4DD2D48DDC30069C5D8;
+			remoteInfo = AdsFramework;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C36442C52E6768BA002DF96F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C36442C42E6768BA002DF96F /* AdsFramework.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		C32310FC2D7F0C2C00BB8E91 /* MoneyMath.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoneyMath.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C36442082E6768B0002DF96F /* AdsFramework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AdsFramework.xcodeproj; path = "../ios-sdk/AdsFramework/AdsFramework.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -40,7 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C3FAA8FE2E49F8AE00995175 /* Adster in Frameworks */,
+				C36442C32E6768BA002DF96F /* AdsFramework.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,8 +93,17 @@
 		C325DF192D9A9617005E2800 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C36442082E6768B0002DF96F /* AdsFramework.xcodeproj */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C36442092E6768B0002DF96F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C36442C02E6768B0002DF96F /* AdsFramework.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -81,6 +116,7 @@
 				C32310F82D7F0C2C00BB8E91 /* Sources */,
 				C32310F92D7F0C2C00BB8E91 /* Frameworks */,
 				C32310FA2D7F0C2C00BB8E91 /* Resources */,
+				C36442C52E6768BA002DF96F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -119,17 +155,32 @@
 			mainGroup = C32310F32D7F0C2C00BB8E91;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				C3FAA8FC2E49F8AE00995175 /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C32310FD2D7F0C2C00BB8E91 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = C36442092E6768B0002DF96F /* Products */;
+					ProjectRef = C36442082E6768B0002DF96F /* AdsFramework.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				C32310FB2D7F0C2C00BB8E91 /* MoneyMath */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		C36442C02E6768B0002DF96F /* AdsFramework.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AdsFramework.framework;
+			remoteRef = C36442BF2E6768B0002DF96F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		C32310FA2D7F0C2C00BB8E91 /* Resources */ = {
@@ -289,6 +340,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = MoneyMath;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "This identifier will be used to deliver personalized ads.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -303,8 +355,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.2;
-				MARKETING_VERSION = 2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.adster.demoAdsApp;
+				MARKETING_VERSION = 2.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nis.public;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;
@@ -337,6 +389,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = MoneyMath;
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "This identifier will be used to deliver personalized ads.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -351,8 +404,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.2;
-				MARKETING_VERSION = 2.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.adster.demoAdsApp;
+				MARKETING_VERSION = 2.2;
+				PRODUCT_BUNDLE_IDENTIFIER = com.nis.public;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;
@@ -388,25 +441,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		C3FAA8FC2E49F8AE00995175 /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/adster-tech/orchestration-sdk-ios";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.2.3;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		C3FAA8FD2E49F8AE00995175 /* Adster */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C3FAA8FC2E49F8AE00995175 /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */;
-			productName = Adster;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C32310F42D7F0C2C00BB8E91 /* Project object */;
 }

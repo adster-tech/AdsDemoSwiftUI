@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import AdsFramework
+import AppTrackingTransparency
 
 struct SettingsView: View {
     var items: [SettingsViewType] {
@@ -17,7 +19,7 @@ struct SettingsView: View {
     }
     
     private let showAdster = true
-    
+    @State private var hasAppeared = false
     
     var body: some View {
         NavigationStack {
@@ -29,6 +31,37 @@ struct SettingsView: View {
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.large)
         }
+        .onAppear {
+            guard !hasAppeared else { return }
+            hasAppeared = true
+            requestATT()
+        }
+    }
+    
+    func requestATT() {
+        ATTrackingManager.requestTrackingAuthorization { status in
+            switch status {
+            case .authorized:
+                print("ATT: Authorised")
+                configure()
+            case .notDetermined:
+                print("ATT: not determined")
+            case .restricted:
+                print("ATT: restricted")
+            case .denied:
+                print("ATT: denied")
+            @unknown default:
+                print("ATT: unknown")
+            }
+        }
+    }
+    
+    func configure() {
+        AdSter.sharedInstance().start(completionHandler: { status in
+            if let status {
+                print("Ad initialized \(status)")
+            }
+        })
     }
     
     @ViewBuilder
