@@ -135,6 +135,10 @@ extension AdsViewModel: MediationAdDelegate {
 }
 
 extension AdsViewModel: MediationInterstitialAdEventDelegate {
+    func recordPaidEventInterstitial(value: Double, currencyCode: String) {
+        
+    }
+    
     func ad(didFailToPresentFullScreenContentWithError error: AdsFramework.AdError) {
         
     }
@@ -157,6 +161,10 @@ extension AdsViewModel: MediationInterstitialAdEventDelegate {
 }
 
 extension AdsViewModel: MediationRewardedAdEventDelegate {
+    func recordPaidEventRewarded(value: Double, currencyCode: String) {
+        
+    }
+    
     func didRewardUser() {
         
     }
@@ -171,9 +179,17 @@ extension AdsViewModel: MediationRewardedAdEventDelegate {
 }
 
 extension AdsViewModel: MediationBannerAdEventDelegate {
+    func recordPaidEventBanner(value: Double, currencyCode: String) {
+        
+    }
+    
     
 }
 
 extension AdsViewModel: MediationNativeAdEventDelegate {
+    func recordPaidEventNative(value: Double, currencyCode: String) {
+        
+    }
+    
     
 }
