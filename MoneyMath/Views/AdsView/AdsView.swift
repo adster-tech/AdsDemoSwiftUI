@@ -37,6 +37,7 @@ struct AdView: View {
                 .onTapGesture {
                     viewModel.loadAdActivity()
                 }
+            adInspectorButton
             if viewModel.isLoading {
                 ProgressView()
                     .progressViewStyle(.circular)
@@ -72,6 +73,21 @@ struct AdView: View {
             .bold()
             .underline()
             .foregroundColor(.brown)
+    }
+    
+    private var adInspectorButton: some View {
+        Button(action: {
+            viewModel.launchAdInspector()
+        }) {
+            Text("Launch Ad Inspector")
+                .font(.callout)
+                .foregroundColor(.white)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .background(Color.blue)
+                .cornerRadius(8)
+        }
+        .disabled(!viewModel.isAdsterInitialized)
     }
     
     @ViewBuilder

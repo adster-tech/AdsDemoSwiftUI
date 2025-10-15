@@ -7,6 +7,7 @@
 import Combine
 import AdsFramework
 import SwiftUI
+import GoogleMobileAds
 
 class AdsViewModel: ObservableObject {
     let key: String
@@ -16,7 +17,7 @@ class AdsViewModel: ObservableObject {
     @Published var error: String? = nil
     @Published var isLoading: Bool = false
     @Published var bannerView: BannerAdView?
-    @Published var mediationNativeAd: MediationNativeAd? = nil
+    @Published var mediationNativeAd: AdsFramework.MediationNativeAd? = nil
     
     init(key: String, isAdsterInitialized: Bool = false) {
         self.displayKey = key
@@ -47,10 +48,32 @@ class AdsViewModel: ObservableObject {
             )
         }
     }
+    
+    func launchAdInspector() {
+        guard isAdsterInitialized else {
+            self.error = "Adster SDK is not initialized. Please initialize it first."
+            return
+        }
+        
+        guard let viewController = UIApplication.shared.windows.first?.rootViewController else {
+            self.error = "Could not find root view controller"
+            return
+        }
+        
+        MobileAds.shared.presentAdInspector(from: viewController) { [weak self] (error: Error?) in
+            DispatchQueue.main.async {
+                if let error = error {
+                    self?.error = "Ad Inspector failed to launch: \(error.localizedDescription)"
+                } else {
+                    self?.error = nil
+                }
+            }
+        }
+    }
 }
 
 extension AdsViewModel: MediationAdDelegate {
-    func onBannerAdLoaded(bannerAd: MediationBannerAd) {
+    func onBannerAdLoaded(bannerAd: AdsFramework.MediationBannerAd) {
         Task { @MainActor in
             guard let bannerview = bannerAd.view else {
                 print("Banner Ad request failed with reason banner ad null")
@@ -62,7 +85,7 @@ extension AdsViewModel: MediationAdDelegate {
         }
     }
     
-    func onInterstitialAdLoaded(interstitialAd: MediationInterstitialAd) {
+    func onInterstitialAdLoaded(interstitialAd: AdsFramework.MediationInterstitialAd) {
         Task { @MainActor in
             interstitialAd.presentInterstitial(from: UIApplication.shared.windows.first?.rootViewController)
             interstitialAd.eventDelegate = self
@@ -70,7 +93,7 @@ extension AdsViewModel: MediationAdDelegate {
         }
     }
     
-    func onRewardedAdLoaded(rewardedAd: MediationRewardedAd) {
+    func onRewardedAdLoaded(rewardedAd: AdsFramework.MediationRewardedAd) {
         Task { @MainActor in
             rewardedAd.presentRewarded(from: UIApplication.shared.windows.first?.rootViewController)
             rewardedAd.eventDelegate = self
@@ -79,20 +102,20 @@ extension AdsViewModel: MediationAdDelegate {
     }
     
     
-    func onNativeAdLoaded(nativeAd: MediationNativeAd) {
+    func onNativeAdLoaded(nativeAd: AdsFramework.MediationNativeAd) {
         Task { @MainActor in
             setNativeAdFromAdster(nativeAd: nativeAd)
             self.isLoading = false
         }
     }
     
-    func setNativeAd(nativeAd: MediationNativeAd) {
+    func setNativeAd(nativeAd: AdsFramework.MediationNativeAd) {
         Task { @MainActor in
             self.mediationNativeAd = nativeAd
         }
     }
     
-    func setNativeAdFromAdster(nativeAd: MediationNativeAd) {
+    func setNativeAdFromAdster(nativeAd: AdsFramework.MediationNativeAd) {
         Task { @MainActor in
             nativeAd.eventDelegate = self
             let bundle = Bundle(for: MediationNativeAdView.self)
@@ -142,7 +165,7 @@ extension AdsViewModel: MediationAdDelegate {
     }
 }
 
-extension AdsViewModel: MediationInterstitialAdEventDelegate {
+extension AdsViewModel: AdsFramework.MediationInterstitialAdEventDelegate {
     func ad(didFailToPresentFullScreenContentWithError error: AdsFramework.AdError) {
         
     }
@@ -164,9 +187,9 @@ extension AdsViewModel: MediationInterstitialAdEventDelegate {
     }
 }
 
-extension AdsViewModel: MediationRewardedAdEventDelegate {
-    func didRewardUser() {
-        
+extension AdsViewModel: AdsFramework.MediationRewardedAdEventDelegate {
+    func didRewardUser(reward: AdsFramework.AdReward) {
+    
     }
     
     func didStartVideo() {
@@ -178,10 +201,10 @@ extension AdsViewModel: MediationRewardedAdEventDelegate {
     }
 }
 
-extension AdsViewModel: MediationBannerAdEventDelegate {
+extension AdsViewModel: AdsFramework.MediationBannerAdEventDelegate {
     
 }
 
-extension AdsViewModel: MediationNativeAdEventDelegate {
+extension AdsViewModel: AdsFramework.MediationNativeAdEventDelegate {
     
 }

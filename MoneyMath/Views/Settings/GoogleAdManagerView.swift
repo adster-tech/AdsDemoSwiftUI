@@ -135,6 +135,17 @@ struct GoogleAdManagerView: View {
                     .buttonStyle(.bordered)
                     .disabled(interstitialAd == nil)
                 }
+                
+                // Ad Inspector Button
+                Button(action: launchAdInspector) {
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                        Text("Launch Ad Inspector")
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.borderedProminent)
+                .disabled(!isGAMInitialized)
             }
         }
     }
@@ -156,7 +167,7 @@ struct GoogleAdManagerView: View {
         isLoading = true
         error = nil
         
-        MobileAds.shared.requestConfiguration.testDeviceIdentifiers = [ "fc2602718c7d7a9da6d46d8f37284938" ]
+        MobileAds.shared.requestConfiguration.testDeviceIdentifiers = [ "7641046A05914CBCBAFA838FAEB7295A" ]
         
         MobileAds.shared.start { status in
             DispatchQueue.main.async {
@@ -174,7 +185,7 @@ struct GoogleAdManagerView: View {
         error = nil
         
         let banner = BannerView(adSize: AdSizeBanner)
-        banner.adUnitID = "ca-app-pub-3940256099942544/2435281174" // Test ad unit ID
+        banner.adUnitID = "/23104024203/custom_event_banner_ios" // Test ad unit ID
         
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let rootViewController = windowScene.windows.first?.rootViewController {
@@ -224,6 +235,28 @@ struct GoogleAdManagerView: View {
             interstitialAd.present(from: rootViewController)
             statusMessage = "Interstitial ad presented"
             self.interstitialAd = nil // Reset after showing
+        }
+    }
+    
+    private func launchAdInspector() {
+        guard isGAMInitialized else { return }
+        
+        error = nil
+        
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let rootViewController = windowScene.windows.first?.rootViewController {
+            
+            MobileAds.shared.presentAdInspector(from: rootViewController) { [self] (error: Error?) in
+                DispatchQueue.main.async {
+                    if let error = error {
+                        self.error = "Ad Inspector failed to launch: \(error.localizedDescription)"
+                    } else {
+                        self.statusMessage = "Ad Inspector launched successfully"
+                    }
+                }
+            }
+        } else {
+            error = "Could not find root view controller"
         }
     }
 }
