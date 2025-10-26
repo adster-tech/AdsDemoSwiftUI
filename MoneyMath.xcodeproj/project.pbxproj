@@ -7,12 +7,38 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C335178E2EACBFBC00B27237 /* AdsFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C33517872EACBD0300B27237 /* AdsFramework.framework */; };
+		C335178F2EACBFBC00B27237 /* AdsFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C33517872EACBD0300B27237 /* AdsFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		C3883D8E2E70335F00FAD5B8 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = C3883D8D2E70335F00FAD5B8 /* GoogleMobileAds */; };
-		C3FAA8FE2E49F8AE00995175 /* Adster in Frameworks */ = {isa = PBXBuildFile; productRef = C3FAA8FD2E49F8AE00995175 /* Adster */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C33517862EACBD0300B27237 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C33517812EACBD0300B27237 /* AdsFramework.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8F42D4DD2D48DDC30069C5D8;
+			remoteInfo = AdsFramework;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C33517902EACBFBC00B27237 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C335178F2EACBFBC00B27237 /* AdsFramework.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		C32310FC2D7F0C2C00BB8E91 /* MoneyMath.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoneyMath.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C33517812EACBD0300B27237 /* AdsFramework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AdsFramework.xcodeproj; path = "../ios-sdk/AdsFramework/AdsFramework.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -41,8 +67,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C335178E2EACBFBC00B27237 /* AdsFramework.framework in Frameworks */,
 				C3883D8E2E70335F00FAD5B8 /* GoogleMobileAds in Frameworks */,
-				C3FAA8FE2E49F8AE00995175 /* Adster in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,8 +95,17 @@
 		C325DF192D9A9617005E2800 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C33517812EACBD0300B27237 /* AdsFramework.xcodeproj */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C33517822EACBD0300B27237 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C33517872EACBD0300B27237 /* AdsFramework.framework */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +118,7 @@
 				C32310F82D7F0C2C00BB8E91 /* Sources */,
 				C32310F92D7F0C2C00BB8E91 /* Frameworks */,
 				C32310FA2D7F0C2C00BB8E91 /* Resources */,
+				C33517902EACBFBC00B27237 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -121,18 +157,33 @@
 			mainGroup = C32310F32D7F0C2C00BB8E91;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				C3FAA8FC2E49F8AE00995175 /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */,
 				C3883D8C2E70335F00FAD5B8 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C32310FD2D7F0C2C00BB8E91 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = C33517822EACBD0300B27237 /* Products */;
+					ProjectRef = C33517812EACBD0300B27237 /* AdsFramework.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				C32310FB2D7F0C2C00BB8E91 /* MoneyMath */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		C33517872EACBD0300B27237 /* AdsFramework.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = AdsFramework.framework;
+			remoteRef = C33517862EACBD0300B27237 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		C32310FA2D7F0C2C00BB8E91 /* Resources */ = {
@@ -402,15 +453,7 @@
 			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 12.11.0;
-			};
-		};
-		C3FAA8FC2E49F8AE00995175 /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/adster-tech/orchestration-sdk-ios";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.2.4;
+				minimumVersion = 11.13.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -420,11 +463,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C3883D8C2E70335F00FAD5B8 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
 			productName = GoogleMobileAds;
-		};
-		C3FAA8FD2E49F8AE00995175 /* Adster */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = C3FAA8FC2E49F8AE00995175 /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */;
-			productName = Adster;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
