@@ -10,8 +10,8 @@ import GoogleMobileAds
 
 struct GoogleAdManagerView: View {
     @State private var isGAMInitialized = false
-    @State private var bannerView: BannerView?
-    @State private var interstitialAd: InterstitialAd?
+    @State private var bannerView: GADBannerView?
+    @State private var interstitialAd: GAMInterstitialAd?
     @State private var statusMessage = "GAM not initialized"
     @State private var isLoading = false
     @State private var error: String?
@@ -166,10 +166,9 @@ struct GoogleAdManagerView: View {
     private func initializeGAM() {
         isLoading = true
         error = nil
+        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [ "7641046A05914CBCBAFA838FAEB7295A" ]
         
-        MobileAds.shared.requestConfiguration.testDeviceIdentifiers = [ "7641046A05914CBCBAFA838FAEB7295A" ]
-        
-        MobileAds.shared.start { status in
+        GADMobileAds.sharedInstance().start { status in
             DispatchQueue.main.async {
                 self.isLoading = false
                 self.isGAMInitialized = true
@@ -184,7 +183,7 @@ struct GoogleAdManagerView: View {
         isLoading = true
         error = nil
         
-        let banner = BannerView(adSize: AdSizeBanner)
+        let banner = GADBannerView(adSize: GADAdSize.init())
         banner.adUnitID = "/23104024203/custom_event_banner_ios" // Test ad unit ID
         
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
@@ -192,7 +191,7 @@ struct GoogleAdManagerView: View {
             banner.rootViewController = rootViewController
         }
         
-        banner.load(Request())
+        banner.load(GADRequest())
         
         DispatchQueue.main.async {
             self.bannerView = banner
@@ -212,9 +211,10 @@ struct GoogleAdManagerView: View {
         isLoading = true
         error = nil
         
-        let request = Request()
-        InterstitialAd.load(with: "ca-app-pub-3940256099942544/4411468910",
-                           request: request) { [self] ad, loadError in
+        let request = GAMRequest()
+        
+        GAMInterstitialAd.load(withAdManagerAdUnitID: "ca-app-pub-3940256099942544/4411468910",
+                               request: request) { [self] ad, loadError in
             DispatchQueue.main.async {
                 self.isLoading = false
                 if let loadError = loadError {
@@ -232,7 +232,7 @@ struct GoogleAdManagerView: View {
         
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let rootViewController = windowScene.windows.first?.rootViewController {
-            interstitialAd.present(from: rootViewController)
+            interstitialAd.present(fromRootViewController: rootViewController)
             statusMessage = "Interstitial ad presented"
             self.interstitialAd = nil // Reset after showing
         }
@@ -246,7 +246,7 @@ struct GoogleAdManagerView: View {
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let rootViewController = windowScene.windows.first?.rootViewController {
             
-            MobileAds.shared.presentAdInspector(from: rootViewController) { [self] (error: Error?) in
+            GADMobileAds.sharedInstance().presentAdInspector(from: rootViewController) { [self] (error: Error?) in
                 DispatchQueue.main.async {
                     if let error = error {
                         self.error = "Ad Inspector failed to launch: \(error.localizedDescription)"
@@ -262,7 +262,7 @@ struct GoogleAdManagerView: View {
 }
 
 struct GADBannerViewController: UIViewControllerRepresentable {
-    let bannerView: BannerView
+    let bannerView: GADBannerView
     
     func makeUIViewController(context: Context) -> UIViewController {
         let viewController = UIViewController()
