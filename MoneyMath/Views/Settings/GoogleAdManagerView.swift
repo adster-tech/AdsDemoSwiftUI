@@ -10,11 +10,12 @@ import GoogleMobileAds
 
 struct GoogleAdManagerView: View {
     @State private var isGAMInitialized = false
-    @State private var bannerView: GADBannerView?
+    @State private var bannerView: GAMBannerView?
     @State private var interstitialAd: GAMInterstitialAd?
     @State private var statusMessage = "GAM not initialized"
     @State private var isLoading = false
     @State private var error: String?
+    @State private var bannerDelegate: GAMBannerDelegate?
     
     var body: some View {
         VStack(spacing: 24) {
@@ -84,31 +85,16 @@ struct GoogleAdManagerView: View {
                 .buttonStyle(.borderedProminent)
                 .disabled(isGAMInitialized)
                 
-                HStack(spacing: 12) {
-                    // Load Banner Button
-                    Button(action: loadBannerAd) {
-                        VStack {
-                            Image(systemName: "rectangle.portrait")
-                            Text("Load Banner")
-                                .font(.caption)
-                        }
-                        .frame(maxWidth: .infinity)
+                // Load Banner Button
+                Button(action: loadBannerAd) {
+                    HStack {
+                        Image(systemName: "rectangle.portrait")
+                        Text("Load Banner")
                     }
-                    .buttonStyle(.bordered)
-                    .disabled(!isGAMInitialized)
-                    
-                    // Show Banner Button
-                    Button(action: showBannerAd) {
-                        VStack {
-                            Image(systemName: "eye")
-                            Text("Show Banner")
-                                .font(.caption)
-                        }
-                        .frame(maxWidth: .infinity)
-                    }
-                    .buttonStyle(.bordered)
-                    .disabled(bannerView == nil)
+                    .frame(maxWidth: .infinity)
                 }
+                .buttonStyle(.borderedProminent)
+                .disabled(!isGAMInitialized)
                 
                 HStack(spacing: 12) {
                     // Load Interstitial Button
@@ -183,27 +169,57 @@ struct GoogleAdManagerView: View {
         isLoading = true
         error = nil
         
-        let banner = GADBannerView(adSize: GADAdSize.init())
-        banner.adUnitID = "/23104024203/custom_event_banner_ios" // Test ad unit ID
+        // Create banner view similar to SDK implementation
+        bannerView = GAMBannerView(adSize: GADAdSizeBanner)
+        bannerView?.adUnitID = "/23104024203/custom_event_banner_ios" // Google test banner ad unit ID
         
+        // Set root view controller
         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
            let rootViewController = windowScene.windows.first?.rootViewController {
-            banner.rootViewController = rootViewController
+            bannerView?.rootViewController = rootViewController
         }
         
-        banner.load(GADRequest())
+        // Create and set delegate
+        let delegate = GAMBannerDelegate(
+            onSuccess: {
+                DispatchQueue.main.async {
+                    self.statusMessage = "Banner ad loaded and displayed successfully"
+                    self.isLoading = false
+                }
+            },
+            onFailure: { error in
+                DispatchQueue.main.async {
+                    self.error = "Failed to load banner ad: \(error.localizedDescription)"
+                    self.isLoading = false
+                }
+            }
+        )
+        self.bannerDelegate = delegate
+        bannerView?.delegate = delegate
         
-        DispatchQueue.main.async {
-            self.bannerView = banner
-            self.statusMessage = "Banner ad loaded successfully"
-            self.isLoading = false
+        // Set up paid event handler for banner
+        bannerView?.paidEventHandler = { adValue in
+            DispatchQueue.main.async {
+                self.handlePaidEvent(adValue: adValue, adType: "Banner")
+            }
+        }
+        
+        // Load ad with GAM request for Google Ad Manager
+        let request = GAMRequest()
+        
+        // Test devices are already configured globally
+        
+        bannerView?.load(request)
+        
+        // Add timeout handling
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+            if self.isLoading {
+                self.isLoading = false
+                self.error = "Banner ad loading timed out"
+            }
         }
     }
     
-    private func showBannerAd() {
-        guard bannerView != nil else { return }
-        statusMessage = "Banner ad is now displayed"
-    }
     
     private func loadInterstitialAd() {
         guard isGAMInitialized else { return }
@@ -222,6 +238,14 @@ struct GoogleAdManagerView: View {
                     return
                 }
                 self.interstitialAd = ad
+                
+                // Set up paid event handler for interstitial
+                ad?.paidEventHandler = { adValue in
+                    DispatchQueue.main.async {
+                        self.handlePaidEvent(adValue: adValue, adType: "Interstitial")
+                    }
+                }
+                
                 self.statusMessage = "Interstitial ad loaded successfully"
             }
         }
@@ -259,10 +283,53 @@ struct GoogleAdManagerView: View {
             error = "Could not find root view controller"
         }
     }
+    
+    // MARK: - Paid Event Handler
+    private func handlePaidEvent(adValue: GADAdValue, adType: String) {
+        let value = adValue.value
+        let currencyCode = adValue.currencyCode
+        let precision = adValue.precision.rawValue
+        
+        print("=== PAID EVENT - \(adType) ===")
+        print("Value: \(value)")
+        print("Currency Code: \(currencyCode)")
+        print("Precision: \(precision)")
+        print("Value in USD: \(value.doubleValue / 1_000_000)") // Convert from micros to actual currency
+        print("========================")
+        
+        // Update status message to show revenue
+        statusMessage = "\(adType) ad generated revenue: \(value.doubleValue / 1_000_000) \(currencyCode)"
+    }
+}
+
+class GAMBannerDelegate: NSObject, GADBannerViewDelegate {
+    private let onSuccess: () -> Void
+    private let onFailure: (Error) -> Void
+    
+    init(onSuccess: @escaping () -> Void, onFailure: @escaping (Error) -> Void) {
+        self.onSuccess = onSuccess
+        self.onFailure = onFailure
+    }
+    
+    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+        onSuccess()
+    }
+    
+    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+        onFailure(error)
+    }
+    
+    func bannerViewDidRecordClick(_ bannerView: GADBannerView) {
+        print("Banner ad clicked")
+    }
+    
+    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
+        print("Banner ad impression recorded")
+    }
 }
 
 struct GADBannerViewController: UIViewControllerRepresentable {
-    let bannerView: GADBannerView
+    let bannerView: GAMBannerView
     
     func makeUIViewController(context: Context) -> UIViewController {
         let viewController = UIViewController()
