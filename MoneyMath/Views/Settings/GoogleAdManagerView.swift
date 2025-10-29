@@ -7,6 +7,11 @@
 
 import SwiftUI
 import GoogleMobileAds
+import UIKit
+
+private func nsValue(from size: GADAdSize) -> NSValue {
+    return NSValueFromGADAdSize(size)
+}
 
 struct GoogleAdManagerView: View {
     @State private var isGAMInitialized = false
@@ -15,18 +20,22 @@ struct GoogleAdManagerView: View {
     @State private var statusMessage = "GAM not initialized"
     @State private var isLoading = false
     @State private var error: String?
-    @State private var bannerDelegate: GAMBannerDelegate?
+    @State private var bannerDelegate: GAMBannerDelegate?  // strong ref so delegate isn't deallocated
     
     var body: some View {
         VStack(spacing: 24) {
             detailsView
+            
             Spacer()
+            
             if let bannerView = bannerView {
-                GADBannerViewController(bannerView: bannerView)
-                    .frame(height: 50)
+                // This VC host will attach bannerView and set its rootVC
+                GAMBannerHostController(bannerView: bannerView)
+                    .frame(height: bannerView.adSize.size.height) // dynamic height
                     .background(Color.gray.opacity(0.1))
                     .cornerRadius(8)
             }
+            
             Spacer()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -34,10 +43,13 @@ struct GoogleAdManagerView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
     
+    // MARK: - Subviews
+    
     private var detailsView: some View {
         VStack(alignment: .leading, spacing: 24) {
             statusView
             buttonSection
+            
             if isLoading {
                 ProgressView()
                     .progressViewStyle(.circular)
@@ -46,6 +58,7 @@ struct GoogleAdManagerView: View {
                     .frame(maxWidth: .infinity, alignment: .center)
                     .padding(16)
             }
+            
             errorView
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -74,7 +87,8 @@ struct GoogleAdManagerView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
             
             VStack(spacing: 12) {
-                // Initialize Button
+                
+                // Initialize GAM
                 Button(action: initializeGAM) {
                     HStack {
                         Image(systemName: "power")
@@ -85,11 +99,11 @@ struct GoogleAdManagerView: View {
                 .buttonStyle(.borderedProminent)
                 .disabled(isGAMInitialized)
                 
-                // Load Banner Button
+                // Load Banner
                 Button(action: loadBannerAd) {
                     HStack {
                         Image(systemName: "rectangle.portrait")
-                        Text("Load Banner")
+                        Text("Load Banner (320x50 / 300x250)")
                     }
                     .frame(maxWidth: .infinity)
                 }
@@ -97,7 +111,7 @@ struct GoogleAdManagerView: View {
                 .disabled(!isGAMInitialized)
                 
                 HStack(spacing: 12) {
-                    // Load Interstitial Button
+                    // Load Interstitial
                     Button(action: loadInterstitialAd) {
                         VStack {
                             Image(systemName: "rectangle.expand.vertical")
@@ -109,7 +123,7 @@ struct GoogleAdManagerView: View {
                     .buttonStyle(.bordered)
                     .disabled(!isGAMInitialized)
                     
-                    // Show Interstitial Button
+                    // Show Interstitial
                     Button(action: showInterstitialAd) {
                         VStack {
                             Image(systemName: "display")
@@ -122,7 +136,7 @@ struct GoogleAdManagerView: View {
                     .disabled(interstitialAd == nil)
                 }
                 
-                // Ad Inspector Button
+                // Ad Inspector
                 Button(action: launchAdInspector) {
                     HStack {
                         Image(systemName: "magnifyingglass")
@@ -148,17 +162,27 @@ struct GoogleAdManagerView: View {
         }
     }
     
-    // MARK: GAM Functions
     private func initializeGAM() {
         isLoading = true
         error = nil
-        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [ "7641046A05914CBCBAFA838FAEB7295A" ]
+        
+        // Test device for debug
+        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [
+            "7641046A05914CBCBAFA838FAEB7295A"
+        ]
         
         GADMobileAds.sharedInstance().start { status in
             DispatchQueue.main.async {
                 self.isLoading = false
                 self.isGAMInitialized = true
                 self.statusMessage = "GAM initialized successfully"
+                
+                let adapters = status.adapterStatusesByClassName
+                print("=== Adapter Statuses ===")
+                for (className, adapterStatus) in adapters {
+                    print("\(className): \(adapterStatus.state.rawValue) - \(adapterStatus.description)")
+                }
+                print("========================")
             }
         }
     }
@@ -169,17 +193,14 @@ struct GoogleAdManagerView: View {
         isLoading = true
         error = nil
         
-        // Create banner view similar to SDK implementation
-        bannerView = GAMBannerView(adSize: GADAdSizeBanner)
-        bannerView?.adUnitID = "/23104024203/custom_event_banner_ios" // Google test banner ad unit ID
+        let newBanner = GAMBannerView(adSize: GADAdSizeBanner) // 320x50 base
+        newBanner.validAdSizes = [
+            nsValue(from: GADAdSizeBanner),             // 320x50
+            nsValue(from: GADAdSizeMediumRectangle)     // 300x250
+        ]
         
-        // Set root view controller
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let rootViewController = windowScene.windows.first?.rootViewController {
-            bannerView?.rootViewController = rootViewController
-        }
+        newBanner.adUnitID = "/23104024203/iosCustomAdaptertest"
         
-        // Create and set delegate
         let delegate = GAMBannerDelegate(
             onSuccess: {
                 DispatchQueue.main.async {
@@ -187,31 +208,28 @@ struct GoogleAdManagerView: View {
                     self.isLoading = false
                 }
             },
-            onFailure: { error in
+            onFailure: { loadErr in
                 DispatchQueue.main.async {
-                    self.error = "Failed to load banner ad: \(error.localizedDescription)"
+                    self.error = "Failed to load banner ad: \(loadErr.localizedDescription)"
                     self.isLoading = false
                 }
             }
         )
         self.bannerDelegate = delegate
-        bannerView?.delegate = delegate
+        newBanner.delegate = delegate
         
-        // Set up paid event handler for banner
-        bannerView?.paidEventHandler = { adValue in
+        newBanner.paidEventHandler = { adValue in
             DispatchQueue.main.async {
                 self.handlePaidEvent(adValue: adValue, adType: "Banner")
             }
         }
         
-        // Load ad with GAM request for Google Ad Manager
+        self.bannerView = newBanner
+        
         let request = GAMRequest()
+        print(">>> Calling load() on GAMBannerView with sizes 320x50 + 300x250")
+        newBanner.load(request)
         
-        // Test devices are already configured globally
-        
-        bannerView?.load(request)
-        
-        // Add timeout handling
         DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
             if self.isLoading {
                 self.isLoading = false
@@ -219,7 +237,6 @@ struct GoogleAdManagerView: View {
             }
         }
     }
-    
     
     private func loadInterstitialAd() {
         guard isGAMInitialized else { return }
@@ -229,8 +246,10 @@ struct GoogleAdManagerView: View {
         
         let request = GAMRequest()
         
-        GAMInterstitialAd.load(withAdManagerAdUnitID: "ca-app-pub-3940256099942544/4411468910",
-                               request: request) { [self] ad, loadError in
+        GAMInterstitialAd.load(
+            withAdManagerAdUnitID: "/23104024203/custom_event_interstitial_ios",
+            request: request
+        ) { ad, loadError in
             DispatchQueue.main.async {
                 self.isLoading = false
                 if let loadError = loadError {
@@ -254,11 +273,13 @@ struct GoogleAdManagerView: View {
     private func showInterstitialAd() {
         guard let interstitialAd = interstitialAd else { return }
         
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let rootViewController = windowScene.windows.first?.rootViewController {
-            interstitialAd.present(fromRootViewController: rootViewController)
+        // Find a visible controller to present from
+        if let rootVC = topViewController() {
+            interstitialAd.present(fromRootViewController: rootVC)
             statusMessage = "Interstitial ad presented"
-            self.interstitialAd = nil // Reset after showing
+            self.interstitialAd = nil // reset after showing
+        } else {
+            error = "No active rootViewController to present interstitial"
         }
     }
     
@@ -267,38 +288,57 @@ struct GoogleAdManagerView: View {
         
         error = nil
         
-        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-           let rootViewController = windowScene.windows.first?.rootViewController {
-            
-            GADMobileAds.sharedInstance().presentAdInspector(from: rootViewController) { [self] (error: Error?) in
-                DispatchQueue.main.async {
-                    if let error = error {
-                        self.error = "Ad Inspector failed to launch: \(error.localizedDescription)"
-                    } else {
-                        self.statusMessage = "Ad Inspector launched successfully"
-                    }
+        guard let rootVC = topViewController() else {
+            error = "Could not find root view controller for Ad Inspector"
+            return
+        }
+        
+        GADMobileAds.sharedInstance().presentAdInspector(from: rootVC) { err in
+            DispatchQueue.main.async {
+                if let err = err {
+                    self.error = "Ad Inspector failed: \(err.localizedDescription)"
+                } else {
+                    self.statusMessage = "Ad Inspector launched"
                 }
             }
-        } else {
-            error = "Could not find root view controller"
         }
     }
     
     // MARK: - Paid Event Handler
     private func handlePaidEvent(adValue: GADAdValue, adType: String) {
-        let value = adValue.value
-        let currencyCode = adValue.currencyCode
+        let micros = adValue.value.doubleValue
+        let currency = adValue.currencyCode
         let precision = adValue.precision.rawValue
         
         print("=== PAID EVENT - \(adType) ===")
-        print("Value: \(value)")
-        print("Currency Code: \(currencyCode)")
+        print("Value (micros): \(micros)")
+        print("Currency Code: \(currency)")
         print("Precision: \(precision)")
-        print("Value in USD: \(value.doubleValue / 1_000_000)") // Convert from micros to actual currency
-        print("========================")
+        print("Value in \(currency): \(micros / 1_000_000.0)")
+        print("=============================")
         
-        // Update status message to show revenue
-        statusMessage = "\(adType) ad generated revenue: \(value.doubleValue / 1_000_000) \(currencyCode)"
+        statusMessage = "\(adType) ad revenue: \(micros / 1_000_000.0) \(currency)"
+    }
+    
+    // MARK: - Utility to get top VC for presentation
+    private func topViewController(
+        base: UIViewController? = UIApplication.shared
+            .connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap { $0.windows }
+            .first { $0.isKeyWindow }?
+            .rootViewController
+    ) -> UIViewController? {
+        if let nav = base as? UINavigationController {
+            return topViewController(base: nav.visibleViewController)
+        }
+        if let tab = base as? UITabBarController {
+            return topViewController(base: tab.selectedViewController)
+        }
+        if let presented = base?.presentedViewController {
+            return topViewController(base: presented)
+        }
+        return base
     }
 }
 
@@ -312,10 +352,12 @@ class GAMBannerDelegate: NSObject, GADBannerViewDelegate {
     }
     
     func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+        print("GAMBannerDelegate: bannerViewDidReceiveAd ✅")
         onSuccess()
     }
     
     func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+        print("GAMBannerDelegate: didFailToReceiveAd ❌ \(error)")
         onFailure(error)
     }
     
@@ -328,20 +370,22 @@ class GAMBannerDelegate: NSObject, GADBannerViewDelegate {
     }
 }
 
-struct GADBannerViewController: UIViewControllerRepresentable {
+struct GAMBannerHostController: UIViewControllerRepresentable {
     let bannerView: GAMBannerView
     
     func makeUIViewController(context: Context) -> UIViewController {
-        let viewController = UIViewController()
+        let vc = UIViewController()
+        vc.view.backgroundColor = .clear
+        bannerView.rootViewController = vc
         bannerView.translatesAutoresizingMaskIntoConstraints = false
-        viewController.view.addSubview(bannerView)
+        vc.view.addSubview(bannerView)
         
         NSLayoutConstraint.activate([
-            bannerView.centerXAnchor.constraint(equalTo: viewController.view.centerXAnchor),
-            bannerView.centerYAnchor.constraint(equalTo: viewController.view.centerYAnchor)
+            bannerView.centerXAnchor.constraint(equalTo: vc.view.centerXAnchor),
+            bannerView.centerYAnchor.constraint(equalTo: vc.view.centerYAnchor)
         ])
         
-        return viewController
+        return vc
     }
     
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
