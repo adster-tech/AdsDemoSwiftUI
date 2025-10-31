@@ -16,7 +16,8 @@ private func nsValue(from size: GADAdSize) -> NSValue {
 struct GoogleAdManagerView: View {
     @State private var isGAMInitialized = false
     @State private var bannerView: GAMBannerView?
-    @State private var interstitialAd: GAMInterstitialAd?
+    @State private var interstitialAd: GADInterstitialAd?
+    @State private var rewardedAd: GADRewardedAd?
     @State private var statusMessage = "GAM not initialized"
     @State private var isLoading = false
     @State private var error: String?
@@ -136,6 +137,32 @@ struct GoogleAdManagerView: View {
                     .disabled(interstitialAd == nil)
                 }
                 
+                HStack(spacing: 12) {
+                    // Load Rewarded
+                    Button(action: loadRewardedAd) {
+                        VStack {
+                            Image(systemName: "gift")
+                            Text("Load Rewarded")
+                                .font(.caption)
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.bordered)
+                    .disabled(!isGAMInitialized)
+                    
+                    // Show Rewarded
+                    Button(action: showRewardedAd) {
+                        VStack {
+                            Image(systemName: "play.rectangle")
+                            Text("Show Rewarded")
+                                .font(.caption)
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.bordered)
+                    .disabled(rewardedAd == nil)
+                }
+                
                 // Ad Inspector
                 Button(action: launchAdInspector) {
                     HStack {
@@ -244,10 +271,10 @@ struct GoogleAdManagerView: View {
         isLoading = true
         error = nil
         
-        let request = GAMRequest()
+        let request = GADRequest()
         
-        GAMInterstitialAd.load(
-            withAdManagerAdUnitID: "/23104024203/custom_event_interstitial_ios",
+        GADInterstitialAd.load(
+            withAdUnitID: "/23104024203/IosIntercustomtest",
             request: request
         ) { ad, loadError in
             DispatchQueue.main.async {
@@ -280,6 +307,56 @@ struct GoogleAdManagerView: View {
             self.interstitialAd = nil // reset after showing
         } else {
             error = "No active rootViewController to present interstitial"
+        }
+    }
+    
+    private func loadRewardedAd() {
+        guard isGAMInitialized else { return }
+        
+        isLoading = true
+        error = nil
+        
+        let request = GADRequest()
+        
+        GADRewardedAd.load(
+            withAdUnitID: "/23104024203/iosrewardedCustomAdapter",
+            request: request
+        ) { ad, loadError in
+            DispatchQueue.main.async {
+                self.isLoading = false
+                if let loadError = loadError {
+                    self.error = "Failed to load rewarded ad: \(loadError.localizedDescription)"
+                    return
+                }
+                self.rewardedAd = ad
+                
+                // Set up paid event handler for rewarded
+                ad?.paidEventHandler = { adValue in
+                    DispatchQueue.main.async {
+                        self.handlePaidEvent(adValue: adValue, adType: "Rewarded")
+                    }
+                }
+                
+                self.statusMessage = "Rewarded ad loaded successfully"
+            }
+        }
+    }
+    
+    private func showRewardedAd() {
+        guard let rewardedAd = rewardedAd else { return }
+        
+        // Find a visible controller to present from
+        if let rootVC = topViewController() {
+            rewardedAd.present(fromRootViewController: rootVC) {
+                DispatchQueue.main.async {
+                    self.statusMessage = "User earned reward!"
+                    print("=== USER EARNED REWARD ===")
+                }
+            }
+            statusMessage = "Rewarded ad presented"
+            self.rewardedAd = nil // reset after showing
+        } else {
+            error = "No active rootViewController to present rewarded ad"
         }
     }
     

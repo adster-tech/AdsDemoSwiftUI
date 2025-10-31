@@ -101,6 +101,13 @@ extension AdsViewModel: MediationAdDelegate {
         }
     }
     
+    func onRewardedInterstitialAdLoaded(rewardedInterstitialAd: AdsFramework.MediationRewardedInterstitialAd) {
+        Task { @MainActor in
+            rewardedInterstitialAd.presentRewardedInterstitial(from: UIApplication.shared.windows.first?.rootViewController)
+            rewardedInterstitialAd.eventDelegate = self
+            self.isLoading = false
+        }
+    }
     
     func onNativeAdLoaded(nativeAd: AdsFramework.MediationNativeAd) {
         Task { @MainActor in

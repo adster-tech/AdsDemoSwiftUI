@@ -31,6 +31,7 @@ enum SdkAdType: String, CaseIterable, Identifiable {
     case banner = "Banner"
     case interstitial = "Interstitial"
     case rewarded = "Rewarded"
+    case rewardedInterstitial = "RewardedInterstitial"
     case native = "Native"
     case fsn = "FSN"
     case unified = "Unified"
