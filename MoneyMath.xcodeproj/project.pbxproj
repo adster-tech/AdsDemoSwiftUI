@@ -7,19 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C36442C32E6768BA002DF96F /* AdsFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C36442C02E6768B0002DF96F /* AdsFramework.framework */; };
-		C36442C42E6768BA002DF96F /* AdsFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C36442C02E6768B0002DF96F /* AdsFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C35031FB2EB5F55300EFBC33 /* Adster in Frameworks */ = {isa = PBXBuildFile; productRef = C35031FA2EB5F55300EFBC33 /* Adster */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		C36442BF2E6768B0002DF96F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C36442082E6768B0002DF96F /* AdsFramework.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8F42D4DD2D48DDC30069C5D8;
-			remoteInfo = AdsFramework;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		C36442C52E6768BA002DF96F /* Embed Frameworks */ = {
@@ -28,7 +17,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C36442C42E6768BA002DF96F /* AdsFramework.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -37,7 +25,6 @@
 
 /* Begin PBXFileReference section */
 		C32310FC2D7F0C2C00BB8E91 /* MoneyMath.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoneyMath.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C36442082E6768B0002DF96F /* AdsFramework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AdsFramework.xcodeproj; path = "../ios-sdk/AdsFramework/AdsFramework.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -66,7 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C36442C32E6768BA002DF96F /* AdsFramework.framework in Frameworks */,
+				C35031FB2EB5F55300EFBC33 /* Adster in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,17 +80,8 @@
 		C325DF192D9A9617005E2800 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C36442082E6768B0002DF96F /* AdsFramework.xcodeproj */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		C36442092E6768B0002DF96F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C36442C02E6768B0002DF96F /* AdsFramework.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -155,32 +133,17 @@
 			mainGroup = C32310F32D7F0C2C00BB8E91;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				C35031F92EB5F55300EFBC33 /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C32310FD2D7F0C2C00BB8E91 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = C36442092E6768B0002DF96F /* Products */;
-					ProjectRef = C36442082E6768B0002DF96F /* AdsFramework.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				C32310FB2D7F0C2C00BB8E91 /* MoneyMath */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		C36442C02E6768B0002DF96F /* AdsFramework.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = AdsFramework.framework;
-			remoteRef = C36442BF2E6768B0002DF96F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		C32310FA2D7F0C2C00BB8E91 /* Resources */ = {
@@ -329,7 +292,7 @@
 				CODE_SIGN_ENTITLEMENTS = MoneyMath/MoneyMath.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 44VHM66V89;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -356,7 +319,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.2;
 				MARKETING_VERSION = 2.2;
-				PRODUCT_BUNDLE_IDENTIFIER = com.nis.public;
+				PRODUCT_BUNDLE_IDENTIFIER = com.adster.demoAdsApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;
@@ -378,7 +341,7 @@
 				CODE_SIGN_ENTITLEMENTS = MoneyMath/MoneyMath.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = 44VHM66V89;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -405,7 +368,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.2;
 				MARKETING_VERSION = 2.2;
-				PRODUCT_BUNDLE_IDENTIFIER = com.nis.public;
+				PRODUCT_BUNDLE_IDENTIFIER = com.adster.demoAdsApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = auto;
@@ -441,6 +404,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C35031F92EB5F55300EFBC33 /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/adster-tech/orchestration-sdk-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.6;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C35031FA2EB5F55300EFBC33 /* Adster */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C35031F92EB5F55300EFBC33 /* XCRemoteSwiftPackageReference "orchestration-sdk-ios" */;
+			productName = Adster;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C32310F42D7F0C2C00BB8E91 /* Project object */;
 }
