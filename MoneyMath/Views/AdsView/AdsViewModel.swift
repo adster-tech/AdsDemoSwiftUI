@@ -60,7 +60,7 @@ class AdsViewModel: ObservableObject {
             return
         }
         
-        GADMobileAds.sharedInstance().presentAdInspector(from: viewController) { [weak self] (error: Error?) in
+        MobileAds.shared.presentAdInspector(from: viewController) { [weak self] (error: Error?) in
             DispatchQueue.main.async {
                 if let error = error {
                     self?.error = "Ad Inspector failed to launch: \(error.localizedDescription)"

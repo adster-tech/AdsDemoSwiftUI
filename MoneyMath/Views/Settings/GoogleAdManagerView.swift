@@ -9,15 +9,15 @@ import SwiftUI
 import GoogleMobileAds
 import UIKit
 
-private func nsValue(from size: GADAdSize) -> NSValue {
-    return NSValueFromGADAdSize(size)
+private func nsValue(from size: AdSize) -> NSValue {
+    return nsValue(for: size)
 }
 
 struct GoogleAdManagerView: View {
     @State private var isGAMInitialized = false
-    @State private var bannerView: GAMBannerView?
-    @State private var interstitialAd: GADInterstitialAd?
-    @State private var rewardedAd: GADRewardedAd?
+    @State private var bannerView: AdManagerBannerView?
+    @State private var interstitialAd: AdManagerInterstitialAd?
+    @State private var rewardedAd: RewardedAd?
     @State private var statusMessage = "GAM not initialized"
     @State private var isLoading = false
     @State private var error: String?
@@ -31,7 +31,7 @@ struct GoogleAdManagerView: View {
             
             if let bannerView = bannerView {
                 // This VC host will attach bannerView and set its rootVC
-                GAMBannerHostController(bannerView: bannerView)
+                AdManagerBannerHostController(bannerView: bannerView)
                     .frame(height: bannerView.adSize.size.height) // dynamic height
                     .background(Color.gray.opacity(0.1))
                     .cornerRadius(8)
@@ -194,11 +194,11 @@ struct GoogleAdManagerView: View {
         error = nil
         
         // Test device for debug
-        GADMobileAds.sharedInstance().requestConfiguration.testDeviceIdentifiers = [
+        MobileAds.shared.requestConfiguration.testDeviceIdentifiers = [
             "7641046A05914CBCBAFA838FAEB7295A"
         ]
         
-        GADMobileAds.sharedInstance().start { status in
+        MobileAds.shared.start { status in
             DispatchQueue.main.async {
                 self.isLoading = false
                 self.isGAMInitialized = true
@@ -220,10 +220,10 @@ struct GoogleAdManagerView: View {
         isLoading = true
         error = nil
         
-        let newBanner = GAMBannerView(adSize: GADAdSizeBanner) // 320x50 base
+        let newBanner = AdManagerBannerView(adSize: AdSize(size: CGSize(width: 320, height: 50), flags: 0)) // 320x50 base
         newBanner.validAdSizes = [
-            nsValue(from: GADAdSizeBanner),             // 320x50
-            nsValue(from: GADAdSizeMediumRectangle)     // 300x250
+            nsValue(from: AdSize(size: CGSize(width: 320, height: 50), flags: 0)),             // 320x50
+            nsValue(from: AdSize(size: CGSize(width: 300, height: 250), flags: 0))     // 300x250
         ]
         
         newBanner.adUnitID = "/23104024203/iosCustomAdaptertest"
@@ -253,7 +253,7 @@ struct GoogleAdManagerView: View {
         
         self.bannerView = newBanner
         
-        let request = GAMRequest()
+        let request = AdManagerRequest()
         print(">>> Calling load() on GAMBannerView with sizes 320x50 + 300x250")
         newBanner.load(request)
         
@@ -271,10 +271,10 @@ struct GoogleAdManagerView: View {
         isLoading = true
         error = nil
         
-        let request = GADRequest()
+        let request = AdManagerRequest()
         
-        GADInterstitialAd.load(
-            withAdUnitID: "/23104024203/IosIntercustomtest",
+        AdManagerInterstitialAd.load(
+            with: "/23104024203/IosIntercustomtest",
             request: request
         ) { ad, loadError in
             DispatchQueue.main.async {
@@ -302,7 +302,7 @@ struct GoogleAdManagerView: View {
         
         // Find a visible controller to present from
         if let rootVC = topViewController() {
-            interstitialAd.present(fromRootViewController: rootVC)
+            interstitialAd.present(from: rootVC)
             statusMessage = "Interstitial ad presented"
             self.interstitialAd = nil // reset after showing
         } else {
@@ -316,10 +316,10 @@ struct GoogleAdManagerView: View {
         isLoading = true
         error = nil
         
-        let request = GADRequest()
+        let request = AdManagerRequest()
         
-        GADRewardedAd.load(
-            withAdUnitID: "/23104024203/iosrewardedCustomAdapter",
+        RewardedAd.load(
+            with: "/23104024203/iosrewardedCustomAdapter",
             request: request
         ) { ad, loadError in
             DispatchQueue.main.async {
@@ -347,12 +347,12 @@ struct GoogleAdManagerView: View {
         
         // Find a visible controller to present from
         if let rootVC = topViewController() {
-            rewardedAd.present(fromRootViewController: rootVC) {
+            rewardedAd.present(from: rootVC, userDidEarnRewardHandler: {
                 DispatchQueue.main.async {
                     self.statusMessage = "User earned reward!"
                     print("=== USER EARNED REWARD ===")
                 }
-            }
+            })
             statusMessage = "Rewarded ad presented"
             self.rewardedAd = nil // reset after showing
         } else {
@@ -370,7 +370,7 @@ struct GoogleAdManagerView: View {
             return
         }
         
-        GADMobileAds.sharedInstance().presentAdInspector(from: rootVC) { err in
+        MobileAds.shared.presentAdInspector(from: rootVC) { err in
             DispatchQueue.main.async {
                 if let err = err {
                     self.error = "Ad Inspector failed: \(err.localizedDescription)"
@@ -382,7 +382,7 @@ struct GoogleAdManagerView: View {
     }
     
     // MARK: - Paid Event Handler
-    private func handlePaidEvent(adValue: GADAdValue, adType: String) {
+    private func handlePaidEvent(adValue: AdValue, adType: String) {
         let micros = adValue.value.doubleValue
         let currency = adValue.currencyCode
         let precision = adValue.precision.rawValue
@@ -419,7 +419,7 @@ struct GoogleAdManagerView: View {
     }
 }
 
-class GAMBannerDelegate: NSObject, GADBannerViewDelegate {
+class GAMBannerDelegate: NSObject, BannerViewDelegate {
     private let onSuccess: () -> Void
     private let onFailure: (Error) -> Void
     
@@ -428,27 +428,27 @@ class GAMBannerDelegate: NSObject, GADBannerViewDelegate {
         self.onFailure = onFailure
     }
     
-    func bannerViewDidReceiveAd(_ bannerView: GADBannerView) {
+    func bannerViewDidReceiveAd(_ bannerView: BannerView) {
         print("GAMBannerDelegate: bannerViewDidReceiveAd ✅")
         onSuccess()
     }
     
-    func bannerView(_ bannerView: GADBannerView, didFailToReceiveAdWithError error: Error) {
+    func bannerView(_ bannerView: BannerView, didFailToReceiveAdWithError error: Error) {
         print("GAMBannerDelegate: didFailToReceiveAd ❌ \(error)")
         onFailure(error)
     }
     
-    func bannerViewDidRecordClick(_ bannerView: GADBannerView) {
+    func bannerViewDidRecordClick(_ bannerView: BannerView) {
         print("Banner ad clicked")
     }
     
-    func bannerViewDidRecordImpression(_ bannerView: GADBannerView) {
+    func bannerViewDidRecordImpression(_ bannerView: BannerView) {
         print("Banner ad impression recorded")
     }
 }
 
-struct GAMBannerHostController: UIViewControllerRepresentable {
-    let bannerView: GAMBannerView
+struct AdManagerBannerHostController: UIViewControllerRepresentable {
+    let bannerView: AdManagerBannerView
     
     func makeUIViewController(context: Context) -> UIViewController {
         let vc = UIViewController()
