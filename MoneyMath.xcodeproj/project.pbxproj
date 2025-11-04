@@ -7,19 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C3E3303E2EAE28DF005356E0 /* AdsFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3E3303B2EAE288A005356E0 /* AdsFramework.framework */; };
-		C3E3303F2EAE28DF005356E0 /* AdsFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C3E3303B2EAE288A005356E0 /* AdsFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C35032C22EB9E10300EFBC33 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = C35032C12EB9E10300EFBC33 /* GoogleMobileAds */; };
+		C35032CC2EB9E19B00EFBC33 /* FBAudienceNetwork.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = C35032CB2EB9E19B00EFBC33 /* FBAudienceNetwork.xcframework */; };
+		C35032CD2EB9E19B00EFBC33 /* AdsFramework.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = C35032C92EB9E19B00EFBC33 /* AdsFramework.xcframework */; };
+		C35032CE2EB9E19B00EFBC33 /* DTBiOSSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = C35032CA2EB9E19B00EFBC33 /* DTBiOSSDK.xcframework */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		C3E3303A2EAE288A005356E0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = C3E32F772EAE288A005356E0 /* AdsFramework.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8F42D4DD2D48DDC30069C5D8;
-			remoteInfo = AdsFramework;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		C3E330402EAE28DF005356E0 /* Embed Frameworks */ = {
@@ -28,7 +20,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C3E3303F2EAE28DF005356E0 /* AdsFramework.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -37,7 +28,9 @@
 
 /* Begin PBXFileReference section */
 		C32310FC2D7F0C2C00BB8E91 /* MoneyMath.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoneyMath.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C3E32F772EAE288A005356E0 /* AdsFramework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AdsFramework.xcodeproj; path = "../ios-sdk/AdsFramework/AdsFramework.xcodeproj"; sourceTree = "<group>"; };
+		C35032C92EB9E19B00EFBC33 /* AdsFramework.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = AdsFramework.xcframework; sourceTree = "<group>"; };
+		C35032CA2EB9E19B00EFBC33 /* DTBiOSSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = DTBiOSSDK.xcframework; sourceTree = "<group>"; };
+		C35032CB2EB9E19B00EFBC33 /* FBAudienceNetwork.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = FBAudienceNetwork.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -66,7 +59,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C3E3303E2EAE28DF005356E0 /* AdsFramework.framework in Frameworks */,
+				C35032CC2EB9E19B00EFBC33 /* FBAudienceNetwork.xcframework in Frameworks */,
+				C35032CD2EB9E19B00EFBC33 /* AdsFramework.xcframework in Frameworks */,
+				C35032CE2EB9E19B00EFBC33 /* DTBiOSSDK.xcframework in Frameworks */,
+				C35032C22EB9E10300EFBC33 /* GoogleMobileAds in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,17 +89,11 @@
 		C325DF192D9A9617005E2800 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C3E32F772EAE288A005356E0 /* AdsFramework.xcodeproj */,
+				C35032C92EB9E19B00EFBC33 /* AdsFramework.xcframework */,
+				C35032CA2EB9E19B00EFBC33 /* DTBiOSSDK.xcframework */,
+				C35032CB2EB9E19B00EFBC33 /* FBAudienceNetwork.xcframework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		C3E32F782EAE288A005356E0 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				C3E3303B2EAE288A005356E0 /* AdsFramework.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -155,32 +145,17 @@
 			mainGroup = C32310F32D7F0C2C00BB8E91;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				C35032C02EB9E10300EFBC33 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C32310FD2D7F0C2C00BB8E91 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = C3E32F782EAE288A005356E0 /* Products */;
-					ProjectRef = C3E32F772EAE288A005356E0 /* AdsFramework.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				C32310FB2D7F0C2C00BB8E91 /* MoneyMath */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		C3E3303B2EAE288A005356E0 /* AdsFramework.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = AdsFramework.framework;
-			remoteRef = C3E3303A2EAE288A005356E0 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		C32310FA2D7F0C2C00BB8E91 /* Resources */ = {
@@ -333,7 +308,7 @@
 				CODE_SIGN_ENTITLEMENTS = MoneyMath/MoneyMath.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -358,7 +333,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.2;
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.adster.demoAdsApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -381,7 +356,7 @@
 				CODE_SIGN_ENTITLEMENTS = MoneyMath/MoneyMath.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -406,7 +381,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.2;
-				MARKETING_VERSION = 2.0;
+				MARKETING_VERSION = 2.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.adster.demoAdsApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -443,6 +418,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		C35032C02EB9E10300EFBC33 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.12.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		C35032C12EB9E10300EFBC33 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C35032C02EB9E10300EFBC33 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = C32310F42D7F0C2C00BB8E91 /* Project object */;
 }
