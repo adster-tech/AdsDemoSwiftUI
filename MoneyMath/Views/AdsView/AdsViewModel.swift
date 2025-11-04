@@ -157,6 +157,10 @@ extension AdsViewModel: MediationInterstitialAdEventDelegate {
 }
 
 extension AdsViewModel: MediationRewardedAdEventDelegate {
+    func didRewardUser(reward: AdsFramework.AdReward) {
+        
+    }
+    
     func didRewardUser() {
         
     }
