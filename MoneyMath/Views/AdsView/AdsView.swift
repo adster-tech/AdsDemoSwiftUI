@@ -47,6 +47,7 @@ struct AdView: View {
                     .padding(16)
             }
             errorView
+            adCallbacksView
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding()
@@ -96,6 +97,39 @@ struct AdView: View {
             Text("Error: \(error)")
                 .font(.callout)
                 .foregroundColor(.red)
+        }
+    }
+    
+    private var adCallbacksView: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Ad Callbacks")
+                .font(.headline)
+                .foregroundColor(.primary)
+            
+            if viewModel.adCallbacks.isEmpty {
+                Text("No callbacks received yet")
+                    .font(.caption)
+                    .foregroundColor(.secondary)
+                    .padding(8)
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(6)
+            } else {
+                ScrollView {
+                    LazyVStack(alignment: .leading, spacing: 4) {
+                        ForEach(viewModel.adCallbacks.reversed(), id: \.self) { callback in
+                            Text(callback)
+                                .font(.caption)
+                                .foregroundColor(.primary)
+                                .padding(6)
+                                .background(Color.blue.opacity(0.1))
+                                .cornerRadius(4)
+                        }
+                    }
+                }
+                .frame(maxHeight: 200)
+                .background(Color.gray.opacity(0.05))
+                .cornerRadius(8)
+            }
         }
     }
 }

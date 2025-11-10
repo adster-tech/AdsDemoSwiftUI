@@ -18,6 +18,7 @@ class AdsViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var bannerView: BannerAdView?
     @Published var mediationNativeAd: AdsFramework.MediationNativeAd? = nil
+    @Published var adCallbacks: [String] = []
     
     init(key: String, isAdsterInitialized: Bool = false) {
         self.displayKey = key
@@ -36,6 +37,8 @@ class AdsViewModel: ObservableObject {
             self.error = nil
             self.bannerView = nil
             self.mediationNativeAd = nil
+            self.adCallbacks = []
+            addCallback("Ad loading started for placement: \(key)")
             let loader = AdSterAdLoader()
             loader.delegate = self
             loader.loadAd(
@@ -73,6 +76,10 @@ class AdsViewModel: ObservableObject {
 }
 
 extension AdsViewModel: MediationAdDelegate {
+    func onRewardedInterstitialAdLoaded(rewardedInterstitialAd: any AdsFramework.MediationRewardedInterstitialAd) {
+        
+    }
+    
     func onBannerAdLoaded(bannerAd: AdsFramework.MediationBannerAd) {
         Task { @MainActor in
             guard let bannerview = bannerAd.view else {
@@ -81,12 +88,14 @@ extension AdsViewModel: MediationAdDelegate {
             }
             addBannerViewToView(bannerview)
             bannerAd.eventDelegate = self
+            addCallback("Banner ad loaded successfully")
             self.isLoading = false
         }
     }
     
     func onInterstitialAdLoaded(interstitialAd: AdsFramework.MediationInterstitialAd) {
         Task { @MainActor in
+            addCallback("Interstitial ad loaded successfully")
             interstitialAd.presentInterstitial(from: UIApplication.shared.windows.first?.rootViewController)
             interstitialAd.eventDelegate = self
             self.isLoading = false
@@ -95,22 +104,24 @@ extension AdsViewModel: MediationAdDelegate {
     
     func onRewardedAdLoaded(rewardedAd: AdsFramework.MediationRewardedAd) {
         Task { @MainActor in
+            addCallback("Rewarded ad loaded successfully")
             rewardedAd.presentRewarded(from: UIApplication.shared.windows.first?.rootViewController)
             rewardedAd.eventDelegate = self
             self.isLoading = false
         }
     }
     
-    func onRewardedInterstitialAdLoaded(rewardedInterstitialAd: AdsFramework.MediationRewardedInterstitialAd) {
-        Task { @MainActor in
-            rewardedInterstitialAd.presentRewardedInterstitial(from: UIApplication.shared.windows.first?.rootViewController)
-            rewardedInterstitialAd.eventDelegate = self
-            self.isLoading = false
-        }
-    }
+//    func onRewardedInterstitialAdLoaded(rewardedInterstitialAd: AdsFramework.MediationRewardedInterstitialAd) {
+//        Task { @MainActor in
+//            rewardedInterstitialAd.presentRewardedInterstitial(from: UIApplication.shared.windows.first?.rootViewController)
+//            rewardedInterstitialAd.eventDelegate = self
+//            self.isLoading = false
+//        }
+//    }
     
     func onNativeAdLoaded(nativeAd: AdsFramework.MediationNativeAd) {
         Task { @MainActor in
+            addCallback("Native ad loaded successfully")
             setNativeAdFromAdster(nativeAd: nativeAd)
             self.isLoading = false
         }
@@ -167,55 +178,66 @@ extension AdsViewModel: MediationAdDelegate {
     func onAdFailedToLoad(error: AdsFramework.AdError) {
         Task { @MainActor in
             self.error = error.description
+            addCallback("Ad failed to load: \(error.description)")
             self.isLoading = false
+        }
+    }
+    
+    private func addCallback(_ message: String) {
+        let timestamp = DateFormatter.localizedString(from: Date(), dateStyle: .none, timeStyle: .medium)
+        let callbackMessage = "[\(timestamp)] \(message)"
+        adCallbacks.append(callbackMessage)
+        if adCallbacks.count > 20 {
+            adCallbacks.removeFirst()
         }
     }
 }
 
 extension AdsViewModel: AdsFramework.MediationInterstitialAdEventDelegate {
+    func recordInterstitialClick() { addCallback("Interstitial clicked") }
+    func recordInterstitialImpression() { addCallback("Interstitial impression recorded") }
     func ad(didFailToPresentFullScreenContentWithError error: AdsFramework.AdError) {
-        
+        addCallback("Interstitial failed to present: \(error.description)")
     }
     
     func adWillPresentFullScreenContent() {
-        
+        addCallback("Interstitial will present full screen content")
     }
     
     func adDidDismissFullScreenContent() {
-        
-    }
-    
-    func recordClick() {
-        
-    }
-    
-    func recordImpression() {
-        
+        addCallback("Interstitial dismissed full screen content")
     }
 }
 
 extension AdsViewModel: AdsFramework.MediationRewardedAdEventDelegate {
+    func recordRewardedClick() { addCallback("Rewarded clicked") }
+    func recordRewardedImpression() { addCallback("Rewarded impression recorded") }
     func didRewardUser(reward: AdsFramework.AdReward) {
-        
-    }
-    
-    func didRewardUser() {
-    
+        addCallback("User rewarded: \(reward.amount) \(reward.type)")
     }
     
     func didStartVideo() {
-        
+        addCallback("Rewarded video started")
     }
     
     func didEndVideo() {
-        
+        addCallback("Rewarded video ended")
     }
+    
 }
 
 extension AdsViewModel: AdsFramework.MediationBannerAdEventDelegate {
-    
+    func recordBannerClick() { addCallback("Banner clicked") }
+    func recordBannerImpression() { addCallback("Banner impression recorded") }
 }
 
 extension AdsViewModel: AdsFramework.MediationNativeAdEventDelegate {
-    
+    func recordNativeClick() { addCallback("Native clicked") }
+    func recordNativeImpression() { addCallback("Native impression recorded") }
+}
+
+
+extension AdsViewModel: AdsFramework.MediationRewardedInterstitialAdEventDelegate {
+    func recordRewardedInterstitialClick() { addCallback("Rewarded interstitial clicked") }
+    func recordRewardedInterstitialImpression() { addCallback("Rewarded interstitial impression recorded") }
 }
