@@ -42,6 +42,10 @@ class AdsViewModel: ObservableObject {
 }
 
 extension AdsViewModel: MediationAdDelegate {
+    func onRewardedInterstitialAdLoaded(rewardedInterstitialAd: MediationRewardedInterstitialAd) {
+        
+    }
+    
     func onBannerAdLoaded(bannerAd: MediationBannerAd) {
         Task { @MainActor in
             guard let bannerview = bannerAd.view else {
@@ -135,6 +139,14 @@ extension AdsViewModel: MediationAdDelegate {
 }
 
 extension AdsViewModel: MediationInterstitialAdEventDelegate {
+    func recordInterstitialClick() {
+        
+    }
+    
+    func recordInterstitialImpression() {
+        
+    }
+    
     func ad(didFailToPresentFullScreenContentWithError error: AdsFramework.AdError) {
         
     }
@@ -157,6 +169,14 @@ extension AdsViewModel: MediationInterstitialAdEventDelegate {
 }
 
 extension AdsViewModel: MediationRewardedAdEventDelegate {
+    func recordRewardedClick() {
+        
+    }
+    
+    func recordRewardedImpression() {
+        
+    }
+    
     func didRewardUser(reward: AdsFramework.AdReward) {
         
     }
@@ -175,9 +195,23 @@ extension AdsViewModel: MediationRewardedAdEventDelegate {
 }
 
 extension AdsViewModel: MediationBannerAdEventDelegate {
+    func recordBannerClick() {
+        
+    }
+    
+    func recordBannerImpression() {
+        
+    }
+    
     
 }
 
 extension AdsViewModel: MediationNativeAdEventDelegate {
+    func recordNativeClick() {
+        
+    }
     
+    func recordNativeImpression() {
+        
+    }
 }

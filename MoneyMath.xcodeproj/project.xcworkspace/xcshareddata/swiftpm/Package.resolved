@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/adster-tech/orchestration-sdk-ios",
       "state" : {
-        "revision" : "f6fa2ef84efe5afc3e93b466c88102a7c755d9ac",
-        "version" : "1.2.6"
+        "revision" : "c856fcca174cb9bc48ad86778351295a7457e288",
+        "version" : "1.2.8"
       }
     }
   ],
