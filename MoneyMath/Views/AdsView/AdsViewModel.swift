@@ -196,6 +196,7 @@ extension AdsViewModel: MediationAdDelegate {
 extension AdsViewModel: AdsFramework.MediationInterstitialAdEventDelegate {
     func recordInterstitialClick() { addCallback("Interstitial clicked") }
     func recordInterstitialImpression() { addCallback("Interstitial impression recorded") }
+    
     func ad(didFailToPresentFullScreenContentWithError error: AdsFramework.AdError) {
         addCallback("Interstitial failed to present: \(error.description)")
     }

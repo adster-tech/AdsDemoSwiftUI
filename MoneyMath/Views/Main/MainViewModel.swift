@@ -23,6 +23,7 @@ class MainViewModel: ObservableObject {
     @Published private(set) var selectedAdType = SdkAdType.banner
     @Published private(set) var selectedKey: String? = nil
     @Published var isLinkClicked: Bool = false
+    @Published var customPlacementId = ""
     
     func update(_ sdk: SdkType) {
         self.selectedSdkType = sdk
@@ -37,6 +38,7 @@ class MainViewModel: ObservableObject {
     
     func select(_ key: String) {
         self.selectedKey = key
+        self.customPlacementId = ""
         self.isLinkClicked = true
     }
 }

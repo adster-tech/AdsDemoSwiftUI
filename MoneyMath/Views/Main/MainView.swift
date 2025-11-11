@@ -17,6 +17,7 @@ struct MainView: View {
     var body: some View {
         ScrollView(showsIndicators: false) {
             adsterStatusView
+            customPlacementInputView
             selectionView
             keyListView
         }
@@ -68,6 +69,19 @@ struct MainView: View {
         .cornerRadius(12)
         .padding(.horizontal)
         .padding(.top)
+    }
+    
+    private var customPlacementInputView: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("Custom Placement ID")
+                .font(.callout)
+                .bold()
+            TextField("Enter custom placement ID here", text: $viewModel.customPlacementId)
+            Button("Show Ad") {
+                viewModel.select(viewModel.customPlacementId)
+            }
+        }
+        .padding()
     }
     
     private var selectionView: some View {
