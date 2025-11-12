@@ -15,13 +15,13 @@ private func nsValue(from size: AdSize) -> NSValue {
 
 struct GoogleAdManagerView: View {
     @State private var isGAMInitialized = false
-    @State private var bannerView: AdManagerBannerView?
-    @State private var interstitialAd: AdManagerInterstitialAd?
+    @State private var bannerView: BannerView?
+    @State private var interstitialAd: InterstitialAd?
     @State private var rewardedAd: RewardedAd?
     @State private var statusMessage = "GAM not initialized"
     @State private var isLoading = false
     @State private var error: String?
-    @State private var bannerDelegate: GAMBannerDelegate?  // strong ref so delegate isn't deallocated
+    @State private var bannerDelegate: BannerDelegate?  // strong ref so delegate isn't deallocated
     
     var body: some View {
         VStack(spacing: 24) {
@@ -31,7 +31,7 @@ struct GoogleAdManagerView: View {
             
             if let bannerView = bannerView {
                 // This VC host will attach bannerView and set its rootVC
-                AdManagerBannerHostController(bannerView: bannerView)
+                BannerHostController(bannerView: bannerView)
                     .frame(height: bannerView.adSize.size.height) // dynamic height
                     .background(Color.gray.opacity(0.1))
                     .cornerRadius(8)
@@ -220,15 +220,11 @@ struct GoogleAdManagerView: View {
         isLoading = true
         error = nil
         
-        let newBanner = AdManagerBannerView(adSize: AdSize(size: CGSize(width: 320, height: 50), flags: 0)) // 320x50 base
-        newBanner.validAdSizes = [
-            nsValue(from: AdSize(size: CGSize(width: 320, height: 50), flags: 0)),             // 320x50
-            nsValue(from: AdSize(size: CGSize(width: 300, height: 250), flags: 0))     // 300x250
-        ]
+        let newBanner = BannerView(adSize: AdSize(size: CGSize(width: 320, height: 50), flags: 0))
         
-        newBanner.adUnitID = "/23104024203/iosCustomAdaptertest"
+        newBanner.adUnitID = "ca-app-pub-6531459688090879/6838876712"
         
-        let delegate = GAMBannerDelegate(
+        let delegate = BannerDelegate(
             onSuccess: {
                 DispatchQueue.main.async {
                     self.statusMessage = "Banner ad loaded and displayed successfully"
@@ -253,7 +249,12 @@ struct GoogleAdManagerView: View {
         
         self.bannerView = newBanner
         
-        let request = AdManagerRequest()
+        // Set rootViewController before calling load()
+        if let rootVC = topViewController() {
+            newBanner.rootViewController = rootVC
+        }
+        
+        let request = Request()
         print(">>> Calling load() on GAMBannerView with sizes 320x50 + 300x250")
         newBanner.load(request)
         
@@ -271,10 +272,10 @@ struct GoogleAdManagerView: View {
         isLoading = true
         error = nil
         
-        let request = AdManagerRequest()
+        let request = Request()
         
-        AdManagerInterstitialAd.load(
-            with: "/23104024203/IosIntercustomtest",
+        InterstitialAd.load(
+            with: "ca-app-pub-6531459688090879/7994786539",
             request: request
         ) { ad, loadError in
             DispatchQueue.main.async {
@@ -316,10 +317,10 @@ struct GoogleAdManagerView: View {
         isLoading = true
         error = nil
         
-        let request = AdManagerRequest()
+        let request = Request()
         
         RewardedAd.load(
-            with: "/23104024203/iosrewardedCustomAdapter",
+            with: "ca-app-pub-6531459688090879/2718409128",
             request: request
         ) { ad, loadError in
             DispatchQueue.main.async {
@@ -419,7 +420,7 @@ struct GoogleAdManagerView: View {
     }
 }
 
-class GAMBannerDelegate: NSObject, BannerViewDelegate {
+class BannerDelegate: NSObject, BannerViewDelegate {
     private let onSuccess: () -> Void
     private let onFailure: (Error) -> Void
     
@@ -447,8 +448,8 @@ class GAMBannerDelegate: NSObject, BannerViewDelegate {
     }
 }
 
-struct AdManagerBannerHostController: UIViewControllerRepresentable {
-    let bannerView: AdManagerBannerView
+struct BannerHostController: UIViewControllerRepresentable {
+    let bannerView: BannerView
     
     func makeUIViewController(context: Context) -> UIViewController {
         let vc = UIViewController()
