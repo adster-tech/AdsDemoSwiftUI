@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		C350399F2EC35F4B00EFBC33 /* Adster in Frameworks */ = {isa = PBXBuildFile; productRef = C350399E2EC35F4B00EFBC33 /* Adster */; };
 		C35039A22EC35F5600EFBC33 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = C35039A12EC35F5600EFBC33 /* GoogleMobileAds */; };
+		C39B2BA72EC4C7B300BD7B64 /* MetaAdapter.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = C39B2BA52EC4C7A900BD7B64 /* MetaAdapter.xcframework */; };
+		C39B2BA82EC4C7B300BD7B64 /* MetaAdapter.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C39B2BA52EC4C7A900BD7B64 /* MetaAdapter.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -18,6 +20,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				C39B2BA82EC4C7B300BD7B64 /* MetaAdapter.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -26,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		C32310FC2D7F0C2C00BB8E91 /* MoneyMath.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoneyMath.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C39B2BA52EC4C7A900BD7B64 /* MetaAdapter.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = MetaAdapter.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -56,6 +60,7 @@
 			files = (
 				C35039A22EC35F5600EFBC33 /* GoogleMobileAds in Frameworks */,
 				C350399F2EC35F4B00EFBC33 /* Adster in Frameworks */,
+				C39B2BA72EC4C7B300BD7B64 /* MetaAdapter.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,6 +87,7 @@
 		C325DF192D9A9617005E2800 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C39B2BA52EC4C7A900BD7B64 /* MetaAdapter.xcframework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -97,7 +103,7 @@
 				C32310F92D7F0C2C00BB8E91 /* Frameworks */,
 				C32310FA2D7F0C2C00BB8E91 /* Resources */,
 				C3E330402EAE28DF005356E0 /* Embed Frameworks */,
-                        );
+			);
 			buildRules = (
 			);
 			dependencies = (
