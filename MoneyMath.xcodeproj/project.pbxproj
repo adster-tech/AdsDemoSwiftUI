@@ -7,10 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		19F31D32ED3E12AA3F661E4D /* Pods_MoneyMath.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D7D8A4566E7008067FFBC6D5 /* Pods_MoneyMath.framework */; };
 		C350399F2EC35F4B00EFBC33 /* Adster in Frameworks */ = {isa = PBXBuildFile; productRef = C350399E2EC35F4B00EFBC33 /* Adster */; };
 		C35039A22EC35F5600EFBC33 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = C35039A12EC35F5600EFBC33 /* GoogleMobileAds */; };
-		C39B2BA72EC4C7B300BD7B64 /* MetaAdapter.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = C39B2BA52EC4C7A900BD7B64 /* MetaAdapter.xcframework */; };
-		C39B2BA82EC4C7B300BD7B64 /* MetaAdapter.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C39B2BA52EC4C7A900BD7B64 /* MetaAdapter.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -20,7 +19,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C39B2BA82EC4C7B300BD7B64 /* MetaAdapter.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -29,7 +27,9 @@
 
 /* Begin PBXFileReference section */
 		C32310FC2D7F0C2C00BB8E91 /* MoneyMath.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoneyMath.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C39B2BA52EC4C7A900BD7B64 /* MetaAdapter.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = MetaAdapter.xcframework; sourceTree = "<group>"; };
+		CAA0D432AB4258EAC532FC62 /* Pods-MoneyMath.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoneyMath.release.xcconfig"; path = "Target Support Files/Pods-MoneyMath/Pods-MoneyMath.release.xcconfig"; sourceTree = "<group>"; };
+		D7D8A4566E7008067FFBC6D5 /* Pods_MoneyMath.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MoneyMath.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EB403481BB1530DB376CDFEE /* Pods-MoneyMath.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MoneyMath.debug.xcconfig"; path = "Target Support Files/Pods-MoneyMath/Pods-MoneyMath.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -60,7 +60,7 @@
 			files = (
 				C35039A22EC35F5600EFBC33 /* GoogleMobileAds in Frameworks */,
 				C350399F2EC35F4B00EFBC33 /* Adster in Frameworks */,
-				C39B2BA72EC4C7B300BD7B64 /* MetaAdapter.xcframework in Frameworks */,
+				19F31D32ED3E12AA3F661E4D /* Pods_MoneyMath.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,6 +73,7 @@
 				C32310FE2D7F0C2C00BB8E91 /* MoneyMath */,
 				C325DF192D9A9617005E2800 /* Frameworks */,
 				C32310FD2D7F0C2C00BB8E91 /* Products */,
+				F5D92D7068F3F7BCABEB8DE4 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -87,9 +88,19 @@
 		C325DF192D9A9617005E2800 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C39B2BA52EC4C7A900BD7B64 /* MetaAdapter.xcframework */,
+				D7D8A4566E7008067FFBC6D5 /* Pods_MoneyMath.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		F5D92D7068F3F7BCABEB8DE4 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				EB403481BB1530DB376CDFEE /* Pods-MoneyMath.debug.xcconfig */,
+				CAA0D432AB4258EAC532FC62 /* Pods-MoneyMath.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -99,6 +110,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C323110B2D7F0C2F00BB8E91 /* Build configuration list for PBXNativeTarget "MoneyMath" */;
 			buildPhases = (
+				2DDD96DF59EA53E86AE2BEAD /* [CP] Check Pods Manifest.lock */,
 				C32310F82D7F0C2C00BB8E91 /* Sources */,
 				C32310F92D7F0C2C00BB8E91 /* Frameworks */,
 				C32310FA2D7F0C2C00BB8E91 /* Resources */,
@@ -163,6 +175,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2DDD96DF59EA53E86AE2BEAD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MoneyMath-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C32310F82D7F0C2C00BB8E91 /* Sources */ = {
@@ -299,6 +336,7 @@
 		};
 		C323110C2D7F0C2F00BB8E91 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EB403481BB1530DB376CDFEE /* Pods-MoneyMath.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -348,6 +386,7 @@
 		};
 		C323110D2D7F0C2F00BB8E91 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CAA0D432AB4258EAC532FC62 /* Pods-MoneyMath.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

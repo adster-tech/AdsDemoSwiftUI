@@ -1,0 +1,33 @@
+{
+  "originHash" : "8971d65e70336c6de71f17e1d8c9db9dff31047e19671e79bf54d81534c3e4f3",
+  "pins" : [
+    {
+      "identity" : "orchestration-sdk-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/adster-tech/orchestration-sdk-ios",
+      "state" : {
+        "revision" : "c856fcca174cb9bc48ad86778351295a7457e288",
+        "version" : "1.2.8"
+      }
+    },
+    {
+      "identity" : "swift-package-manager-google-mobile-ads",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/googleads/swift-package-manager-google-mobile-ads",
+      "state" : {
+        "revision" : "32c61bd35c10517bb9d1d28252af71fe7fd3d0c8",
+        "version" : "12.13.0"
+      }
+    },
+    {
+      "identity" : "swift-package-manager-google-user-messaging-platform",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/googleads/swift-package-manager-google-user-messaging-platform.git",
+      "state" : {
+        "revision" : "13b248eaa73b7826f0efb1bcf455e251d65ecb1b",
+        "version" : "3.1.0"
+      }
+    }
+  ],
+  "version" : 3
+}
