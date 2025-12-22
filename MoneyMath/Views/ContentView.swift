@@ -9,7 +9,7 @@ import SwiftUI
 import AdsFramework
 
 struct ContentView: View {
-    
+
     var body: some View {
         TabView {
             EMIView()
@@ -19,6 +19,10 @@ struct ContentView: View {
             SICalcView()
                 .tabItem {
                     Label("Interest", systemImage: "hourglass.badge.plus")
+                }
+            CarouselView()
+                .tabItem {
+                    Label("Carousel", systemImage: "square.grid.2x2.fill")
                 }
             SettingsView()
                 .tabItem {
