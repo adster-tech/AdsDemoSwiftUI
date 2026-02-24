@@ -9,7 +9,15 @@ import AdsFramework
 import SwiftUI
 import GoogleMobileAds
 
-class AdsViewModel: ObservableObject {
+class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelegate {
+    func recordRewardedInterstitialClick() {
+        
+    }
+    
+    func recordRewardedInterstitialImpression() {
+        
+    }
+    
     let key: String
     let displayKey: String
     let isAdsterInitialized: Bool
@@ -173,6 +181,14 @@ extension AdsViewModel: MediationAdDelegate {
 }
 
 extension AdsViewModel: AdsFramework.MediationInterstitialAdEventDelegate {
+    func recordInterstitialClick() {
+        
+    }
+    
+    func recordInterstitialImpression() {
+        
+    }
+    
     func ad(didFailToPresentFullScreenContentWithError error: AdsFramework.AdError) {
         
     }
@@ -195,6 +211,14 @@ extension AdsViewModel: AdsFramework.MediationInterstitialAdEventDelegate {
 }
 
 extension AdsViewModel: AdsFramework.MediationRewardedAdEventDelegate {
+    func recordRewardedClick() {
+        
+    }
+    
+    func recordRewardedImpression() {
+        
+    }
+    
     func didRewardUser(reward: AdsFramework.AdReward) {
         
     }
@@ -213,9 +237,25 @@ extension AdsViewModel: AdsFramework.MediationRewardedAdEventDelegate {
 }
 
 extension AdsViewModel: AdsFramework.MediationBannerAdEventDelegate {
+    func recordBannerClick() {
+        
+    }
+    
+    func recordBannerImpression() {
+        
+    }
+    
     
 }
 
 extension AdsViewModel: AdsFramework.MediationNativeAdEventDelegate {
+    func recordNativeClick() {
+        
+    }
+    
+    func recordNativeImpression() {
+        
+    }
+    
     
 }

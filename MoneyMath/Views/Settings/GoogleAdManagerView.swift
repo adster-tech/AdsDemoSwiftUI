@@ -7,6 +7,7 @@
 
 import SwiftUI
 import GoogleMobileAds
+import AppLovinSDK
 import UIKit
 
 private func nsValue(from size: AdSize) -> NSValue {
@@ -22,22 +23,45 @@ struct GoogleAdManagerView: View {
     @State private var isLoading = false
     @State private var error: String?
     @State private var bannerDelegate: GAMBannerDelegate?  // strong ref so delegate isn't deallocated
+
+    // AppLovin via GAM Mediation
+    @State private var alBannerView: MAAdView?
+    @State private var alInterstitialAd: MAInterstitialAd?
+    @State private var alRewardedAd: MARewardedAd?
+    @State private var isALInitialized = false
+    @State private var alStatusMessage = "AppLovin not initialized"
+    @State private var alIsLoading = false
+    @State private var alError: String?
+    @State private var alBannerDelegate: AppLovinBannerDelegate?
+    @State private var alInterstitialDelegate: AppLovinInterstitialDelegate?
+    @State private var alRewardedDelegate: AppLovinRewardedDelegate?
     
     var body: some View {
-        VStack(spacing: 24) {
-            detailsView
-            
-            Spacer()
-            
-            if let bannerView = bannerView {
-                // This VC host will attach bannerView and set its rootVC
-                AdManagerBannerHostController(bannerView: bannerView)
-                    .frame(height: bannerView.adSize.size.height) // dynamic height
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(8)
+        ScrollView {
+            VStack(spacing: 24) {
+                detailsView
+
+                if let bannerView = bannerView {
+                    AdManagerBannerHostController(bannerView: bannerView)
+                        .frame(height: bannerView.adSize.size.height)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(8)
+                }
+
+                Divider()
+                    .padding(.horizontal)
+
+                appLovinSection
+
+                if let alBannerView = alBannerView {
+                    AppLovinBannerHostController(bannerView: alBannerView)
+                        .frame(height: 50)
+                        .background(Color.gray.opacity(0.1))
+                        .cornerRadius(8)
+                }
+
+                Spacer()
             }
-            
-            Spacer()
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .navigationTitle("Google Ad Manager")
@@ -189,6 +213,363 @@ struct GoogleAdManagerView: View {
         }
     }
     
+    // MARK: - AppLovin Section
+
+    private var appLovinSection: some View {
+        VStack(alignment: .leading, spacing: 24) {
+            alStatusView
+            alButtonSection
+
+            if alIsLoading {
+                ProgressView()
+                    .progressViewStyle(.circular)
+                    .tint(.purple)
+                    .frame(width: 50, height: 50)
+                    .frame(maxWidth: .infinity, alignment: .center)
+                    .padding(16)
+            }
+
+            alErrorView
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding()
+    }
+
+    private var alStatusView: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text("AppLovin Status")
+                .font(.headline)
+                .foregroundColor(.primary)
+
+            Text(alStatusMessage)
+                .font(.subheadline)
+                .foregroundColor(isALInitialized ? .green : .orange)
+                .padding(12)
+                .background(Color.gray.opacity(0.1))
+                .cornerRadius(8)
+        }
+    }
+
+    private var alButtonSection: some View {
+        VStack(spacing: 16) {
+            Text("AppLovin Ad Controls")
+                .font(.headline)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            VStack(spacing: 12) {
+                Button(action: initializeAppLovin) {
+                    HStack {
+                        Image(systemName: "power")
+                        Text("Initialize AppLovin")
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.purple)
+                .disabled(isALInitialized)
+
+                Button(action: loadALBannerAd) {
+                    HStack {
+                        Image(systemName: "rectangle.portrait")
+                        Text("Load Banner (320x50)")
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.purple)
+                .disabled(!isALInitialized)
+
+                HStack(spacing: 12) {
+                    Button(action: loadALInterstitialAd) {
+                        VStack {
+                            Image(systemName: "rectangle.expand.vertical")
+                            Text("Load Interstitial")
+                                .font(.caption)
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(.purple)
+                    .disabled(!isALInitialized)
+
+                    Button(action: showALInterstitialAd) {
+                        VStack {
+                            Image(systemName: "display")
+                            Text("Show Interstitial")
+                                .font(.caption)
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(.purple)
+                    .disabled(alInterstitialDelegate?.isReady != true)
+                }
+
+                HStack(spacing: 12) {
+                    Button(action: loadALRewardedAd) {
+                        VStack {
+                            Image(systemName: "gift")
+                            Text("Load Rewarded")
+                                .font(.caption)
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(.purple)
+                    .disabled(!isALInitialized)
+
+                    Button(action: showALRewardedAd) {
+                        VStack {
+                            Image(systemName: "play.rectangle")
+                            Text("Show Rewarded")
+                                .font(.caption)
+                        }
+                        .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.bordered)
+                    .tint(.purple)
+                    .disabled(alRewardedDelegate?.isReady != true)
+                }
+
+                Button(action: launchALMediationDebugger) {
+                    HStack {
+                        Image(systemName: "magnifyingglass")
+                        Text("Launch Mediation Debugger")
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+                .buttonStyle(.borderedProminent)
+                .tint(.purple)
+                .disabled(!isALInitialized)
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var alErrorView: some View {
+        if let alError = alError {
+            Text("Error: \(alError)")
+                .font(.callout)
+                .foregroundColor(.red)
+                .padding(12)
+                .background(Color.red.opacity(0.1))
+                .cornerRadius(8)
+        }
+    }
+
+    // MARK: - AppLovin Actions
+
+    private func initializeAppLovin() {
+        alIsLoading = true
+        alError = nil
+
+        let initConfig = ALSdkInitializationConfiguration(sdkKey: "YOUR_SDK_KEY") { builder in
+            builder.mediationProvider = ALMediationProviderMAX
+            builder.testDeviceAdvertisingIdentifiers = ["7641046A05914CBCBAFA838FAEB7295A"]
+        }
+
+        ALSdk.shared().initialize(with: initConfig) { sdkConfiguration in
+            DispatchQueue.main.async {
+                self.alIsLoading = false
+                self.isALInitialized = true
+                self.alStatusMessage = "AppLovin initialized successfully"
+                print("=== AppLovin SDK Initialized (from GAM view) ===")
+                print("Country code: \(sdkConfiguration.countryCode)")
+                print("================================================")
+            }
+        }
+    }
+
+    private func loadALBannerAd() {
+        guard isALInitialized else { return }
+
+        alIsLoading = true
+        alError = nil
+
+        let adView = MAAdView(adUnitIdentifier: "YOUR_BANNER_AD_UNIT_ID")
+        adView.frame = CGRect(x: 0, y: 0, width: 320, height: 50)
+
+        let delegate = AppLovinBannerDelegate(
+            onSuccess: {
+                DispatchQueue.main.async {
+                    self.alStatusMessage = "Banner ad loaded successfully"
+                    self.alIsLoading = false
+                }
+            },
+            onFailure: { adError in
+                DispatchQueue.main.async {
+                    self.alError = "Failed to load banner: \(adError.message)"
+                    self.alIsLoading = false
+                }
+            },
+            onRevenue: { ad in
+                DispatchQueue.main.async {
+                    self.handleALRevenuePaid(ad: ad, adType: "Banner")
+                }
+            }
+        )
+        self.alBannerDelegate = delegate
+        adView.delegate = delegate
+
+        self.alBannerView = adView
+        adView.loadAd()
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
+            if self.alIsLoading {
+                self.alIsLoading = false
+                self.alError = "Banner ad loading timed out"
+            }
+        }
+    }
+
+    private func loadALInterstitialAd() {
+        guard isALInitialized else { return }
+
+        alIsLoading = true
+        alError = nil
+
+        let ad = MAInterstitialAd(adUnitIdentifier: "YOUR_INTERSTITIAL_AD_UNIT_ID")
+
+        let delegate = AppLovinInterstitialDelegate(
+            onSuccess: {
+                DispatchQueue.main.async {
+                    self.alStatusMessage = "Interstitial ad loaded successfully"
+                    self.alIsLoading = false
+                }
+            },
+            onFailure: { adError in
+                DispatchQueue.main.async {
+                    self.alError = "Failed to load interstitial: \(adError.message)"
+                    self.alIsLoading = false
+                }
+            },
+            onDisplayFailure: { adError in
+                DispatchQueue.main.async {
+                    self.alError = "Failed to display interstitial: \(adError.message)"
+                }
+            },
+            onHidden: {
+                DispatchQueue.main.async {
+                    self.alStatusMessage = "Interstitial ad dismissed"
+                }
+            },
+            onRevenue: { ad in
+                DispatchQueue.main.async {
+                    self.handleALRevenuePaid(ad: ad, adType: "Interstitial")
+                }
+            }
+        )
+        self.alInterstitialDelegate = delegate
+        ad.delegate = delegate
+        ad.revenueDelegate = delegate
+
+        self.alInterstitialAd = ad
+        ad.load()
+    }
+
+    private func showALInterstitialAd() {
+        guard let alInterstitialAd = alInterstitialAd, alInterstitialAd.isReady else {
+            alError = "Interstitial ad is not ready"
+            return
+        }
+
+        if let rootVC = topViewController() {
+            alInterstitialAd.show(forPlacement: nil, customData: nil, viewController: rootVC)
+            alStatusMessage = "Interstitial ad presented"
+        } else {
+            alError = "No active rootViewController to present interstitial"
+        }
+    }
+
+    private func loadALRewardedAd() {
+        guard isALInitialized else { return }
+
+        alIsLoading = true
+        alError = nil
+
+        let ad = MARewardedAd.shared(withAdUnitIdentifier: "YOUR_REWARDED_AD_UNIT_ID")
+
+        let delegate = AppLovinRewardedDelegate(
+            onSuccess: {
+                DispatchQueue.main.async {
+                    self.alStatusMessage = "Rewarded ad loaded successfully"
+                    self.alIsLoading = false
+                }
+            },
+            onFailure: { adError in
+                DispatchQueue.main.async {
+                    self.alError = "Failed to load rewarded: \(adError.message)"
+                    self.alIsLoading = false
+                }
+            },
+            onDisplayFailure: { adError in
+                DispatchQueue.main.async {
+                    self.alError = "Failed to display rewarded: \(adError.message)"
+                }
+            },
+            onReward: { reward in
+                DispatchQueue.main.async {
+                    self.alStatusMessage = "User earned reward: \(reward.amount) \(reward.label)"
+                    print("=== USER EARNED REWARD (GAM view): \(reward.amount) \(reward.label) ===")
+                }
+            },
+            onHidden: {
+                DispatchQueue.main.async {
+                    self.alStatusMessage = "Rewarded ad dismissed"
+                }
+            },
+            onRevenue: { ad in
+                DispatchQueue.main.async {
+                    self.handleALRevenuePaid(ad: ad, adType: "Rewarded")
+                }
+            }
+        )
+        self.alRewardedDelegate = delegate
+        ad.delegate = delegate
+        ad.revenueDelegate = delegate
+
+        self.alRewardedAd = ad
+        ad.load()
+    }
+
+    private func showALRewardedAd() {
+        guard let alRewardedAd = alRewardedAd, alRewardedAd.isReady else {
+            alError = "Rewarded ad is not ready"
+            return
+        }
+
+        if let rootVC = topViewController() {
+            alRewardedAd.show(forPlacement: nil, customData: nil, viewController: rootVC)
+            alStatusMessage = "Rewarded ad presented"
+        } else {
+            alError = "No active rootViewController to present rewarded ad"
+        }
+    }
+
+    private func launchALMediationDebugger() {
+        guard isALInitialized else { return }
+        alError = nil
+        ALSdk.shared().showMediationDebugger()
+    }
+
+    private func handleALRevenuePaid(ad: MAAd, adType: String) {
+        let revenue = ad.revenue
+        let networkName = ad.networkName
+        let adUnitId = ad.adUnitIdentifier
+        let placement = ad.placement
+
+        print("=== AL REVENUE EVENT - \(adType) ===")
+        print("Revenue: \(revenue)")
+        print("Network: \(networkName)")
+        print("Ad Unit ID: \(adUnitId)")
+        print("Placement: \(placement ?? "N/A")")
+        print("====================================")
+
+        alStatusMessage = "\(adType) ad revenue: \(revenue) from \(networkName)"
+    }
+
+    // MARK: - GAM Actions
+
     private func initializeGAM() {
         isLoading = true
         error = nil
