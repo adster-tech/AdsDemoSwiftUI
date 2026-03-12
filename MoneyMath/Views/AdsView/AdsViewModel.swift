@@ -9,7 +9,15 @@ import AdsFramework
 import SwiftUI
 import GoogleMobileAds
 
-class AdsViewModel: ObservableObject {
+class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelegate {
+    func recordRewardedInterstitialClick() {
+        
+    }
+    
+    func recordRewardedInterstitialImpression() {
+        
+    }
+    
     let key: String
     let displayKey: String
     let isAdsterInitialized: Bool
@@ -40,12 +48,25 @@ class AdsViewModel: ObservableObject {
             loader.delegate = self
             loader.loadAd(
                 adRequestConfiguration: AdRequestConfiguration(
-                    placement: key,
+                    placement: "gam_banner_2",
                     viewController: UIApplication.shared.windows.first?.rootViewController,
                     publisherProvidedId: "Test",
-                    customTargetingValues: ["test": "123"]
+                    customTargetingValues: ["test": "123"],
+                    adaptiveAdWidth: Int(UIScreen.main.bounds.width),
+                    adaptiveType: "Anchored"
                 )
             )
+            
+//            loader.loadAd(
+//                adRequestConfiguration: AdRequestConfiguration(
+//                    placement: "gam_banner_2",
+//                    viewController: UIApplication.shared.windows.first?.rootViewController,
+//                    publisherProvidedId: "Test",
+//                    customTargetingValues: ["test": "123"],
+//                    adaptiveAdWidth: Int(UIScreen.main.bounds.width),
+//                    adaptiveType: "CurrentOrientationInline"
+//                )
+//            )
         }
     }
     
@@ -79,6 +100,7 @@ extension AdsViewModel: MediationAdDelegate {
                 print("Banner Ad request failed with reason banner ad null")
                 return
             }
+            print("banner", bannerview)
             addBannerViewToView(bannerview)
             bannerAd.eventDelegate = self
             self.isLoading = false
@@ -173,6 +195,14 @@ extension AdsViewModel: MediationAdDelegate {
 }
 
 extension AdsViewModel: AdsFramework.MediationInterstitialAdEventDelegate {
+    func recordInterstitialClick() {
+        
+    }
+    
+    func recordInterstitialImpression() {
+        
+    }
+    
     func ad(didFailToPresentFullScreenContentWithError error: AdsFramework.AdError) {
         
     }
@@ -195,6 +225,14 @@ extension AdsViewModel: AdsFramework.MediationInterstitialAdEventDelegate {
 }
 
 extension AdsViewModel: AdsFramework.MediationRewardedAdEventDelegate {
+    func recordRewardedClick() {
+        
+    }
+    
+    func recordRewardedImpression() {
+        
+    }
+    
     func didRewardUser(reward: AdsFramework.AdReward) {
         
     }
@@ -213,9 +251,25 @@ extension AdsViewModel: AdsFramework.MediationRewardedAdEventDelegate {
 }
 
 extension AdsViewModel: AdsFramework.MediationBannerAdEventDelegate {
+    func recordBannerClick() {
+        
+    }
+    
+    func recordBannerImpression() {
+        
+    }
+    
     
 }
 
 extension AdsViewModel: AdsFramework.MediationNativeAdEventDelegate {
+    func recordNativeClick() {
+        
+    }
+    
+    func recordNativeImpression() {
+        
+    }
+    
     
 }

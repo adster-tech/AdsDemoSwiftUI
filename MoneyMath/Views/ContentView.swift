@@ -6,11 +6,8 @@
 //
 
 import SwiftUI
-import AdsFramework
 
 struct ContentView: View {
-    @State var hasAppeared = false
-    
     var body: some View {
         TabView {
             EMIView()
@@ -27,14 +24,5 @@ struct ContentView: View {
                 }
         }
         .accentColor(.blue)
-        .onAppear {
-            guard !hasAppeared else { return }
-            hasAppeared = true
-            AdSter.sharedInstance().start(completionHandler: { status in
-                if let status {
-                    print("Ad initialized \(status)")
-                }
-            })
-        }
     }
 }
