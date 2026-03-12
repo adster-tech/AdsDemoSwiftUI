@@ -48,7 +48,7 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
             loader.delegate = self
             loader.loadAd(
                 adRequestConfiguration: AdRequestConfiguration(
-                    placement: "gam_banner_2",
+                    placement: key,
                     viewController: UIApplication.shared.windows.first?.rootViewController,
                     publisherProvidedId: "Test",
                     customTargetingValues: ["test": "123"],
