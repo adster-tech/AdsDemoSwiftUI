@@ -30,11 +30,11 @@ struct ContentView: View {
         .onAppear {
             guard !hasAppeared else { return }
             hasAppeared = true
-            AdSter.sharedInstance().start(completionHandler: { status in
-                if let status {
-                    print("Ad initialized \(status)")
-                }
-            })
+//            AdSter.sharedInstance().start(completionHandler: { status in
+//                if let status {
+//                    print("Ad initialized \(status)")
+//                }
+//            })
         }
     }
 }

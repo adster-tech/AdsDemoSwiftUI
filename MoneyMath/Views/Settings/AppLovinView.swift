@@ -192,11 +192,12 @@ struct AppLovinView: View {
         isLoading = true
         error = nil
 
-        let initConfig = ALSdkInitializationConfiguration(sdkKey: "QRogKrHW3wWksf63sF9cwIyoIE8TuWadOGKXv-STG6WTXn-4kJLuui1yKpGvGSzttmf2Bh912skQw7949WWOKp") { builder in
+        let initConfig = ALSdkInitializationConfiguration(sdkKey: "gcqm4p1zD4htgyGCLpG4AeKRJLfrHZgGXtLUk5bgM0q8ckvWP7nxeFH6az0t1VrEetJfUN9HRNovNZ9ANrZ_iK") { builder in
             builder.mediationProvider = ALMediationProviderMAX
-            builder.testDeviceAdvertisingIdentifiers = ["7641046A05914CBCBAFA838FAEB7295A"]
+//            builder.testDeviceAdvertisingIdentifiers = ["7641046A-0591-4CBC-BAFA-838FAEB7295A"]
         }
 
+//        ALSdk.shared().settings.isVerboseLoggingEnabled = true
         ALSdk.shared().initialize(with: initConfig) { sdkConfiguration in
             DispatchQueue.main.async {
                 self.isLoading = false
@@ -215,7 +216,7 @@ struct AppLovinView: View {
         isLoading = true
         error = nil
 
-        let adView = MAAdView(adUnitIdentifier: "9cb62985fffbcddd")
+        let adView = MAAdView(adUnitIdentifier: "ee50036cf179f932")
         adView.frame = CGRect(x: 0, y: 0, width: 320, height: 50)
 
         let delegate = AppLovinBannerDelegate(
@@ -257,7 +258,7 @@ struct AppLovinView: View {
         isLoading = true
         error = nil
 
-        let ad = MAInterstitialAd(adUnitIdentifier: "cb1e980f2f802802")
+        let ad = MAInterstitialAd(adUnitIdentifier: "861382bfc3663c30")
 
         let delegate = AppLovinInterstitialDelegate(
             onSuccess: {
@@ -316,7 +317,7 @@ struct AppLovinView: View {
         isLoading = true
         error = nil
 
-        let ad = MARewardedAd.shared(withAdUnitIdentifier: "YOUR_REWARDED_AD_UNIT_ID")
+        let ad = MARewardedAd.shared(withAdUnitIdentifier: "201d2f4014024ede")
 
         let delegate = AppLovinRewardedDelegate(
             onSuccess: {
