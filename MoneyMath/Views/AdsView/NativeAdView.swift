@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import AdsFramework
+import RazorpayAdsSdk
 
 struct NativeAdView: View {
     let ad: MediationNativeAd

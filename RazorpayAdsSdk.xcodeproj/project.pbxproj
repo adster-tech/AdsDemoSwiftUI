@@ -1,0 +1,745 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		18037E982E741A4300044DE4 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 18037E972E741A3700044DE4 /* .gitignore */; };
+		187DC9C82D4AB11A00E63E5E /* BitCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 187DC9C72D4AB11A00E63E5E /* BitCollections */; };
+		187DC9CA2D4AB11A00E63E5E /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 187DC9C92D4AB11A00E63E5E /* Collections */; };
+		187DC9CC2D4AB11A00E63E5E /* HashTreeCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 187DC9CB2D4AB11A00E63E5E /* HashTreeCollections */; };
+		187DC9CE2D4AB11A00E63E5E /* OrderedCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 187DC9CD2D4AB11A00E63E5E /* OrderedCollections */; };
+		18E9BC6A2D60DAA1007EB4F7 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 18E9BC692D60DAA1007EB4F7 /* SDWebImage */; };
+		18E9BC6C2D60DAA1007EB4F7 /* SDWebImageMapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 18E9BC6B2D60DAA1007EB4F7 /* SDWebImageMapKit */; };
+		18E9BC7C2D6637D3007EB4F7 /* ULID in Frameworks */ = {isa = PBXBuildFile; productRef = 18E9BC7B2D6637D3007EB4F7 /* ULID */; };
+		18FEC1852D4AAA450021ED1A /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 18FEC1842D4AAA450021ED1A /* SwiftyJSON */; };
+		8F42D4E82D48DDC30069C5D8 /* RazorpayAdsSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F42D4DD2D48DDC30069C5D8 /* RazorpayAdsSdk.framework */; };
+		C30344312F727C6500757FC6 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = 18754F152F3CC424004194A6 /* GoogleMobileAds */; };
+		C3D6C64E2EAE258500975F3B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D6C64D2EAE258500975F3B /* SystemConfiguration.framework */; };
+		C3D6C6502EAE258F00975F3B /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D6C64F2EAE258F00975F3B /* StoreKit.framework */; };
+		C3D6C6522EAE259C00975F3B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D6C6512EAE259C00975F3B /* Security.framework */; };
+		C3D6C6542EAE25A500975F3B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D6C6532EAE25A500975F3B /* QuartzCore.framework */; };
+		C3D6C6562EAE25B300975F3B /* Network.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D6C6552EAE25B300975F3B /* Network.framework */; };
+		C3D6C6582EAE25BD00975F3B /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D6C6572EAE25BD00975F3B /* MobileCoreServices.framework */; };
+		C3D6C65A2EAE25C600975F3B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D6C6592EAE25C600975F3B /* MessageUI.framework */; };
+		C3D6C65C2EAE25D200975F3B /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D6C65B2EAE25D200975F3B /* MediaPlayer.framework */; };
+		C3D6C65F2EAE25F200975F3B /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D6C65E2EAE25F200975F3B /* JavaScriptCore.framework */; };
+		C3D6C6612EAE25FD00975F3B /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D6C6602EAE25FD00975F3B /* CoreVideo.framework */; };
+		C3D6C6632EAE260700975F3B /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D6C6622EAE260700975F3B /* CoreTelephony.framework */; };
+		C3D6C6652EAE261000975F3B /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D6C6642EAE261000975F3B /* CoreMedia.framework */; };
+		C3D6C6672EAE261A00975F3B /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D6C6662EAE261A00975F3B /* CoreGraphics.framework */; };
+		C3D6C6692EAE263800975F3B /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D6C6682EAE263800975F3B /* CFNetwork.framework */; };
+		C3D6C66B2EAE264100975F3B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D6C66A2EAE264100975F3B /* AVFoundation.framework */; };
+		C3D6C66D2EAE264900975F3B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3D6C66C2EAE264900975F3B /* AudioToolbox.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8F42D4E92D48DDC30069C5D8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8F42D4D42D48DDC30069C5D8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8F42D4DC2D48DDC30069C5D8;
+			remoteInfo = RazorpayAdsSdk;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		18037E972E741A3700044DE4 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		8F42D4DD2D48DDC30069C5D8 /* RazorpayAdsSdk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RazorpayAdsSdk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F42D4E72D48DDC30069C5D8 /* RazorpayAdsSdkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RazorpayAdsSdkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		C3D6C64D2EAE258500975F3B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk/System/Library/Frameworks/SystemConfiguration.framework; sourceTree = DEVELOPER_DIR; };
+		C3D6C64F2EAE258F00975F3B /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk/System/Library/Frameworks/StoreKit.framework; sourceTree = DEVELOPER_DIR; };
+		C3D6C6512EAE259C00975F3B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk/System/Library/Frameworks/Security.framework; sourceTree = DEVELOPER_DIR; };
+		C3D6C6532EAE25A500975F3B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk/System/Library/Frameworks/QuartzCore.framework; sourceTree = DEVELOPER_DIR; };
+		C3D6C6552EAE25B300975F3B /* Network.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Network.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk/System/Library/Frameworks/Network.framework; sourceTree = DEVELOPER_DIR; };
+		C3D6C6572EAE25BD00975F3B /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk/System/Library/Frameworks/MobileCoreServices.framework; sourceTree = DEVELOPER_DIR; };
+		C3D6C6592EAE25C600975F3B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk/System/Library/Frameworks/MessageUI.framework; sourceTree = DEVELOPER_DIR; };
+		C3D6C65B2EAE25D200975F3B /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk/System/Library/Frameworks/MediaPlayer.framework; sourceTree = DEVELOPER_DIR; };
+		C3D6C65D2EAE25E400975F3B /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk/usr/lib/libc++.tbd"; sourceTree = DEVELOPER_DIR; };
+		C3D6C65E2EAE25F200975F3B /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
+		C3D6C6602EAE25FD00975F3B /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk/System/Library/Frameworks/CoreVideo.framework; sourceTree = DEVELOPER_DIR; };
+		C3D6C6622EAE260700975F3B /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk/System/Library/Frameworks/CoreTelephony.framework; sourceTree = DEVELOPER_DIR; };
+		C3D6C6642EAE261000975F3B /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk/System/Library/Frameworks/CoreMedia.framework; sourceTree = DEVELOPER_DIR; };
+		C3D6C6662EAE261A00975F3B /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk/System/Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
+		C3D6C6682EAE263800975F3B /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk/System/Library/Frameworks/CFNetwork.framework; sourceTree = DEVELOPER_DIR; };
+		C3D6C66A2EAE264100975F3B /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk/System/Library/Frameworks/AVFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		C3D6C66C2EAE264900975F3B /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk/System/Library/Frameworks/AudioToolbox.framework; sourceTree = DEVELOPER_DIR; };
+		C3D6C66E2EAE265200975F3B /* CoreAudioTypes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudioTypes.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.5.sdk/System/Library/Frameworks/CoreAudioTypes.framework; sourceTree = DEVELOPER_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		8F42D4EF2D48DDC30069C5D8 /* Exceptions for "RazorpayAdsSdk" folder in "RazorpayAdsSdk" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			publicHeaders = (
+				RazorpayAdsSdk.h,
+			);
+			target = 8F42D4DC2D48DDC30069C5D8 /* RazorpayAdsSdk */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		8F42D4DF2D48DDC30069C5D8 /* RazorpayAdsSdk */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				8F42D4EF2D48DDC30069C5D8 /* Exceptions for "RazorpayAdsSdk" folder in "RazorpayAdsSdk" target */,
+			);
+			path = RazorpayAdsSdk;
+			sourceTree = "<group>";
+		};
+		8F42D4EB2D48DDC30069C5D8 /* RazorpayAdsSdkTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = RazorpayAdsSdkTests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8F42D4DA2D48DDC30069C5D8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C30344312F727C6500757FC6 /* GoogleMobileAds in Frameworks */,
+				18E9BC6C2D60DAA1007EB4F7 /* SDWebImageMapKit in Frameworks */,
+				C3D6C6562EAE25B300975F3B /* Network.framework in Frameworks */,
+				C3D6C6652EAE261000975F3B /* CoreMedia.framework in Frameworks */,
+				C3D6C6582EAE25BD00975F3B /* MobileCoreServices.framework in Frameworks */,
+				C3D6C64E2EAE258500975F3B /* SystemConfiguration.framework in Frameworks */,
+				C3D6C6542EAE25A500975F3B /* QuartzCore.framework in Frameworks */,
+				C3D6C65C2EAE25D200975F3B /* MediaPlayer.framework in Frameworks */,
+				C3D6C6522EAE259C00975F3B /* Security.framework in Frameworks */,
+				C3D6C6672EAE261A00975F3B /* CoreGraphics.framework in Frameworks */,
+				C3D6C66B2EAE264100975F3B /* AVFoundation.framework in Frameworks */,
+				C3D6C6612EAE25FD00975F3B /* CoreVideo.framework in Frameworks */,
+				187DC9CC2D4AB11A00E63E5E /* HashTreeCollections in Frameworks */,
+				C3D6C6502EAE258F00975F3B /* StoreKit.framework in Frameworks */,
+				C3D6C6632EAE260700975F3B /* CoreTelephony.framework in Frameworks */,
+				187DC9CE2D4AB11A00E63E5E /* OrderedCollections in Frameworks */,
+				18E9BC7C2D6637D3007EB4F7 /* ULID in Frameworks */,
+				C3D6C6692EAE263800975F3B /* CFNetwork.framework in Frameworks */,
+				18E9BC6A2D60DAA1007EB4F7 /* SDWebImage in Frameworks */,
+				C3D6C65F2EAE25F200975F3B /* JavaScriptCore.framework in Frameworks */,
+				18FEC1852D4AAA450021ED1A /* SwiftyJSON in Frameworks */,
+				187DC9C82D4AB11A00E63E5E /* BitCollections in Frameworks */,
+				C3D6C66D2EAE264900975F3B /* AudioToolbox.framework in Frameworks */,
+				187DC9CA2D4AB11A00E63E5E /* Collections in Frameworks */,
+				C3D6C65A2EAE25C600975F3B /* MessageUI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F42D4E42D48DDC30069C5D8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F42D4E82D48DDC30069C5D8 /* RazorpayAdsSdk.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8F42D4D32D48DDC30069C5D8 = {
+			isa = PBXGroup;
+			children = (
+				18037E972E741A3700044DE4 /* .gitignore */,
+				8F42D4DF2D48DDC30069C5D8 /* RazorpayAdsSdk */,
+				8F42D4EB2D48DDC30069C5D8 /* RazorpayAdsSdkTests */,
+				8F42D4F82D48E0450069C5D8 /* Frameworks */,
+				8F42D4DE2D48DDC30069C5D8 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8F42D4DE2D48DDC30069C5D8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8F42D4DD2D48DDC30069C5D8 /* RazorpayAdsSdk.framework */,
+				8F42D4E72D48DDC30069C5D8 /* RazorpayAdsSdkTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8F42D4F82D48E0450069C5D8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C3D6C66E2EAE265200975F3B /* CoreAudioTypes.framework */,
+				C3D6C66C2EAE264900975F3B /* AudioToolbox.framework */,
+				C3D6C66A2EAE264100975F3B /* AVFoundation.framework */,
+				C3D6C6682EAE263800975F3B /* CFNetwork.framework */,
+				C3D6C6662EAE261A00975F3B /* CoreGraphics.framework */,
+				C3D6C6642EAE261000975F3B /* CoreMedia.framework */,
+				C3D6C6622EAE260700975F3B /* CoreTelephony.framework */,
+				C3D6C6602EAE25FD00975F3B /* CoreVideo.framework */,
+				C3D6C65E2EAE25F200975F3B /* JavaScriptCore.framework */,
+				C3D6C65D2EAE25E400975F3B /* libc++.tbd */,
+				C3D6C65B2EAE25D200975F3B /* MediaPlayer.framework */,
+				C3D6C6592EAE25C600975F3B /* MessageUI.framework */,
+				C3D6C6572EAE25BD00975F3B /* MobileCoreServices.framework */,
+				C3D6C6552EAE25B300975F3B /* Network.framework */,
+				C3D6C6532EAE25A500975F3B /* QuartzCore.framework */,
+				C3D6C6512EAE259C00975F3B /* Security.framework */,
+				C3D6C64F2EAE258F00975F3B /* StoreKit.framework */,
+				C3D6C64D2EAE258500975F3B /* SystemConfiguration.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		8F42D4D82D48DDC30069C5D8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		8F42D4DC2D48DDC30069C5D8 /* RazorpayAdsSdk */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8F42D4F02D48DDC30069C5D8 /* Build configuration list for PBXNativeTarget "RazorpayAdsSdk" */;
+			buildPhases = (
+				8F42D4D82D48DDC30069C5D8 /* Headers */,
+				8F42D4D92D48DDC30069C5D8 /* Sources */,
+				8F42D4DA2D48DDC30069C5D8 /* Frameworks */,
+				8F42D4DB2D48DDC30069C5D8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				8F42D4DF2D48DDC30069C5D8 /* RazorpayAdsSdk */,
+			);
+			name = RazorpayAdsSdk;
+			packageProductDependencies = (
+				18754F152F3CC424004194A6 /* GoogleMobileAds */,
+			);
+			productName = RazorpayAdsSdk;
+			productReference = 8F42D4DD2D48DDC30069C5D8 /* RazorpayAdsSdk.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		8F42D4E62D48DDC30069C5D8 /* RazorpayAdsSdkTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8F42D4F52D48DDC30069C5D8 /* Build configuration list for PBXNativeTarget "RazorpayAdsSdkTests" */;
+			buildPhases = (
+				8F42D4E32D48DDC30069C5D8 /* Sources */,
+				8F42D4E42D48DDC30069C5D8 /* Frameworks */,
+				8F42D4E52D48DDC30069C5D8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8F42D4EA2D48DDC30069C5D8 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				8F42D4EB2D48DDC30069C5D8 /* RazorpayAdsSdkTests */,
+			);
+			name = RazorpayAdsSdkTests;
+			productName = RazorpayAdsSdkTests;
+			productReference = 8F42D4E72D48DDC30069C5D8 /* RazorpayAdsSdkTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8F42D4D42D48DDC30069C5D8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					8F42D4DC2D48DDC30069C5D8 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+					8F42D4E62D48DDC30069C5D8 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+				};
+			};
+			buildConfigurationList = 8F42D4D72D48DDC30069C5D8 /* Build configuration list for PBXProject "RazorpayAdsSdk" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 8F42D4D32D48DDC30069C5D8;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				18FEC1832D4AAA2F0021ED1A /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+				187DC9C62D4AB10000E63E5E /* XCRemoteSwiftPackageReference "swift-collections" */,
+				18E9BC682D60DAA1007EB4F7 /* XCRemoteSwiftPackageReference "SDWebImage" */,
+				18E9BC7A2D6637D3007EB4F7 /* XCRemoteSwiftPackageReference "ULID" */,
+				18754F142F3CC424004194A6 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 8F42D4DE2D48DDC30069C5D8 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8F42D4DC2D48DDC30069C5D8 /* RazorpayAdsSdk */,
+				8F42D4E62D48DDC30069C5D8 /* RazorpayAdsSdkTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8F42D4DB2D48DDC30069C5D8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18037E982E741A4300044DE4 /* .gitignore in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F42D4E52D48DDC30069C5D8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8F42D4D92D48DDC30069C5D8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F42D4E32D48DDC30069C5D8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8F42D4EA2D48DDC30069C5D8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8F42D4DC2D48DDC30069C5D8 /* RazorpayAdsSdk */;
+			targetProxy = 8F42D4E92D48DDC30069C5D8 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		8F42D4F12D48DDC30069C5D8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 14.7;
+				MARKETING_VERSION = 1.4.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.razorpay.medianetwork;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		8F42D4F22D48DDC30069C5D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = YES;
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 14.7;
+				MARKETING_VERSION = 1.4.0;
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu17 gnu++20";
+				OTHER_LDFLAGS = "";
+				PRODUCT_BUNDLE_IDENTIFIER = com.razorpay.medianetwork;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = auto;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+		8F42D4F32D48DDC30069C5D8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/Frameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					/usr/lib/swift,
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = "";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_ENABLE_BATCH_MODE = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				a = 1;
+			};
+			name = Debug;
+		};
+		8F42D4F42D48DDC30069C5D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/Frameworks",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					/usr/lib/swift,
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = "";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"$(inherited)",
+				);
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_ENABLE_BATCH_MODE = NO;
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+				a = 1;
+			};
+			name = Release;
+		};
+		8F42D4F62D48DDC30069C5D8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 44VHM66V89;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.7;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.razorpay.medianetworkTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Debug;
+		};
+		8F42D4F72D48DDC30069C5D8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
+				BUILD_LIBRARY_FOR_DISTRIBUTION = NO;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 44VHM66V89;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.7;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.razorpay.medianetworkTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx xros xrsimulator";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 2.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8F42D4D72D48DDC30069C5D8 /* Build configuration list for PBXProject "RazorpayAdsSdk" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F42D4F32D48DDC30069C5D8 /* Debug */,
+				8F42D4F42D48DDC30069C5D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8F42D4F02D48DDC30069C5D8 /* Build configuration list for PBXNativeTarget "RazorpayAdsSdk" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F42D4F12D48DDC30069C5D8 /* Debug */,
+				8F42D4F22D48DDC30069C5D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8F42D4F52D48DDC30069C5D8 /* Build configuration list for PBXNativeTarget "RazorpayAdsSdkTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F42D4F62D48DDC30069C5D8 /* Debug */,
+				8F42D4F72D48DDC30069C5D8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		18754F142F3CC424004194A6 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/googleads/swift-package-manager-google-mobile-ads.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 13.0.0;
+			};
+		};
+		187DC9C62D4AB10000E63E5E /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.4;
+			};
+		};
+		18E9BC682D60DAA1007EB4F7 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImage";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.20.0;
+			};
+		};
+		18E9BC7A2D6637D3007EB4F7 /* XCRemoteSwiftPackageReference "ULID" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/yaslab/ULID.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.1;
+			};
+		};
+		18FEC1832D4AAA2F0021ED1A /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		18754F152F3CC424004194A6 /* GoogleMobileAds */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 18754F142F3CC424004194A6 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */;
+			productName = GoogleMobileAds;
+		};
+		187DC9C72D4AB11A00E63E5E /* BitCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 187DC9C62D4AB10000E63E5E /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = BitCollections;
+		};
+		187DC9C92D4AB11A00E63E5E /* Collections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 187DC9C62D4AB10000E63E5E /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = Collections;
+		};
+		187DC9CB2D4AB11A00E63E5E /* HashTreeCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 187DC9C62D4AB10000E63E5E /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = HashTreeCollections;
+		};
+		187DC9CD2D4AB11A00E63E5E /* OrderedCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 187DC9C62D4AB10000E63E5E /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = OrderedCollections;
+		};
+		18E9BC692D60DAA1007EB4F7 /* SDWebImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 18E9BC682D60DAA1007EB4F7 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImage;
+		};
+		18E9BC6B2D60DAA1007EB4F7 /* SDWebImageMapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 18E9BC682D60DAA1007EB4F7 /* XCRemoteSwiftPackageReference "SDWebImage" */;
+			productName = SDWebImageMapKit;
+		};
+		18E9BC7B2D6637D3007EB4F7 /* ULID */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 18E9BC7A2D6637D3007EB4F7 /* XCRemoteSwiftPackageReference "ULID" */;
+			productName = ULID;
+		};
+		18FEC1842D4AAA450021ED1A /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 18FEC1832D4AAA2F0021ED1A /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 8F42D4D42D48DDC30069C5D8 /* Project object */;
+}

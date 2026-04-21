@@ -5,7 +5,7 @@
 //  Created by Adster on 11/03/25.
 //
 import Combine
-import AdsFramework
+import RazorpayAdsSdk
 import SwiftUI
 import GoogleMobileAds
 
@@ -25,7 +25,7 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
     @Published var error: String? = nil
     @Published var isLoading: Bool = false
     @Published var bannerView: BannerAdView?
-    @Published var mediationNativeAd: AdsFramework.MediationNativeAd? = nil
+    @Published var mediationNativeAd: RazorpayAdsSdk.MediationNativeAd? = nil
     
     init(key: String, isAdsterInitialized: Bool = false) {
         self.displayKey = key
@@ -44,7 +44,7 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
             self.error = nil
             self.bannerView = nil
             self.mediationNativeAd = nil
-            let loader = AdSterAdLoader()
+            let loader = RazorpayAdLoader()
             loader.delegate = self
             loader.loadAd(
                 adRequestConfiguration: AdRequestConfiguration(
@@ -94,7 +94,7 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
 }
 
 extension AdsViewModel: MediationAdDelegate {
-    func onBannerAdLoaded(bannerAd: AdsFramework.MediationBannerAd) {
+    func onBannerAdLoaded(bannerAd: RazorpayAdsSdk.MediationBannerAd) {
         Task { @MainActor in
             guard let bannerview = bannerAd.view else {
                 print("Banner Ad request failed with reason banner ad null")
@@ -107,7 +107,7 @@ extension AdsViewModel: MediationAdDelegate {
         }
     }
     
-    func onInterstitialAdLoaded(interstitialAd: AdsFramework.MediationInterstitialAd) {
+    func onInterstitialAdLoaded(interstitialAd: RazorpayAdsSdk.MediationInterstitialAd) {
         Task { @MainActor in
             interstitialAd.presentInterstitial(from: UIApplication.shared.windows.first?.rootViewController)
             interstitialAd.eventDelegate = self
@@ -115,7 +115,7 @@ extension AdsViewModel: MediationAdDelegate {
         }
     }
     
-    func onRewardedAdLoaded(rewardedAd: AdsFramework.MediationRewardedAd) {
+    func onRewardedAdLoaded(rewardedAd: RazorpayAdsSdk.MediationRewardedAd) {
         Task { @MainActor in
             rewardedAd.presentRewarded(from: UIApplication.shared.windows.first?.rootViewController)
             rewardedAd.eventDelegate = self
@@ -123,7 +123,7 @@ extension AdsViewModel: MediationAdDelegate {
         }
     }
     
-    func onRewardedInterstitialAdLoaded(rewardedInterstitialAd: AdsFramework.MediationRewardedInterstitialAd) {
+    func onRewardedInterstitialAdLoaded(rewardedInterstitialAd: RazorpayAdsSdk.MediationRewardedInterstitialAd) {
         Task { @MainActor in
             rewardedInterstitialAd.presentRewardedInterstitial(from: UIApplication.shared.windows.first?.rootViewController)
             rewardedInterstitialAd.eventDelegate = self
@@ -131,20 +131,20 @@ extension AdsViewModel: MediationAdDelegate {
         }
     }
     
-    func onNativeAdLoaded(nativeAd: AdsFramework.MediationNativeAd) {
+    func onNativeAdLoaded(nativeAd: RazorpayAdsSdk.MediationNativeAd) {
         Task { @MainActor in
             setNativeAdFromAdster(nativeAd: nativeAd)
             self.isLoading = false
         }
     }
     
-    func setNativeAd(nativeAd: AdsFramework.MediationNativeAd) {
+    func setNativeAd(nativeAd: RazorpayAdsSdk.MediationNativeAd) {
         Task { @MainActor in
             self.mediationNativeAd = nativeAd
         }
     }
     
-    func setNativeAdFromAdster(nativeAd: AdsFramework.MediationNativeAd) {
+    func setNativeAdFromAdster(nativeAd: RazorpayAdsSdk.MediationNativeAd) {
         Task { @MainActor in
             nativeAd.eventDelegate = self
             let bundle = Bundle(for: MediationNativeAdView.self)
@@ -182,11 +182,19 @@ extension AdsViewModel: MediationAdDelegate {
         }
     }
     
-    func onCustomNativeAdLoaded(customNativeAd: any AdsFramework.MediationNativeCustomFormatAd) {
-        
+    func onCustomNativeAdLoaded(customNativeAd: any RazorpayAdsSdk.MediationNativeCustomFormatAd) {
+
+    }
+
+    func onAppOpenAdLoaded(appOpenAd: RazorpayAdsSdk.MediationAppOpenAd) {
+        Task { @MainActor in
+            appOpenAd.presentAppOpenAd(from: UIApplication.shared.windows.first?.rootViewController)
+            appOpenAd.eventDelegate = self
+            self.isLoading = false
+        }
     }
     
-    func onAdFailedToLoad(error: AdsFramework.AdError) {
+    func onAdFailedToLoad(error: RazorpayAdsSdk.AdError) {
         Task { @MainActor in
             self.error = error.description
             self.isLoading = false
@@ -194,7 +202,7 @@ extension AdsViewModel: MediationAdDelegate {
     }
 }
 
-extension AdsViewModel: AdsFramework.MediationInterstitialAdEventDelegate {
+extension AdsViewModel: RazorpayAdsSdk.MediationInterstitialAdEventDelegate {
     func recordInterstitialClick() {
         
     }
@@ -203,7 +211,7 @@ extension AdsViewModel: AdsFramework.MediationInterstitialAdEventDelegate {
         
     }
     
-    func ad(didFailToPresentFullScreenContentWithError error: AdsFramework.AdError) {
+    func ad(didFailToPresentFullScreenContentWithError error: RazorpayAdsSdk.AdError) {
         
     }
     
@@ -224,7 +232,7 @@ extension AdsViewModel: AdsFramework.MediationInterstitialAdEventDelegate {
     }
 }
 
-extension AdsViewModel: AdsFramework.MediationRewardedAdEventDelegate {
+extension AdsViewModel: RazorpayAdsSdk.MediationRewardedAdEventDelegate {
     func recordRewardedClick() {
         
     }
@@ -233,7 +241,7 @@ extension AdsViewModel: AdsFramework.MediationRewardedAdEventDelegate {
         
     }
     
-    func didRewardUser(reward: AdsFramework.AdReward) {
+    func didRewardUser(reward: RazorpayAdsSdk.AdReward) {
         
     }
     
@@ -250,7 +258,7 @@ extension AdsViewModel: AdsFramework.MediationRewardedAdEventDelegate {
     }
 }
 
-extension AdsViewModel: AdsFramework.MediationBannerAdEventDelegate {
+extension AdsViewModel: RazorpayAdsSdk.MediationBannerAdEventDelegate {
     func recordBannerClick() {
         
     }
@@ -262,14 +270,25 @@ extension AdsViewModel: AdsFramework.MediationBannerAdEventDelegate {
     
 }
 
-extension AdsViewModel: AdsFramework.MediationNativeAdEventDelegate {
+extension AdsViewModel: RazorpayAdsSdk.MediationNativeAdEventDelegate {
     func recordNativeClick() {
-        
+
     }
-    
+
     func recordNativeImpression() {
-        
+
     }
-    
-    
+}
+
+extension AdsViewModel: RazorpayAdsSdk.MediationAppOpenAdEventDelegate {
+    func recordAppOpenClick() {
+
+    }
+
+    func recordAppOpenImpression() {
+
+    }
+
+    // Note: ad(didFailToPresentFullScreenContentWithError:), adWillPresentFullScreenContent(),
+    // and adDidDismissFullScreenContent() are already implemented via MediationInterstitialAdEventDelegate conformance.
 }

@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import AdsFramework
+import RazorpayAdsSdk
 
 struct MainView: View {
     @StateObject var viewModel: MainViewModel
@@ -165,7 +165,7 @@ struct MainView: View {
         
         // Simulate SDK initialization
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            AdSter.sharedInstance().start() // Initialize the Adster SDK
+            Razorpay.sharedInstance().start() // Initialize the Adster SDK
             self.isInitializing = false
             self.isAdsterInitialized = true
             self.adsterStatusMessage = "Adster SDK initialized successfully"
