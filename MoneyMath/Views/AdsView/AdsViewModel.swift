@@ -26,6 +26,14 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
     @Published var isLoading: Bool = false
     @Published var bannerView: BannerAdView?
     @Published var mediationNativeAd: AdsFramework.MediationNativeAd? = nil
+
+    // Keep a strong reference to active video ads so their backing AVPlayer +
+    // IMA ads-manager don't get deallocated while the view renders them.
+    // (The SDK's internal map is keyed by MediationAdConfiguration and is not
+    //  guaranteed to outlive our callbacks.)
+    var currentBannerVideoAd: AdsFramework.MediationBannerVideoAd?
+    var currentVideoAd: AdsFramework.MediationVideoAd?
+    var currentVideoPresenter: IMAVideoPresenterViewController?
     
     init(key: String, isAdsterInitialized: Bool = false) {
         self.displayKey = key
@@ -39,11 +47,12 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
                 self.error = "Adster SDK is not initialized. Please initialize it first."
                 return
             }
-            
+
             self.isLoading = true
             self.error = nil
             self.bannerView = nil
             self.mediationNativeAd = nil
+            print("[Demo] loadAdActivity — requesting placement=\(key) displayKey=\(displayKey)")
             let loader = AdSterAdLoader()
             loader.delegate = self
             loader.loadAd(
@@ -94,6 +103,58 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
 }
 
 extension AdsViewModel: MediationAdDelegate {
+    func onBannerVideoAdLoaded(bannerVideoAd: any AdsFramework.MediationBannerVideoAd) {
+        print("[Demo] onBannerVideoAdLoaded — view=\(bannerVideoAd.view == nil ? "nil" : "ok")")
+        Task { @MainActor in
+            guard let view = bannerVideoAd.view else {
+                self.error = "Banner-video ad returned a nil view"
+                self.isLoading = false
+                return
+            }
+            // Retain the ad so its AVPlayer + IMA ads-manager stay alive while
+            // SwiftUI renders the UIView.
+            self.currentBannerVideoAd = bannerVideoAd
+            bannerVideoAd.eventDelegate = self
+            addBannerViewToView(view)
+            self.isLoading = false
+        }
+    }
+
+    func onVideoAdLoaded(videoAd: any AdsFramework.MediationVideoAd) {
+        print("[Demo] onVideoAdLoaded — presenting full-screen")
+        Task { @MainActor in
+            guard let rootVC = UIApplication.shared.windows.first?.rootViewController else {
+                self.error = "Could not find root view controller to present video ad"
+                self.isLoading = false
+                return
+            }
+            videoAd.eventDelegate = self
+            self.currentVideoAd = videoAd
+
+            let presenter = IMAVideoPresenterViewController(videoAd: videoAd) { [weak self] in
+                // Clear the retained references once the ad is dismissed so
+                // they can be deallocated.
+                self?.currentVideoAd = nil
+                self?.currentVideoPresenter = nil
+            }
+            presenter.modalPresentationStyle = .fullScreen
+            self.currentVideoPresenter = presenter
+
+            // Walk to the top-most presented VC so we present over any existing modal.
+            var top = rootVC
+            while let presented = top.presentedViewController {
+                top = presented
+            }
+            top.present(presenter, animated: true) {
+                self.isLoading = false
+            }
+        }
+    }
+    
+    func onAppOpenAdLoaded(appOpenAd: any AdsFramework.MediationAppOpenAd) {
+        
+    }
+    
     func onBannerAdLoaded(bannerAd: AdsFramework.MediationBannerAd) {
         Task { @MainActor in
             guard let bannerview = bannerAd.view else {
@@ -187,6 +248,7 @@ extension AdsViewModel: MediationAdDelegate {
     }
     
     func onAdFailedToLoad(error: AdsFramework.AdError) {
+        print("[Demo] onAdFailedToLoad — \(error.description ?? "<nil>")")
         Task { @MainActor in
             self.error = error.description
             self.isLoading = false
@@ -264,12 +326,84 @@ extension AdsViewModel: AdsFramework.MediationBannerAdEventDelegate {
 
 extension AdsViewModel: AdsFramework.MediationNativeAdEventDelegate {
     func recordNativeClick() {
-        
+
     }
-    
+
     func recordNativeImpression() {
-        
+
     }
-    
-    
+
+
+}
+
+// MARK: - IMA banner-video event delegate
+//
+// NOTE: Every method of both delegate protocols is spelled out below — we don't
+// rely on the SDK's default-implementation protocol extensions because the Swift
+// compiler doesn't always pick them up across module boundaries when a single
+// type conforms to multiple related protocols (both delegates share method
+// names like `onAdCompleted()` / `onAdStarted()`).
+
+extension AdsViewModel: AdsFramework.MediationBannerVideoAdEventDelegate {
+    func recordBannerVideoClick() {
+        print("[IMA] banner-video click")
+    }
+
+    func recordBannerVideoImpression() {
+        print("[IMA] banner-video impression")
+    }
+
+    func onAdStarted() {
+        // Shared name with MediationVideoAdEventDelegate — satisfies both.
+    }
+
+    func onAdCompleted() {
+        // Shared name with MediationVideoAdEventDelegate — auto-dismiss the
+        // full-screen video presenter if one is active.
+        Task { @MainActor in
+            self.currentVideoPresenter?.adDidComplete()
+        }
+    }
+
+    func onAdSkipped() {
+        // Shared name with MediationVideoAdEventDelegate.
+        Task { @MainActor in
+            self.currentVideoPresenter?.adDidComplete()
+        }
+    }
+
+    func onAdPaused() {}
+    func onAdResumed() {}
+    func onContentPauseRequested() {}
+    func onContentResumeRequested() {}
+
+    func onAllAdCompleted() {
+        // Shared name with MediationVideoAdEventDelegate.
+        Task { @MainActor in
+            self.currentVideoPresenter?.adDidComplete()
+        }
+    }
+
+    func onVolumeChanged(volumePercent: Int) {}
+}
+
+// MARK: - IMA full-screen video event delegate
+
+extension AdsViewModel: AdsFramework.MediationVideoAdEventDelegate {
+    func recordVideoClick() {
+        print("[IMA] video click")
+    }
+
+    func recordVideoImpression() {
+        print("[IMA] video impression")
+    }
+
+    func onAdTapped() {}
+    func onSkippableStateChanged() {}
+
+    // onAdStarted / onAdCompleted / onAdSkipped / onAdPaused / onAdResumed /
+    // onContentPauseRequested / onContentResumeRequested / onAllAdCompleted /
+    // onVolumeChanged are already implemented in the banner-video extension
+    // above — a single method named e.g. `onAdCompleted()` on AdsViewModel
+    // satisfies both protocol requirements.
 }

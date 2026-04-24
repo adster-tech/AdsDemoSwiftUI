@@ -1,5 +1,5 @@
 {
-  "originHash" : "b65d66a90028a9f01eaeced7f12f0bb3b3bf350ad7351f1fdb42502bb390a657",
+  "originHash" : "310c0045f5f58d603936e19ddca727ca899c1f0287cf20427da1314570616804",
   "pins" : [
     {
       "identity" : "sdwebimage",
@@ -20,12 +20,21 @@
       }
     },
     {
+      "identity" : "swift-package-manager-google-interactive-media-ads-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/googleads/swift-package-manager-google-interactive-media-ads-ios",
+      "state" : {
+        "revision" : "3ab3dee61922cf4e024b9086f324f0737bc73339",
+        "version" : "3.31.0"
+      }
+    },
+    {
       "identity" : "swift-package-manager-google-mobile-ads",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/googleads/swift-package-manager-google-mobile-ads",
       "state" : {
-        "revision" : "7778cc1ab037c10dbbe026959e51e616bd961be9",
-        "version" : "11.13.0"
+        "revision" : "8d08e4396ea955a7d2baf067c0eedfc34ca0821d",
+        "version" : "13.2.0"
       }
     },
     {
