@@ -94,6 +94,10 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
 }
 
 extension AdsViewModel: MediationAdDelegate {
+    func onAppOpenAdLoaded(appOpenAd: any AdsFramework.MediationAppOpenAd) {
+        
+    }
+    
     func onBannerAdLoaded(bannerAd: AdsFramework.MediationBannerAd) {
         Task { @MainActor in
             guard let bannerview = bannerAd.view else {

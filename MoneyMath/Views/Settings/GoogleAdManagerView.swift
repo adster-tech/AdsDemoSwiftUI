@@ -104,7 +104,7 @@ struct GoogleAdManagerView: View {
                 Button(action: loadBannerAd) {
                     HStack {
                         Image(systemName: "rectangle.portrait")
-                        Text("Load Banner (320x50 / 300x250)")
+                        Text("Load Banner (300x250)")
                     }
                     .frame(maxWidth: .infinity)
                 }
@@ -193,40 +193,32 @@ struct GoogleAdManagerView: View {
         isLoading = true
         error = nil
         
-        // Test device for debug
-        MobileAds.shared.requestConfiguration.testDeviceIdentifiers = [
-            "7641046A05914CBCBAFA838FAEB7295A"
-        ]
-        
         MobileAds.shared.start { status in
             DispatchQueue.main.async {
                 self.isLoading = false
                 self.isGAMInitialized = true
                 self.statusMessage = "GAM initialized successfully"
-                
-                let adapters = status.adapterStatusesByClassName
-                print("=== Adapter Statuses ===")
-                for (className, adapterStatus) in adapters {
-                    print("\(className): \(adapterStatus.state.rawValue) - \(adapterStatus.description)")
-                }
-                print("========================")
             }
         }
     }
     
     private func loadBannerAd() {
         guard isGAMInitialized else { return }
+        guard let rootViewController = topViewController() else {
+            error = "No active rootViewController available for banner load"
+            return
+        }
         
         isLoading = true
         error = nil
+        statusMessage = "Loading banner ad..."
         
-        let newBanner = AdManagerBannerView(adSize: AdSize(size: CGSize(width: 320, height: 50), flags: 0)) // 320x50 base
-        newBanner.validAdSizes = [
-            nsValue(from: AdSize(size: CGSize(width: 320, height: 50), flags: 0)),             // 320x50
-            nsValue(from: AdSize(size: CGSize(width: 300, height: 250), flags: 0))     // 300x250
-        ]
-        
-        newBanner.adUnitID = "/23104024203/iosCustomAdaptertest"
+        // Use the SDK-defined size constant. Manually constructing AdSize is not supported.
+        let bannerSize = AdSizeMediumRectangle
+        let newBanner = AdManagerBannerView(adSize: bannerSize)
+        newBanner.validAdSizes = [nsValue(from: bannerSize)]
+        newBanner.adUnitID = "/1024780/iOS/mpu/news"
+        newBanner.rootViewController = rootViewController
         
         let delegate = GAMBannerDelegate(
             onSuccess: {
@@ -254,7 +246,7 @@ struct GoogleAdManagerView: View {
         self.bannerView = newBanner
         
         let request = AdManagerRequest()
-        print(">>> Calling load() on GAMBannerView with sizes 320x50 + 300x250")
+//        request.customTargeting = ["news": "138582"]
         newBanner.load(request)
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 10) {
@@ -350,7 +342,6 @@ struct GoogleAdManagerView: View {
             rewardedAd.present(from: rootVC, userDidEarnRewardHandler: {
                 DispatchQueue.main.async {
                     self.statusMessage = "User earned reward!"
-                    print("=== USER EARNED REWARD ===")
                 }
             })
             statusMessage = "Rewarded ad presented"
@@ -385,14 +376,6 @@ struct GoogleAdManagerView: View {
     private func handlePaidEvent(adValue: AdValue, adType: String) {
         let micros = adValue.value.doubleValue
         let currency = adValue.currencyCode
-        let precision = adValue.precision.rawValue
-        
-        print("=== PAID EVENT - \(adType) ===")
-        print("Value (micros): \(micros)")
-        print("Currency Code: \(currency)")
-        print("Precision: \(precision)")
-        print("Value in \(currency): \(micros / 1_000_000.0)")
-        print("=============================")
         
         statusMessage = "\(adType) ad revenue: \(micros / 1_000_000.0) \(currency)"
     }
@@ -429,21 +412,17 @@ class GAMBannerDelegate: NSObject, BannerViewDelegate {
     }
     
     func bannerViewDidReceiveAd(_ bannerView: BannerView) {
-        print("GAMBannerDelegate: bannerViewDidReceiveAd ✅")
         onSuccess()
     }
     
     func bannerView(_ bannerView: BannerView, didFailToReceiveAdWithError error: Error) {
-        print("GAMBannerDelegate: didFailToReceiveAd ❌ \(error)")
         onFailure(error)
     }
     
     func bannerViewDidRecordClick(_ bannerView: BannerView) {
-        print("Banner ad clicked")
     }
     
     func bannerViewDidRecordImpression(_ bannerView: BannerView) {
-        print("Banner ad impression recorded")
     }
 }
 
@@ -453,20 +432,29 @@ struct AdManagerBannerHostController: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
         let vc = UIViewController()
         vc.view.backgroundColor = .clear
-        bannerView.rootViewController = vc
-        bannerView.translatesAutoresizingMaskIntoConstraints = false
-        vc.view.addSubview(bannerView)
-        
-        NSLayoutConstraint.activate([
-            bannerView.centerXAnchor.constraint(equalTo: vc.view.centerXAnchor),
-            bannerView.centerYAnchor.constraint(equalTo: vc.view.centerYAnchor)
-        ])
+        attachBannerView(bannerView, to: vc)
         
         return vc
     }
     
     func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        // No updates needed
+        attachBannerView(bannerView, to: uiViewController)
+    }
+    
+    private func attachBannerView(_ bannerView: AdManagerBannerView, to viewController: UIViewController) {
+        bannerView.rootViewController = viewController
+        
+        if bannerView.superview !== viewController.view {
+            bannerView.removeFromSuperview()
+            bannerView.translatesAutoresizingMaskIntoConstraints = false
+            viewController.view.subviews.forEach { $0.removeFromSuperview() }
+            viewController.view.addSubview(bannerView)
+            
+            NSLayoutConstraint.activate([
+                bannerView.centerXAnchor.constraint(equalTo: viewController.view.centerXAnchor),
+                bannerView.centerYAnchor.constraint(equalTo: viewController.view.centerYAnchor)
+            ])
+        }
     }
 }
 
