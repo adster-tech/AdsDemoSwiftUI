@@ -9,6 +9,15 @@ enum SdkType: String, CaseIterable, Identifiable {
     var id: String {
         self.rawValue
     }
+
+    var placementComponent: String {
+        switch self {
+        case .adsterDirect:
+            return "adster_direct"
+        default:
+            return rawValue.replacingOccurrences(of: " ", with: "_").lowercased()
+        }
+    }
     
     case gam = "GAM"
     case admob = "AdMob"
@@ -20,12 +29,28 @@ enum SdkType: String, CaseIterable, Identifiable {
     case unity = "Unity"
     case adsease = "Adsease"
     case adster = "Adster"
+    case adsterDirect = "Adster Direct"
 }
 
 
 enum SdkAdType: String, CaseIterable, Identifiable {
     var id: String {
         self.rawValue
+    }
+
+    var placementComponent: String {
+        switch self {
+        case .unifiedAoi:
+            return "unified_aoi"
+        case .appopen:
+            return "appopen"
+        case .carouselBanner:
+            return "carousel_banner"
+        case .carouselNative:
+            return "carousel_native"
+        default:
+            return rawValue.replacingOccurrences(of: "-", with: "_").lowercased()
+        }
     }
 
     case banner = "Banner"
@@ -35,6 +60,9 @@ enum SdkAdType: String, CaseIterable, Identifiable {
     case native = "Native"
     case fsn = "FSN"
     case unified = "Unified"
+    case unifiedAoi = "Unified-AOI"
     case video = "Video"
     case appopen = "Appopen"
+    case carouselBanner = "Carousel Banner"
+    case carouselNative = "Carousel Native"
 }

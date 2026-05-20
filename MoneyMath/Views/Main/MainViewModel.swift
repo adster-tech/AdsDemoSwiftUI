@@ -9,14 +9,15 @@ import Combine
 class MainViewModel: ObservableObject {
     let sdkTypes: [[SdkType]] = [
         [.gam, .admob, .adster],
-        [ .amazon, .applovin, .liftoff],
-        [.adsease, .inmobi, .unity],
-        [.meta]
+        [.adsterDirect, .amazon, .applovin],
+        [.liftoff, .adsease, .inmobi],
+        [.unity, .meta]
     ]
     let sdkAdTypes: [[SdkAdType]] = [
         [.banner, .interstitial, .rewarded],
         [.rewardedInterstitial, .native, .appopen],
-        [.fsn, .unified, .video]
+        [.fsn, .unified, .unifiedAoi],
+        [.video, .carouselBanner, .carouselNative]
     ]
     
     @Published private(set) var selectedSdkType = SdkType.gam
@@ -38,5 +39,13 @@ class MainViewModel: ObservableObject {
     func select(_ key: String) {
         self.selectedKey = key
         self.isLinkClicked = true
+    }
+
+    func placementKey(index: Int) -> String {
+        "\(selectedSdkType.placementComponent)_\(selectedAdType.placementComponent)_\(index)"
+    }
+
+    func displayName(index: Int) -> String {
+        "\(selectedSdkType.rawValue)-\(selectedAdType.rawValue)-\(index)"
     }
 }

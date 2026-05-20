@@ -26,6 +26,10 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
     @Published var isLoading: Bool = false
     @Published var bannerView: BannerAdView?
     @Published var mediationNativeAd: AdsFramework.MediationNativeAd? = nil
+    @Published var carouselBannerViews: [CarouselBannerItem] = []
+    @Published var carouselNativeAds: [AdsFramework.MediationNativeAd] = []
+    @Published var revenueEvents: [String] = []
+    @Published var eventMessages: [String] = []
     
     init(key: String, isAdsterInitialized: Bool = false) {
         self.displayKey = key
@@ -44,6 +48,9 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
             self.error = nil
             self.bannerView = nil
             self.mediationNativeAd = nil
+            self.carouselBannerViews = []
+            self.carouselNativeAds = []
+            self.eventMessages = []
             let loader = AdSterAdLoader()
             loader.delegate = self
             loader.loadAd(
@@ -94,8 +101,44 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
 }
 
 extension AdsViewModel: MediationAdDelegate {
+    func onCarouselBannerAdLoaded(carouselBannerAd: any AdsFramework.MediationCarouselBannerAd) {
+        Task { @MainActor in
+            let bannerViews = carouselBannerAd.ads.enumerated().compactMap { index, bannerAd -> CarouselBannerItem? in
+                bannerAd.eventDelegate = self
+                guard let view = bannerAd.view else { return nil }
+                return CarouselBannerItem(index: index, view: view, size: Self.resolvedBannerSize(for: view))
+            }
+            self.carouselBannerViews = bannerViews
+            self.eventMessages.insert("Carousel banner loaded: \(bannerViews.count) child ads", at: 0)
+            self.isLoading = false
+        }
+    }
+    
+    func onCarouselNativeAdLoaded(carouselNativeAd: any AdsFramework.MediationCarouselNativeAd) {
+        Task { @MainActor in
+            carouselNativeAd.ads.forEach { $0.eventDelegate = self }
+            self.carouselNativeAds = carouselNativeAd.ads
+            self.eventMessages.insert("Carousel native loaded: \(carouselNativeAd.ads.count) child ads", at: 0)
+            self.isLoading = false
+        }
+    }
+    
+    func onAdRevenuePaid(revenue: Double, adUnitId: String, network: String, currency: String, precisionType: AdsFramework.PrecisionType) {
+        Task { @MainActor in
+            let formattedRevenue = String(format: "%.6f", revenue)
+            let event = "\(network) \(adUnitId): \(currency) \(formattedRevenue) (\(precisionType))"
+            self.revenueEvents.insert(event, at: 0)
+            self.revenueEvents = Array(self.revenueEvents.prefix(20))
+            print("Ad revenue paid: \(event)")
+        }
+    }
+    
     func onAppOpenAdLoaded(appOpenAd: any AdsFramework.MediationAppOpenAd) {
-        
+        Task { @MainActor in
+            appOpenAd.presentAppOpenAd(from: UIApplication.shared.windows.first?.rootViewController)
+            appOpenAd.eventDelegate = self
+            self.isLoading = false
+        }
     }
     
     func onBannerAdLoaded(bannerAd: AdsFramework.MediationBannerAd) {
@@ -107,6 +150,7 @@ extension AdsViewModel: MediationAdDelegate {
             print("banner", bannerview)
             addBannerViewToView(bannerview)
             bannerAd.eventDelegate = self
+            self.eventMessages.insert("Banner loaded: \(bannerAd.sdk.rawValue)", at: 0)
             self.isLoading = false
         }
     }
@@ -115,6 +159,7 @@ extension AdsViewModel: MediationAdDelegate {
         Task { @MainActor in
             interstitialAd.presentInterstitial(from: UIApplication.shared.windows.first?.rootViewController)
             interstitialAd.eventDelegate = self
+            self.eventMessages.insert("Interstitial loaded: \(interstitialAd.sdk.rawValue)", at: 0)
             self.isLoading = false
         }
     }
@@ -123,6 +168,7 @@ extension AdsViewModel: MediationAdDelegate {
         Task { @MainActor in
             rewardedAd.presentRewarded(from: UIApplication.shared.windows.first?.rootViewController)
             rewardedAd.eventDelegate = self
+            self.eventMessages.insert("Rewarded loaded: \(rewardedAd.sdk.rawValue)", at: 0)
             self.isLoading = false
         }
     }
@@ -131,6 +177,7 @@ extension AdsViewModel: MediationAdDelegate {
         Task { @MainActor in
             rewardedInterstitialAd.presentRewardedInterstitial(from: UIApplication.shared.windows.first?.rootViewController)
             rewardedInterstitialAd.eventDelegate = self
+            self.eventMessages.insert("Rewarded interstitial loaded: \(rewardedInterstitialAd.sdk.rawValue)", at: 0)
             self.isLoading = false
         }
     }
@@ -138,6 +185,7 @@ extension AdsViewModel: MediationAdDelegate {
     func onNativeAdLoaded(nativeAd: AdsFramework.MediationNativeAd) {
         Task { @MainActor in
             setNativeAdFromAdster(nativeAd: nativeAd)
+            self.eventMessages.insert("Native loaded: \(nativeAd.sdk.rawValue)", at: 0)
             self.isLoading = false
         }
     }
@@ -193,9 +241,32 @@ extension AdsViewModel: MediationAdDelegate {
     func onAdFailedToLoad(error: AdsFramework.AdError) {
         Task { @MainActor in
             self.error = error.description
+            self.eventMessages.insert("Failed: \(error.description ?? "Unknown error")", at: 0)
             self.isLoading = false
         }
     }
+
+    private static func resolvedBannerSize(for view: UIView) -> CGSize {
+        if view.frame.width > 0, view.frame.height > 0 {
+            return view.frame.size
+        }
+
+        let intrinsicSize = view.intrinsicContentSize
+        let width = intrinsicSize.width > 0 && intrinsicSize.width != UIView.noIntrinsicMetric
+            ? intrinsicSize.width
+            : 320
+        let height = intrinsicSize.height > 0 && intrinsicSize.height != UIView.noIntrinsicMetric
+            ? intrinsicSize.height
+            : 50
+        return CGSize(width: width, height: height)
+    }
+}
+
+struct CarouselBannerItem: Identifiable {
+    let id = UUID()
+    let index: Int
+    let view: UIView
+    let size: CGSize
 }
 
 extension AdsViewModel: AdsFramework.MediationInterstitialAdEventDelegate {
@@ -276,4 +347,14 @@ extension AdsViewModel: AdsFramework.MediationNativeAdEventDelegate {
     }
     
     
+}
+
+extension AdsViewModel: AdsFramework.MediationAppOpenAdEventDelegate {
+    func recordAppOpenClick() {
+        
+    }
+    
+    func recordAppOpenImpression() {
+        
+    }
 }

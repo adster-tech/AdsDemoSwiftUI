@@ -142,13 +142,13 @@ struct MainView: View {
     private var keyListView: some View {
         VStack(alignment: .leading, spacing: 20) {
             ForEach(0..<10) { count in
-                let text = "\(viewModel.selectedSdkType.rawValue)-\(viewModel.selectedAdType.rawValue)-\(count)"
+                let text = viewModel.displayName(index: count)
                 Text(text)
                     .font(.body)
                     .foregroundColor(isAdsterInitialized ? .primary : .secondary)
                     .onTapGesture {
                         if isAdsterInitialized {
-                            viewModel.select(text)
+                            viewModel.select(viewModel.placementKey(index: count))
                         }
                     }
             }

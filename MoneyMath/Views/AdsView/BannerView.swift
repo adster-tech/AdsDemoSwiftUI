@@ -22,6 +22,7 @@ struct BannerAdView: UIViewRepresentable {
         
         bannerView.translatesAutoresizingMaskIntoConstraints = false
         let screenWidth = UIScreen.main.bounds.width
+        let resolvedSize = resolvedBannerSize(for: bannerView)
         
         NSLayoutConstraint.activate([
             containerView.widthAnchor.constraint(equalToConstant: screenWidth),
@@ -29,15 +30,30 @@ struct BannerAdView: UIViewRepresentable {
             bannerView.centerXAnchor.constraint(equalTo: containerView.centerXAnchor),
             bannerView.centerYAnchor.constraint(equalTo: containerView.centerYAnchor),
             
-            // Set bannerView’s size explicitly or rely on its intrinsic size
-            bannerView.widthAnchor.constraint(equalToConstant: bannerView.frame.size.width),
-            bannerView.heightAnchor.constraint(equalToConstant: bannerView.frame.size.height),
+            bannerView.widthAnchor.constraint(equalToConstant: resolvedSize.width),
+            bannerView.heightAnchor.constraint(equalToConstant: resolvedSize.height),
             
             // Make containerView match bannerView’s size
             containerView.heightAnchor.constraint(equalTo: bannerView.heightAnchor)
         ])
         
         return containerView
+    }
+
+    private func resolvedBannerSize(for view: UIView) -> CGSize {
+        let frameSize = view.frame.size
+        if frameSize.width > 0, frameSize.height > 0 {
+            return frameSize
+        }
+
+        let intrinsicSize = view.intrinsicContentSize
+        let width = intrinsicSize.width > 0 && intrinsicSize.width != UIView.noIntrinsicMetric
+            ? intrinsicSize.width
+            : 300
+        let height = intrinsicSize.height > 0 && intrinsicSize.height != UIView.noIntrinsicMetric
+            ? intrinsicSize.height
+            : 250
+        return CGSize(width: width, height: height)
     }
 }
 
