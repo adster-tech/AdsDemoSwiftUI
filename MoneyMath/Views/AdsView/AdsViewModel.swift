@@ -20,16 +20,21 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
     
     let key: String
     let displayKey: String
+    let placementKey: String
     let isAdsterInitialized: Bool
     @Published var didAppear = false
     @Published var error: String? = nil
     @Published var isLoading: Bool = false
     @Published var bannerView: BannerAdView?
+    @Published var carouselBannerViews: [BannerAdView] = []
     @Published var mediationNativeAd: AdsFramework.MediationNativeAd? = nil
+    @Published var carouselNativeAds: [AdsFramework.MediationNativeAd] = []
+    @Published var revenueMessage: String? = nil
     
     init(key: String, isAdsterInitialized: Bool = false) {
         self.displayKey = key
         self.key = key.replacingOccurrences(of: "-", with: "_").lowercased()
+        self.placementKey = self.key
         self.isAdsterInitialized = isAdsterInitialized
     }
     
@@ -43,7 +48,9 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
             self.isLoading = true
             self.error = nil
             self.bannerView = nil
+            self.carouselBannerViews = []
             self.mediationNativeAd = nil
+            self.carouselNativeAds = []
             let loader = AdSterAdLoader()
             loader.delegate = self
             loader.loadAd(
@@ -95,7 +102,50 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
 
 extension AdsViewModel: MediationAdDelegate {
     func onAppOpenAdLoaded(appOpenAd: any AdsFramework.MediationAppOpenAd) {
-        
+        Task { @MainActor in
+            appOpenAd.eventDelegate = self
+            appOpenAd.presentAppOpenAd(from: UIApplication.shared.windows.first?.rootViewController)
+            self.isLoading = false
+        }
+    }
+
+    func onCarouselBannerAdLoaded(carouselBannerAd: any AdsFramework.MediationCarouselBannerAd) {
+        Task { @MainActor in
+            let bannerViews = carouselBannerAd.ads.compactMap { bannerAd -> BannerAdView? in
+                bannerAd.eventDelegate = self
+                guard let view = bannerAd.view else { return nil }
+                return BannerAdView(bannerView: view, fillsAvailableWidth: false)
+            }
+            guard !bannerViews.isEmpty else {
+                self.error = "Carousel banner ad request loaded without banner views."
+                self.isLoading = false
+                return
+            }
+            self.carouselBannerViews = bannerViews
+            self.isLoading = false
+        }
+    }
+
+    func onCarouselNativeAdLoaded(carouselNativeAd: any AdsFramework.MediationCarouselNativeAd) {
+        Task { @MainActor in
+            let nativeAds = carouselNativeAd.ads
+            nativeAds.forEach { $0.eventDelegate = self }
+            guard !nativeAds.isEmpty else {
+                self.error = "Carousel native ad request loaded without native ads."
+                self.isLoading = false
+                return
+            }
+            self.carouselNativeAds = nativeAds
+            self.isLoading = false
+        }
+    }
+
+    func onAdRevenuePaid(revenue: Double, adUnitId: String, network: String, currency: String, precisionType: AdsFramework.PrecisionType) {
+        let message = "Revenue: \(revenue) \(currency), adUnitId: \(adUnitId), network: \(network), precision: \(precisionType)"
+        print(message)
+        Task { @MainActor in
+            self.revenueMessage = message
+        }
     }
     
     func onBannerAdLoaded(bannerAd: AdsFramework.MediationBannerAd) {
@@ -251,6 +301,16 @@ extension AdsViewModel: AdsFramework.MediationRewardedAdEventDelegate {
     
     func didEndVideo() {
         
+    }
+}
+
+extension AdsViewModel: AdsFramework.MediationAppOpenAdEventDelegate {
+    func recordAppOpenClick() {
+
+    }
+
+    func recordAppOpenImpression() {
+
     }
 }
 

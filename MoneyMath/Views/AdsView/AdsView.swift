@@ -12,17 +12,38 @@ struct AdView: View {
     var body: some View {
         VStack(spacing: 24) {
             detailsView
-            Spacer()
             if let bannerView = viewModel.bannerView {
                 bannerView
                     .frame(maxWidth: .infinity, alignment: .center)
+            }
+            if !viewModel.carouselBannerViews.isEmpty {
+                ScrollView(.horizontal, showsIndicators: true) {
+                    HStack(spacing: 12) {
+                        ForEach(Array(viewModel.carouselBannerViews.enumerated()), id: \.offset) { _, bannerView in
+                            bannerView
+                                .frame(width: 300, height: 250)
+                        }
+                    }
+                    .padding(.horizontal, 12)
+                }
             }
             if let mediationNativeAd = viewModel.mediationNativeAd {
                 NativeAdView(ad: mediationNativeAd)
                     .frame(alignment: .center)
             }
+            if !viewModel.carouselNativeAds.isEmpty {
+                ScrollView(.horizontal, showsIndicators: true) {
+                    HStack(spacing: 12) {
+                        ForEach(Array(viewModel.carouselNativeAds.enumerated()), id: \.offset) { _, nativeAd in
+                            NativeAdView(ad: nativeAd)
+                                .frame(width: UIScreen.main.bounds.width * 0.8, height: 260, alignment: .topLeading)
+                        }
+                    }
+                    .padding(.horizontal, 12)
+                }
+            }
             Spacer()
-        }.frame(maxWidth: .infinity, alignment: .leading)
+        }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .onAppear {
             guard !viewModel.didAppear else { return }
             viewModel.didAppear = true
@@ -37,6 +58,7 @@ struct AdView: View {
                 .onTapGesture {
                     viewModel.loadAdActivity()
                 }
+            revenueView
             adInspectorButton
             if viewModel.isLoading {
                 ProgressView()
@@ -68,11 +90,28 @@ struct AdView: View {
     }
     
     private var selectedKeyView: some View {
-        Text("Selected key: \(viewModel.displayKey)")
-            .font(.callout)
-            .bold()
-            .underline()
-            .foregroundColor(.brown)
+        VStack(alignment: .leading, spacing: 4) {
+            Text("Selected key: \(viewModel.displayKey)")
+                .font(.callout)
+                .bold()
+                .underline()
+                .foregroundColor(.brown)
+            Text("Placement: \(viewModel.placementKey)")
+                .font(.footnote)
+                .foregroundColor(.secondary)
+        }
+    }
+
+    @ViewBuilder
+    private var revenueView: some View {
+        if let revenueMessage = viewModel.revenueMessage {
+            Text(revenueMessage)
+                .font(.footnote)
+                .foregroundColor(.purple)
+                .padding(8)
+                .background(Color.purple.opacity(0.1))
+                .cornerRadius(6)
+        }
     }
     
     private var adInspectorButton: some View {

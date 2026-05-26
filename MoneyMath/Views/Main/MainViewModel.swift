@@ -9,13 +9,14 @@ import Combine
 class MainViewModel: ObservableObject {
     let sdkTypes: [[SdkType]] = [
         [.gam, .admob, .adster],
-        [ .amazon, .applovin, .liftoff],
-        [.adsease, .inmobi, .unity],
-        [.meta]
+        [.adsterDirect, .amazon, .applovin],
+        [.liftoff, .adsease, .inmobi],
+        [.unity, .meta]
     ]
     let sdkAdTypes: [[SdkAdType]] = [
         [.banner, .interstitial, .rewarded],
         [.rewardedInterstitial, .native, .appopen],
+        [.carouselBanner, .carouselNative],
         [.fsn, .unified, .video]
     ]
     
@@ -23,6 +24,15 @@ class MainViewModel: ObservableObject {
     @Published private(set) var selectedAdType = SdkAdType.banner
     @Published private(set) var selectedKey: String? = nil
     @Published var isLinkClicked: Bool = false
+
+    var selectedKeyIndexes: [Int] {
+        switch selectedAdType {
+        case .carouselBanner, .carouselNative:
+            return [0]
+        default:
+            return Array(0..<10)
+        }
+    }
     
     func update(_ sdk: SdkType) {
         self.selectedSdkType = sdk

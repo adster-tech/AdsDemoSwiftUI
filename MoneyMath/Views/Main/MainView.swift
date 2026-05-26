@@ -141,7 +141,7 @@ struct MainView: View {
     
     private var keyListView: some View {
         VStack(alignment: .leading, spacing: 20) {
-            ForEach(0..<10) { count in
+            ForEach(viewModel.selectedKeyIndexes, id: \.self) { count in
                 let text = "\(viewModel.selectedSdkType.rawValue)-\(viewModel.selectedAdType.rawValue)-\(count)"
                 Text(text)
                     .font(.body)

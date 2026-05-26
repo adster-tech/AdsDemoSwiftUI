@@ -20,6 +20,7 @@ enum SdkType: String, CaseIterable, Identifiable {
     case unity = "Unity"
     case adsease = "Adsease"
     case adster = "Adster"
+    case adsterDirect = "Adster-Direct"
 }
 
 
@@ -33,6 +34,8 @@ enum SdkAdType: String, CaseIterable, Identifiable {
     case rewarded = "Rewarded"
     case rewardedInterstitial = "RewardedInterstitial"
     case native = "Native"
+    case carouselBanner = "CarouselBanner"
+    case carouselNative = "CarouselNative"
     case fsn = "FSN"
     case unified = "Unified"
     case video = "Video"
