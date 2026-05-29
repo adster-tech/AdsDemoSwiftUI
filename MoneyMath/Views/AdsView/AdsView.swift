@@ -42,6 +42,19 @@ struct AdView: View {
                     .padding(.horizontal, 12)
                 }
             }
+            if let customNativeAd = viewModel.mediationCustomNativeAd {
+                CustomNativeAdView(ad: customNativeAd)
+                    .frame(maxWidth: .infinity, alignment: .top)
+                if let clickMessage = viewModel.lastCustomNativeClickMessage {
+                    Text(clickMessage)
+                        .font(.footnote)
+                        .foregroundColor(.green)
+                        .padding(8)
+                        .background(Color.green.opacity(0.1))
+                        .cornerRadius(6)
+                        .padding(.horizontal, 12)
+                }
+            }
             Spacer()
         }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         .onAppear {

@@ -40,4 +40,5 @@ enum SdkAdType: String, CaseIterable, Identifiable {
     case unified = "Unified"
     case video = "Video"
     case appopen = "Appopen"
+    case customNative = "CustomNative"
 }

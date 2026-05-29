@@ -29,6 +29,8 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
     @Published var carouselBannerViews: [BannerAdView] = []
     @Published var mediationNativeAd: AdsFramework.MediationNativeAd? = nil
     @Published var carouselNativeAds: [AdsFramework.MediationNativeAd] = []
+    @Published var mediationCustomNativeAd: AdsFramework.MediationNativeCustomFormatAd? = nil
+    @Published var lastCustomNativeClickMessage: String? = nil
     @Published var revenueMessage: String? = nil
     
     init(key: String, isAdsterInitialized: Bool = false) {
@@ -51,12 +53,15 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
             self.carouselBannerViews = []
             self.mediationNativeAd = nil
             self.carouselNativeAds = []
+            self.mediationCustomNativeAd = nil
+            self.lastCustomNativeClickMessage = nil
+            self.revenueMessage = nil
             let loader = AdSterAdLoader()
             loader.delegate = self
             loader.loadAd(
                 adRequestConfiguration: AdRequestConfiguration(
                     placement: key,
-                    viewController: UIApplication.shared.windows.first?.rootViewController,
+                    viewController: rootViewController(),
                     publisherProvidedId: "Test",
                     customTargetingValues: ["test": "123"],
                     adaptiveAdWidth: Int(UIScreen.main.bounds.width),
@@ -67,7 +72,7 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
 //            loader.loadAd(
 //                adRequestConfiguration: AdRequestConfiguration(
 //                    placement: "gam_banner_2",
-//                    viewController: UIApplication.shared.windows.first?.rootViewController,
+//                    viewController: rootViewController(),
 //                    publisherProvidedId: "Test",
 //                    customTargetingValues: ["test": "123"],
 //                    adaptiveAdWidth: Int(UIScreen.main.bounds.width),
@@ -98,13 +103,21 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
             }
         }
     }
+
+    private func rootViewController() -> UIViewController? {
+        UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap(\.windows)
+            .first { $0.isKeyWindow }?
+            .rootViewController
+    }
 }
 
 extension AdsViewModel: MediationAdDelegate {
     func onAppOpenAdLoaded(appOpenAd: any AdsFramework.MediationAppOpenAd) {
         Task { @MainActor in
             appOpenAd.eventDelegate = self
-            appOpenAd.presentAppOpenAd(from: UIApplication.shared.windows.first?.rootViewController)
+            appOpenAd.presentAppOpenAd(from: rootViewController())
             self.isLoading = false
         }
     }
@@ -163,7 +176,7 @@ extension AdsViewModel: MediationAdDelegate {
     
     func onInterstitialAdLoaded(interstitialAd: AdsFramework.MediationInterstitialAd) {
         Task { @MainActor in
-            interstitialAd.presentInterstitial(from: UIApplication.shared.windows.first?.rootViewController)
+            interstitialAd.presentInterstitial(from: rootViewController())
             interstitialAd.eventDelegate = self
             self.isLoading = false
         }
@@ -171,7 +184,7 @@ extension AdsViewModel: MediationAdDelegate {
     
     func onRewardedAdLoaded(rewardedAd: AdsFramework.MediationRewardedAd) {
         Task { @MainActor in
-            rewardedAd.presentRewarded(from: UIApplication.shared.windows.first?.rootViewController)
+            rewardedAd.presentRewarded(from: rootViewController())
             rewardedAd.eventDelegate = self
             self.isLoading = false
         }
@@ -179,7 +192,7 @@ extension AdsViewModel: MediationAdDelegate {
     
     func onRewardedInterstitialAdLoaded(rewardedInterstitialAd: AdsFramework.MediationRewardedInterstitialAd) {
         Task { @MainActor in
-            rewardedInterstitialAd.presentRewardedInterstitial(from: UIApplication.shared.windows.first?.rootViewController)
+            rewardedInterstitialAd.presentRewardedInterstitial(from: rootViewController())
             rewardedInterstitialAd.eventDelegate = self
             self.isLoading = false
         }
@@ -237,9 +250,16 @@ extension AdsViewModel: MediationAdDelegate {
     }
     
     func onCustomNativeAdLoaded(customNativeAd: any AdsFramework.MediationNativeCustomFormatAd) {
-        
+        Task { @MainActor in
+            customNativeAd.eventDelegate = self
+            self.mediationCustomNativeAd = customNativeAd
+            let formatId = customNativeAd.getCustomFormatId() ?? "unknown format"
+            let assetNames = customNativeAd.getAvailableAssetNames()?.joined(separator: ", ") ?? "no assets"
+            self.lastCustomNativeClickMessage = "Loaded custom native: \(formatId). Assets: \(assetNames)"
+            self.isLoading = false
+        }
     }
-    
+
     func onAdFailedToLoad(error: AdsFramework.AdError) {
         Task { @MainActor in
             self.error = error.description
@@ -328,12 +348,34 @@ extension AdsViewModel: AdsFramework.MediationBannerAdEventDelegate {
 
 extension AdsViewModel: AdsFramework.MediationNativeAdEventDelegate {
     func recordNativeClick() {
-        
+
     }
-    
+
     func recordNativeImpression() {
-        
+
     }
-    
-    
+
+
+}
+
+extension AdsViewModel: AdsFramework.MediationNativeCustomAdEventDelegate {
+    func recordNativeCustomClick() {
+        Task { @MainActor in
+            self.lastCustomNativeClickMessage = "Custom native click"
+        }
+    }
+
+    func recordNativeCustomClick(ad: AdsFramework.MediationNativeCustomFormatAd, assetName: String) {
+        Task { @MainActor in
+            self.lastCustomNativeClickMessage = "Custom native click on asset: \(assetName)"
+        }
+    }
+
+    func recordNativeCustomImpression() {
+        Task { @MainActor in
+            if self.lastCustomNativeClickMessage == nil {
+                self.lastCustomNativeClickMessage = "Custom native impression recorded"
+            }
+        }
+    }
 }

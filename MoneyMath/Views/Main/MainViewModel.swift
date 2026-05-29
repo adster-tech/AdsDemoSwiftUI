@@ -16,7 +16,7 @@ class MainViewModel: ObservableObject {
     let sdkAdTypes: [[SdkAdType]] = [
         [.banner, .interstitial, .rewarded],
         [.rewardedInterstitial, .native, .appopen],
-        [.carouselBanner, .carouselNative],
+        [.carouselBanner, .carouselNative, .customNative],
         [.fsn, .unified, .video]
     ]
     
