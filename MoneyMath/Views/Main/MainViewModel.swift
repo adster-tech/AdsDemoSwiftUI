@@ -15,9 +15,10 @@ class MainViewModel: ObservableObject {
     ]
     let sdkAdTypes: [[SdkAdType]] = [
         [.banner, .interstitial, .rewarded],
-        [.rewardedInterstitial, .native, .appopen],
-        [.carouselBanner, .carouselNative, .customNative],
-        [.fsn, .unified, .video]
+        [.rewardedInterstitial, .native, .nativeReward],
+        [.appopen, .carouselBanner, .carouselNative],
+        [.customNative, .fsn, .unified],
+        [.video]
     ]
     
     @Published private(set) var selectedSdkType = SdkType.gam

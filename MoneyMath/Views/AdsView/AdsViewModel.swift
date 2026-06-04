@@ -28,6 +28,7 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
     @Published var bannerView: BannerAdView?
     @Published var carouselBannerViews: [BannerAdView] = []
     @Published var mediationNativeAd: AdsFramework.MediationNativeAd? = nil
+    @Published var mediationNativeRewardAd: AdsFramework.MediationNativeRewardAd? = nil
     @Published var carouselNativeAds: [AdsFramework.MediationNativeAd] = []
     @Published var mediationCustomNativeAd: AdsFramework.MediationNativeCustomFormatAd? = nil
     @Published var lastCustomNativeClickMessage: String? = nil
@@ -52,6 +53,7 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
             self.bannerView = nil
             self.carouselBannerViews = []
             self.mediationNativeAd = nil
+            self.mediationNativeRewardAd = nil
             self.carouselNativeAds = []
             self.mediationCustomNativeAd = nil
             self.lastCustomNativeClickMessage = nil
@@ -62,10 +64,7 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
                 adRequestConfiguration: AdRequestConfiguration(
                     placement: key,
                     viewController: rootViewController(),
-                    publisherProvidedId: "Test",
-                    customTargetingValues: ["test": "123"],
-                    adaptiveAdWidth: Int(UIScreen.main.bounds.width),
-                    adaptiveType: "Anchored"
+                    publisherProvidedId: "7e90f77f9b601f7d5696a660154d5ed26d2405abb43d955dd39b99a0c22ea20b"
                 )
             )
             
@@ -101,6 +100,30 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
                     self?.error = nil
                 }
             }
+        }
+    }
+
+    func loadNativeRewardAd() {
+        Task { @MainActor in
+            guard isAdsterInitialized else {
+                self.error = "Adster SDK is not initialized. Please initialize it first."
+                return
+            }
+
+            self.isLoading = true
+            self.error = nil
+            self.mediationNativeRewardAd = nil
+            self.revenueMessage = nil
+
+            let loader = AdSterAdLoader()
+            loader.delegate = self
+            loader.loadAd(
+                adRequestConfiguration: AdRequestConfiguration(
+                    placement: key,
+                    viewController: rootViewController(),
+                    publisherProvidedId: "7e90f77f9b601f7d5696a660154d5ed26d2405abb43d955dd39b99a0c22ea20b"
+                )
+            )
         }
     }
 
@@ -201,6 +224,14 @@ extension AdsViewModel: MediationAdDelegate {
     func onNativeAdLoaded(nativeAd: AdsFramework.MediationNativeAd) {
         Task { @MainActor in
             setNativeAdFromAdster(nativeAd: nativeAd)
+            self.isLoading = false
+        }
+    }
+
+    func onNativeRewardAdLoaded(nativeRewardAd: AdsFramework.MediationNativeRewardAd) {
+        Task { @MainActor in
+            nativeRewardAd.eventDelegate = self
+            self.mediationNativeRewardAd = nativeRewardAd
             self.isLoading = false
         }
     }
@@ -356,6 +387,16 @@ extension AdsViewModel: AdsFramework.MediationNativeAdEventDelegate {
     }
 
 
+}
+
+extension AdsViewModel: AdsFramework.MediationNativeRewardAdEventDelegate {
+    func recordNativeRewardClick() {
+
+    }
+
+    func recordNativeRewardImpression() {
+
+    }
 }
 
 extension AdsViewModel: AdsFramework.MediationNativeCustomAdEventDelegate {

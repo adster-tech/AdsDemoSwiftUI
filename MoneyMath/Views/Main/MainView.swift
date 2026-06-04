@@ -24,7 +24,11 @@ struct MainView: View {
             isPresented: $viewModel.isLinkClicked,
             destination: {
                 if let key = viewModel.selectedKey {
-                    AdView(viewModel: .init(key: key, isAdsterInitialized: isAdsterInitialized))
+                    if viewModel.selectedAdType == .nativeReward {
+                        NativeRewardScratchView(viewModel: .init(key: key, isAdsterInitialized: isAdsterInitialized))
+                    } else {
+                        AdView(viewModel: .init(key: key, isAdsterInitialized: isAdsterInitialized))
+                    }
                 }
             }
         )
