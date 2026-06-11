@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import RazorpayAdsSdk
+import XGrowthAdsSdk
 
 struct BannerAdView: UIViewRepresentable {
     func updateUIView(_ uiView: UIView, context: Context) {

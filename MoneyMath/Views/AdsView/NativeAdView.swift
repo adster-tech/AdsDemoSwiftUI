@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import RazorpayAdsSdk
+import XGrowthAdsSdk
 
 struct NativeAdView: View {
     let ad: MediationNativeAd

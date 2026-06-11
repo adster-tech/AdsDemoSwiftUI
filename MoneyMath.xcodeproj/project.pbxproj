@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C3BE6D0F2F96401700A41324 /* RazorpayAdsSdk in Frameworks */ = {isa = PBXBuildFile; productRef = C3BE6D0E2F96401700A41324 /* RazorpayAdsSdk */; };
+		C38E2ABA2FDA8FF900123B33 /* XGrowthAdsSdk in Frameworks */ = {isa = PBXBuildFile; productRef = C38E2AB92FDA8FF900123B33 /* XGrowthAdsSdk */; };
 		C3BE6D122F96404E00A41324 /* GoogleMobileAds in Frameworks */ = {isa = PBXBuildFile; productRef = C3BE6D112F96404E00A41324 /* GoogleMobileAds */; };
 /* End PBXBuildFile section */
 
@@ -54,8 +54,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C38E2ABA2FDA8FF900123B33 /* XGrowthAdsSdk in Frameworks */,
 				C3BE6D122F96404E00A41324 /* GoogleMobileAds in Frameworks */,
-				C3BE6D0F2F96401700A41324 /* RazorpayAdsSdk in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,8 +135,8 @@
 			mainGroup = C32310F32D7F0C2C00BB8E91;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				C3BE6D0D2F96401700A41324 /* XCRemoteSwiftPackageReference "ios-sdk" */,
 				C3BE6D102F96404E00A41324 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */,
+				C38E2AB82FDA8FF900123B33 /* XCRemoteSwiftPackageReference "ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C32310FD2D7F0C2C00BB8E91 /* Products */;
@@ -411,12 +411,12 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		C3BE6D0D2F96401700A41324 /* XCRemoteSwiftPackageReference "ios-sdk" */ = {
+		C38E2AB82FDA8FF900123B33 /* XCRemoteSwiftPackageReference "ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/razorpayads/ios-sdk";
+			repositoryURL = "https://github.com/AdsxGrowth/ios-sdk.git";
 			requirement = {
-				kind = exactVersion;
-				version = 1.0.1;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.1;
 			};
 		};
 		C3BE6D102F96404E00A41324 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {
@@ -430,10 +430,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		C3BE6D0E2F96401700A41324 /* RazorpayAdsSdk */ = {
+		C38E2AB92FDA8FF900123B33 /* XGrowthAdsSdk */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = C3BE6D0D2F96401700A41324 /* XCRemoteSwiftPackageReference "ios-sdk" */;
-			productName = RazorpayAdsSdk;
+			package = C38E2AB82FDA8FF900123B33 /* XCRemoteSwiftPackageReference "ios-sdk" */;
+			productName = XGrowthAdsSdk;
 		};
 		C3BE6D112F96404E00A41324 /* GoogleMobileAds */ = {
 			isa = XCSwiftPackageProductDependency;
