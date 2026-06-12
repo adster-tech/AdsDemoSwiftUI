@@ -416,7 +416,7 @@
 			repositoryURL = "https://github.com/razorpayads/ios-sdk";
 			requirement = {
 				kind = exactVersion;
-				version = 1.0.1;
+				version = 1.5.9;
 			};
 		};
 		C3BE6D102F96404E00A41324 /* XCRemoteSwiftPackageReference "swift-package-manager-google-mobile-ads" */ = {

@@ -6,8 +6,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/razorpayads/ios-sdk",
       "state" : {
-        "revision" : "3ce16bc242fc973255ad679c9cb97c293cc1853c",
-        "version" : "1.0.1"
+        "revision" : "1d1f5667586d6eb579fa849682c78de5e111c86e",
+        "version" : "1.5.9"
       }
     },
     {
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/googleads/swift-package-manager-google-user-messaging-platform.git",
       "state" : {
-        "revision" : "13b248eaa73b7826f0efb1bcf455e251d65ecb1b",
-        "version" : "3.1.0"
+        "revision" : "708a282840c2171ee63bd93b87afa49fe507d70e",
+        "version" : "2.7.0"
       }
     }
   ],

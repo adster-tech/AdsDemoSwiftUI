@@ -94,6 +94,22 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
 }
 
 extension AdsViewModel: MediationAdDelegate {
+    func onCarouselBannerAdLoaded(carouselBannerAd: any RazorpayAdsSdk.MediationCarouselBannerAd) {
+        
+    }
+    
+    func onNativeRewardAdLoaded(nativeRewardAd: any RazorpayAdsSdk.MediationNativeRewardAd) {
+        
+    }
+    
+    func onCarouselNativeAdLoaded(carouselNativeAd: any RazorpayAdsSdk.MediationCarouselNativeAd) {
+        
+    }
+    
+    func onAdRevenuePaid(revenue: Double, adUnitId: String, network: String, currency: String, precisionType: RazorpayAdsSdk.PrecisionType) {
+        
+    }
+    
     func onBannerAdLoaded(bannerAd: RazorpayAdsSdk.MediationBannerAd) {
         Task { @MainActor in
             guard let bannerview = bannerAd.view else {
