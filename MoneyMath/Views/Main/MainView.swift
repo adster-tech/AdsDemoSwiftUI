@@ -169,7 +169,10 @@ struct MainView: View {
         
         // Simulate SDK initialization
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            AdSter.sharedInstance().start() // Initialize the Adster SDK
+//            AdSter.sharedInstance().start()  Initialize the Adster SDK
+            AdSter.sharedInstance().start(completionHandler: { status in
+                print("Ad initialized \(status)")
+            })
             self.isInitializing = false
             self.isAdsterInitialized = true
             self.adsterStatusMessage = "Adster SDK initialized successfully"

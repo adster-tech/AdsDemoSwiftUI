@@ -10,6 +10,7 @@
 //
 
 import SwiftUI
+import UIKit
 import AdsFramework
 import GoogleMobileAds
 
@@ -42,6 +43,7 @@ struct CustomNativeAdView: View {
             RoundedRectangle(cornerRadius: 12)
                 .stroke(Color.gray.opacity(0.4), lineWidth: 1)
         )
+        .background(CustomNativeViewabilityTracker(ad: ad))
         .padding(.horizontal, 12)
         .onAppear {
             guard !didRecordImpression else { return }
@@ -134,5 +136,43 @@ struct CustomNativeAdView: View {
     private func performClick(on assetName: String) {
         ad.performClick(on: assetName)
         onAssetTapped?(assetName)
+    }
+}
+
+private struct CustomNativeViewabilityTracker: UIViewRepresentable {
+    let ad: MediationNativeCustomFormatAd
+
+    func makeUIView(context: Context) -> ViewabilityTrackingView {
+        let view = ViewabilityTrackingView()
+        view.backgroundColor = .clear
+        view.isUserInteractionEnabled = false
+        view.ad = ad
+        return view
+    }
+
+    func updateUIView(_ uiView: ViewabilityTrackingView, context: Context) {
+        uiView.ad = ad
+        uiView.requestTrackingIfReady()
+    }
+}
+
+private final class ViewabilityTrackingView: UIView {
+    weak var ad: MediationNativeCustomFormatAd?
+    private var hasRequestedTracking = false
+
+    override func didMoveToWindow() {
+        super.didMoveToWindow()
+        requestTrackingIfReady()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        requestTrackingIfReady()
+    }
+
+    func requestTrackingIfReady() {
+        guard !hasRequestedTracking, window != nil, bounds.width > 0, bounds.height > 0 else { return }
+        hasRequestedTracking = true
+        ad?.trackViewability(self)
     }
 }
