@@ -2,10 +2,10 @@
 //  AdsViewModel.swift
 //  AdsDemoSwiftUI
 //
-//  Created by Adster on 11/03/25.
+//  Created by Erelego on 11/03/25.
 //
 import Combine
-import AdsFramework
+import ErelegoKit
 import SwiftUI
 import GoogleMobileAds
 
@@ -21,30 +21,30 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
     let key: String
     let displayKey: String
     let placementKey: String
-    let isAdsterInitialized: Bool
+    let isErelegoInitialized: Bool
     @Published var didAppear = false
     @Published var error: String? = nil
     @Published var isLoading: Bool = false
     @Published var bannerView: BannerAdView?
     @Published var carouselBannerViews: [BannerAdView] = []
-    @Published var mediationNativeAd: AdsFramework.MediationNativeAd? = nil
-    @Published var mediationNativeRewardAd: AdsFramework.MediationNativeRewardAd? = nil
-    @Published var carouselNativeAds: [AdsFramework.MediationNativeAd] = []
-    @Published var mediationCustomNativeAd: AdsFramework.MediationNativeCustomFormatAd? = nil
+    @Published var mediationNativeAd: ErelegoKit.MediationNativeAd? = nil
+    @Published var mediationNativeRewardAd: ErelegoKit.MediationNativeRewardAd? = nil
+    @Published var carouselNativeAds: [ErelegoKit.MediationNativeAd] = []
+    @Published var mediationCustomNativeAd: ErelegoKit.MediationNativeCustomFormatAd? = nil
     @Published var lastCustomNativeClickMessage: String? = nil
     @Published var revenueMessage: String? = nil
     
-    init(key: String, isAdsterInitialized: Bool = false) {
-        self.displayKey = key
+    init(key: String, isErelegoInitialized: Bool = false) {
+        self.displayKey = key.replacingOccurrences(of: "Adster", with: "Erelego")
         self.key = key.replacingOccurrences(of: "-", with: "_").lowercased()
         self.placementKey = self.key
-        self.isAdsterInitialized = isAdsterInitialized
+        self.isErelegoInitialized = isErelegoInitialized
     }
     
     func loadAdActivity() {
         Task { @MainActor in
-            guard isAdsterInitialized else {
-                self.error = "Adster SDK is not initialized. Please initialize it first."
+            guard isErelegoInitialized else {
+                self.error = "Erelego SDK is not initialized. Please initialize it first."
                 return
             }
             
@@ -58,7 +58,7 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
             self.mediationCustomNativeAd = nil
             self.lastCustomNativeClickMessage = nil
             self.revenueMessage = nil
-            let loader = AdSterAdLoader()
+            let loader = ErelegoAdLoader()
             loader.delegate = self
             loader.loadAd(
                 adRequestConfiguration: AdRequestConfiguration(
@@ -82,8 +82,8 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
     }
     
     func launchAdInspector() {
-        guard isAdsterInitialized else {
-            self.error = "Adster SDK is not initialized. Please initialize it first."
+        guard isErelegoInitialized else {
+            self.error = "Erelego SDK is not initialized. Please initialize it first."
             return
         }
         
@@ -105,8 +105,8 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
 
     func loadNativeRewardAd() {
         Task { @MainActor in
-            guard isAdsterInitialized else {
-                self.error = "Adster SDK is not initialized. Please initialize it first."
+            guard isErelegoInitialized else {
+                self.error = "Erelego SDK is not initialized. Please initialize it first."
                 return
             }
 
@@ -115,7 +115,7 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
             self.mediationNativeRewardAd = nil
             self.revenueMessage = nil
 
-            let loader = AdSterAdLoader()
+            let loader = ErelegoAdLoader()
             loader.delegate = self
             loader.loadAd(
                 adRequestConfiguration: AdRequestConfiguration(
@@ -137,7 +137,7 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
 }
 
 extension AdsViewModel: MediationAdDelegate {
-    func onAppOpenAdLoaded(appOpenAd: any AdsFramework.MediationAppOpenAd) {
+    func onAppOpenAdLoaded(appOpenAd: any ErelegoKit.MediationAppOpenAd) {
         Task { @MainActor in
             appOpenAd.eventDelegate = self
             appOpenAd.presentAppOpenAd(from: rootViewController())
@@ -145,7 +145,7 @@ extension AdsViewModel: MediationAdDelegate {
         }
     }
 
-    func onCarouselBannerAdLoaded(carouselBannerAd: any AdsFramework.MediationCarouselBannerAd) {
+    func onCarouselBannerAdLoaded(carouselBannerAd: any ErelegoKit.MediationCarouselBannerAd) {
         Task { @MainActor in
             let bannerViews = carouselBannerAd.ads.compactMap { bannerAd -> BannerAdView? in
                 bannerAd.eventDelegate = self
@@ -162,7 +162,7 @@ extension AdsViewModel: MediationAdDelegate {
         }
     }
 
-    func onCarouselNativeAdLoaded(carouselNativeAd: any AdsFramework.MediationCarouselNativeAd) {
+    func onCarouselNativeAdLoaded(carouselNativeAd: any ErelegoKit.MediationCarouselNativeAd) {
         Task { @MainActor in
             let nativeAds = carouselNativeAd.ads
             nativeAds.forEach { $0.eventDelegate = self }
@@ -176,7 +176,7 @@ extension AdsViewModel: MediationAdDelegate {
         }
     }
 
-    func onAdRevenuePaid(revenue: Double, adUnitId: String, network: String, currency: String, precisionType: AdsFramework.PrecisionType) {
+    func onAdRevenuePaid(revenue: Double, adUnitId: String, network: String, currency: String, precisionType: ErelegoKit.PrecisionType) {
         let message = "Revenue: \(revenue) \(currency), adUnitId: \(adUnitId), network: \(network), precision: \(precisionType)"
         print(message)
         Task { @MainActor in
@@ -184,7 +184,7 @@ extension AdsViewModel: MediationAdDelegate {
         }
     }
     
-    func onBannerAdLoaded(bannerAd: AdsFramework.MediationBannerAd) {
+    func onBannerAdLoaded(bannerAd: ErelegoKit.MediationBannerAd) {
         Task { @MainActor in
             guard let bannerview = bannerAd.view else {
                 print("Banner Ad request failed with reason banner ad null")
@@ -197,7 +197,7 @@ extension AdsViewModel: MediationAdDelegate {
         }
     }
     
-    func onInterstitialAdLoaded(interstitialAd: AdsFramework.MediationInterstitialAd) {
+    func onInterstitialAdLoaded(interstitialAd: ErelegoKit.MediationInterstitialAd) {
         Task { @MainActor in
             interstitialAd.presentInterstitial(from: rootViewController())
             interstitialAd.eventDelegate = self
@@ -205,7 +205,7 @@ extension AdsViewModel: MediationAdDelegate {
         }
     }
     
-    func onRewardedAdLoaded(rewardedAd: AdsFramework.MediationRewardedAd) {
+    func onRewardedAdLoaded(rewardedAd: ErelegoKit.MediationRewardedAd) {
         Task { @MainActor in
             rewardedAd.presentRewarded(from: rootViewController())
             rewardedAd.eventDelegate = self
@@ -213,7 +213,7 @@ extension AdsViewModel: MediationAdDelegate {
         }
     }
     
-    func onRewardedInterstitialAdLoaded(rewardedInterstitialAd: AdsFramework.MediationRewardedInterstitialAd) {
+    func onRewardedInterstitialAdLoaded(rewardedInterstitialAd: ErelegoKit.MediationRewardedInterstitialAd) {
         Task { @MainActor in
             rewardedInterstitialAd.presentRewardedInterstitial(from: rootViewController())
             rewardedInterstitialAd.eventDelegate = self
@@ -221,14 +221,14 @@ extension AdsViewModel: MediationAdDelegate {
         }
     }
     
-    func onNativeAdLoaded(nativeAd: AdsFramework.MediationNativeAd) {
+    func onNativeAdLoaded(nativeAd: ErelegoKit.MediationNativeAd) {
         Task { @MainActor in
-            setNativeAdFromAdster(nativeAd: nativeAd)
+            setNativeAdFromErelego(nativeAd: nativeAd)
             self.isLoading = false
         }
     }
 
-    func onNativeRewardAdLoaded(nativeRewardAd: AdsFramework.MediationNativeRewardAd) {
+    func onNativeRewardAdLoaded(nativeRewardAd: ErelegoKit.MediationNativeRewardAd) {
         Task { @MainActor in
             nativeRewardAd.eventDelegate = self
             self.mediationNativeRewardAd = nativeRewardAd
@@ -236,13 +236,13 @@ extension AdsViewModel: MediationAdDelegate {
         }
     }
     
-    func setNativeAd(nativeAd: AdsFramework.MediationNativeAd) {
+    func setNativeAd(nativeAd: ErelegoKit.MediationNativeAd) {
         Task { @MainActor in
             self.mediationNativeAd = nativeAd
         }
     }
     
-    func setNativeAdFromAdster(nativeAd: AdsFramework.MediationNativeAd) {
+    func setNativeAdFromErelego(nativeAd: ErelegoKit.MediationNativeAd) {
         Task { @MainActor in
             nativeAd.eventDelegate = self
             let bundle = Bundle(for: MediationNativeAdView.self)
@@ -280,7 +280,7 @@ extension AdsViewModel: MediationAdDelegate {
         }
     }
     
-    func onCustomNativeAdLoaded(customNativeAd: any AdsFramework.MediationNativeCustomFormatAd) {
+    func onCustomNativeAdLoaded(customNativeAd: any ErelegoKit.MediationNativeCustomFormatAd) {
         Task { @MainActor in
             customNativeAd.eventDelegate = self
             self.mediationCustomNativeAd = customNativeAd
@@ -291,7 +291,7 @@ extension AdsViewModel: MediationAdDelegate {
         }
     }
 
-    func onAdFailedToLoad(error: AdsFramework.AdError) {
+    func onAdFailedToLoad(error: ErelegoKit.AdError) {
         Task { @MainActor in
             self.error = error.description
             self.isLoading = false
@@ -299,7 +299,7 @@ extension AdsViewModel: MediationAdDelegate {
     }
 }
 
-extension AdsViewModel: AdsFramework.MediationInterstitialAdEventDelegate {
+extension AdsViewModel: ErelegoKit.MediationInterstitialAdEventDelegate {
     func recordInterstitialClick() {
         
     }
@@ -308,7 +308,7 @@ extension AdsViewModel: AdsFramework.MediationInterstitialAdEventDelegate {
         
     }
     
-    func ad(didFailToPresentFullScreenContentWithError error: AdsFramework.AdError) {
+    func ad(didFailToPresentFullScreenContentWithError error: ErelegoKit.AdError) {
         
     }
     
@@ -329,7 +329,7 @@ extension AdsViewModel: AdsFramework.MediationInterstitialAdEventDelegate {
     }
 }
 
-extension AdsViewModel: AdsFramework.MediationRewardedAdEventDelegate {
+extension AdsViewModel: ErelegoKit.MediationRewardedAdEventDelegate {
     func recordRewardedClick() {
         
     }
@@ -338,7 +338,7 @@ extension AdsViewModel: AdsFramework.MediationRewardedAdEventDelegate {
         
     }
     
-    func didRewardUser(reward: AdsFramework.AdReward) {
+    func didRewardUser(reward: ErelegoKit.AdReward) {
         
     }
     
@@ -355,7 +355,7 @@ extension AdsViewModel: AdsFramework.MediationRewardedAdEventDelegate {
     }
 }
 
-extension AdsViewModel: AdsFramework.MediationAppOpenAdEventDelegate {
+extension AdsViewModel: ErelegoKit.MediationAppOpenAdEventDelegate {
     func recordAppOpenClick() {
 
     }
@@ -365,7 +365,7 @@ extension AdsViewModel: AdsFramework.MediationAppOpenAdEventDelegate {
     }
 }
 
-extension AdsViewModel: AdsFramework.MediationBannerAdEventDelegate {
+extension AdsViewModel: ErelegoKit.MediationBannerAdEventDelegate {
     func recordBannerClick() {
         
     }
@@ -377,7 +377,7 @@ extension AdsViewModel: AdsFramework.MediationBannerAdEventDelegate {
     
 }
 
-extension AdsViewModel: AdsFramework.MediationNativeAdEventDelegate {
+extension AdsViewModel: ErelegoKit.MediationNativeAdEventDelegate {
     func recordNativeClick() {
 
     }
@@ -389,7 +389,7 @@ extension AdsViewModel: AdsFramework.MediationNativeAdEventDelegate {
 
 }
 
-extension AdsViewModel: AdsFramework.MediationNativeRewardAdEventDelegate {
+extension AdsViewModel: ErelegoKit.MediationNativeRewardAdEventDelegate {
     func recordNativeRewardClick() {
 
     }
@@ -399,14 +399,14 @@ extension AdsViewModel: AdsFramework.MediationNativeRewardAdEventDelegate {
     }
 }
 
-extension AdsViewModel: AdsFramework.MediationNativeCustomAdEventDelegate {
+extension AdsViewModel: ErelegoKit.MediationNativeCustomAdEventDelegate {
     func recordNativeCustomClick() {
         Task { @MainActor in
             self.lastCustomNativeClickMessage = "Custom native click"
         }
     }
 
-    func recordNativeCustomClick(ad: AdsFramework.MediationNativeCustomFormatAd, assetName: String) {
+    func recordNativeCustomClick(ad: ErelegoKit.MediationNativeCustomFormatAd, assetName: String) {
         Task { @MainActor in
             self.lastCustomNativeClickMessage = "Custom native click on asset: \(assetName)"
         }

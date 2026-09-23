@@ -2,21 +2,21 @@
 //  MainView.swift
 //  AdsDemoSwiftUI
 //
-//  Created by Adster on 10/03/25.
+//  Created by Erelego on 10/03/25.
 //
 
 import SwiftUI
-import AdsFramework
+import ErelegoKit
 
 struct MainView: View {
     @StateObject var viewModel: MainViewModel
-    @State private var isAdsterInitialized = false
-    @State private var adsterStatusMessage = "Adster SDK not initialized"
+    @State private var isErelegoInitialized = false
+    @State private var erelegoStatusMessage = "Erelego SDK not initialized"
     @State private var isInitializing = false
     
     var body: some View {
         ScrollView(showsIndicators: false) {
-            adsterStatusView
+            erelegoStatusView
             selectionView
             keyListView
         }
@@ -25,25 +25,25 @@ struct MainView: View {
             destination: {
                 if let key = viewModel.selectedKey {
                     if viewModel.selectedAdType == .nativeReward {
-                        NativeRewardScratchView(viewModel: .init(key: key, isAdsterInitialized: isAdsterInitialized))
+                        NativeRewardScratchView(viewModel: .init(key: key, isErelegoInitialized: isErelegoInitialized))
                     } else {
-                        AdView(viewModel: .init(key: key, isAdsterInitialized: isAdsterInitialized))
+                        AdView(viewModel: .init(key: key, isErelegoInitialized: isErelegoInitialized))
                     }
                 }
             }
         )
     }
     
-    private var adsterStatusView: some View {
+    private var erelegoStatusView: some View {
         VStack(spacing: 16) {
             VStack(alignment: .leading, spacing: 8) {
-                Text("Adster SDK Status")
+                Text("Erelego SDK Status")
                     .font(.headline)
                     .foregroundColor(.primary)
                 
-                Text(adsterStatusMessage)
+                Text(erelegoStatusMessage)
                     .font(.subheadline)
-                    .foregroundColor(isAdsterInitialized ? .green : .orange)
+                    .foregroundColor(isErelegoInitialized ? .green : .orange)
                     .padding(12)
                     .background(Color.gray.opacity(0.1))
                     .cornerRadius(8)
@@ -57,15 +57,15 @@ struct MainView: View {
                     .padding(16)
             }
             
-            Button(action: initializeAdsterSDK) {
+            Button(action: initializeErelego) {
                 HStack {
                     Image(systemName: "power")
-                    Text("Initialize Adster SDK")
+                    Text("Initialize Erelego SDK")
                 }
                 .frame(maxWidth: .infinity)
             }
             .buttonStyle(.borderedProminent)
-            .disabled(isAdsterInitialized || isInitializing)
+            .disabled(isErelegoInitialized || isInitializing)
         }
         .padding()
         .background(Color.blue.opacity(0.1))
@@ -81,8 +81,8 @@ struct MainView: View {
         }
         .padding(.vertical, 32)
         .padding(.horizontal, 8)
-        .background(Color.gray.opacity(isAdsterInitialized ? 0.5 : 0.2))
-        .disabled(!isAdsterInitialized)
+        .background(Color.gray.opacity(isErelegoInitialized ? 0.5 : 0.2))
+        .disabled(!isErelegoInitialized)
     }
     
     private var sdkView: some View {
@@ -147,12 +147,13 @@ struct MainView: View {
         VStack(alignment: .leading, spacing: 20) {
             ForEach(viewModel.selectedKeyIndexes, id: \.self) { count in
                 let text = "\(viewModel.selectedSdkType.rawValue)-\(viewModel.selectedAdType.rawValue)-\(count)"
+                let placement = "\(viewModel.selectedSdkType.placementPrefix)-\(viewModel.selectedAdType.rawValue)-\(count)"
                 Text(text)
                     .font(.body)
-                    .foregroundColor(isAdsterInitialized ? .primary : .secondary)
+                    .foregroundColor(isErelegoInitialized ? .primary : .secondary)
                     .onTapGesture {
-                        if isAdsterInitialized {
-                            viewModel.select(text)
+                        if isErelegoInitialized {
+                            viewModel.select(placement)
                         }
                     }
             }
@@ -162,20 +163,20 @@ struct MainView: View {
         .padding(.vertical, 24)
     }
     
-    // MARK: Adster SDK Functions
-    private func initializeAdsterSDK() {
+    // MARK: Erelego SDK Functions
+    private func initializeErelego() {
         isInitializing = true
-        adsterStatusMessage = "Initializing Adster SDK..."
+        erelegoStatusMessage = "Initializing Erelego SDK..."
         
-        // Simulate SDK initialization
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-//            AdSter.sharedInstance().start()  Initialize the Adster SDK
-            AdSter.sharedInstance().start(completionHandler: { status in
-                print("Ad initialized \(status)")
-            })
-            self.isInitializing = false
-            self.isAdsterInitialized = true
-            self.adsterStatusMessage = "Adster SDK initialized successfully"
+        Erelego.sharedInstance().start { status in
+            print("Erelego initialization: \(String(describing: status))")
+            DispatchQueue.main.async {
+                self.isInitializing = false
+                self.isErelegoInitialized = status != nil
+                self.erelegoStatusMessage = status != nil
+                    ? "Erelego SDK initialization completed"
+                    : "Erelego SDK initialization failed. Please try again."
+            }
         }
     }
 }

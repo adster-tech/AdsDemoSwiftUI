@@ -2,11 +2,11 @@
 //  NativeAdView.swift
 //  AdsDemoSwiftUI
 //
-//  Created by Adster on 11/03/25.
+//  Created by Erelego on 11/03/25.
 //
 
 import SwiftUI
-import AdsFramework
+import ErelegoKit
 
 struct NativeAdView: View {
     let ad: MediationNativeAd

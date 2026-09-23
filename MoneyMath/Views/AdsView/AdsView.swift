@@ -2,10 +2,10 @@
 //  AdView.swift
 //  AdsDemoSwiftUI
 //
-//  Created by Adster on 10/03/25.
+//  Created by Erelego on 10/03/25.
 //
 import SwiftUI
-import AdsFramework
+import ErelegoKit
 struct AdView: View {
     @StateObject var viewModel: AdsViewModel
     
@@ -93,11 +93,11 @@ struct AdView: View {
                 .font(.headline)
                 .foregroundColor(.primary)
             
-            Text(viewModel.isAdsterInitialized ? "Adster SDK is initialized" : "Adster SDK not initialized")
+            Text(viewModel.isErelegoInitialized ? "Erelego SDK is initialized" : "Erelego SDK not initialized")
                 .font(.subheadline)
-                .foregroundColor(viewModel.isAdsterInitialized ? .green : .red)
+                .foregroundColor(viewModel.isErelegoInitialized ? .green : .red)
                 .padding(8)
-                .background(viewModel.isAdsterInitialized ? Color.green.opacity(0.1) : Color.red.opacity(0.1))
+                .background(viewModel.isErelegoInitialized ? Color.green.opacity(0.1) : Color.red.opacity(0.1))
                 .cornerRadius(6)
         }
     }
@@ -139,7 +139,7 @@ struct AdView: View {
                 .background(Color.blue)
                 .cornerRadius(8)
         }
-        .disabled(!viewModel.isAdsterInitialized)
+        .disabled(!viewModel.isErelegoInitialized)
     }
     
     @ViewBuilder

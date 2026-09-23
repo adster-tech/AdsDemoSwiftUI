@@ -2,7 +2,7 @@
 //  SdkType.swift
 //  AdsDemoSwiftUI
 //
-//  Created by Adster on 10/03/25.
+//  Created by Erelego on 10/03/25.
 //
 
 enum SdkType: String, CaseIterable, Identifiable {
@@ -19,8 +19,17 @@ enum SdkType: String, CaseIterable, Identifiable {
     case inmobi = "InMobi"
     case unity = "Unity"
     case adsease = "Adsease"
-    case adster = "Adster"
-    case adsterDirect = "Adster-Direct"
+    case erelego = "Erelego"
+    case erelegoDirect = "Erelego-Direct"
+
+    // These prefixes identify existing backend placements, independent of UI branding.
+    var placementPrefix: String {
+        switch self {
+        case .erelego: return "Adster"
+        case .erelegoDirect: return "Adster-Direct"
+        default: return rawValue
+        }
+    }
 }
 
 

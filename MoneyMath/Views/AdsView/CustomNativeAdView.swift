@@ -11,7 +11,7 @@
 
 import SwiftUI
 import UIKit
-import AdsFramework
+import ErelegoKit
 import GoogleMobileAds
 
 /// Conventional asset keys used by GAM custom native templates. The actual list of

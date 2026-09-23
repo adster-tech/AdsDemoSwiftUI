@@ -2,7 +2,7 @@
 //  AboutView.swift
 //  AdsDemoSwiftUI
 //
-//  Created by Adster on 21/08/25.
+//  Created by Erelego on 21/08/25.
 //
 
 import SwiftUI
@@ -108,14 +108,14 @@ struct AboutView: View {
                 
                 // Credits
                 VStack(spacing: 6) {
-                    Label("Developed by Adster", systemImage: "person.fill")
+                    Label("Developed by Erelego", systemImage: "person.fill")
                         .font(.subheadline)
                     
                     Text("Version \(appVersion)")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                     
-                    Text("© \(currentYear) Adster. All rights reserved.")
+                    Text("© \(currentYear) Erelego. All rights reserved.")
                         .font(.footnote)
                         .foregroundColor(.gray)
                 }
