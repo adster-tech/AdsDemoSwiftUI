@@ -2,14 +2,14 @@
 //  MainViewModel.swift
 //  AdsDemoSwiftUI
 //
-//  Created by Adster on 10/03/25.
+//  Created by Adverge on 10/03/25.
 //
 import Combine
 
 class MainViewModel: ObservableObject {
     let sdkTypes: [[SdkType]] = [
-        [.gam, .admob, .adster],
-        [.adsterDirect, .amazon, .applovin],
+        [.gam, .admob, .adverge],
+        [.advergeDirect, .amazon, .applovin],
         [.liftoff, .adsease, .inmobi],
         [.unity, .meta]
     ]

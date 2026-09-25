@@ -2,7 +2,7 @@
 //  AdsDemoSwiftUIApp.swift
 //  AdsDemoSwiftUI
 //
-//  Created by Adster on 10/03/25.
+//  Created by Adverge on 10/03/25.
 //
 
 import SwiftUI

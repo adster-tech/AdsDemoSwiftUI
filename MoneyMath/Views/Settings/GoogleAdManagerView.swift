@@ -2,7 +2,7 @@
 //  GoogleAdManagerView.swift
 //  AdsDemoSwiftUI
 //
-//  Created by Adster on 09/09/25.
+//  Created by Adverge on 09/09/25.
 //
 
 import SwiftUI

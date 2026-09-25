@@ -2,10 +2,10 @@
 //  AdView.swift
 //  AdsDemoSwiftUI
 //
-//  Created by Adster on 10/03/25.
+//  Created by Adverge on 10/03/25.
 //
 import SwiftUI
-import AdsFramework
+import AdvergeAdsSdk
 struct AdView: View {
     @StateObject var viewModel: AdsViewModel
     
@@ -93,11 +93,11 @@ struct AdView: View {
                 .font(.headline)
                 .foregroundColor(.primary)
             
-            Text(viewModel.isAdsterInitialized ? "Adster SDK is initialized" : "Adster SDK not initialized")
+            Text(viewModel.isAdvergeInitialized ? "Adverge SDK is initialized" : "Adverge SDK not initialized")
                 .font(.subheadline)
-                .foregroundColor(viewModel.isAdsterInitialized ? .green : .red)
+                .foregroundColor(viewModel.isAdvergeInitialized ? .green : .red)
                 .padding(8)
-                .background(viewModel.isAdsterInitialized ? Color.green.opacity(0.1) : Color.red.opacity(0.1))
+                .background(viewModel.isAdvergeInitialized ? Color.green.opacity(0.1) : Color.red.opacity(0.1))
                 .cornerRadius(6)
         }
     }
@@ -139,7 +139,7 @@ struct AdView: View {
                 .background(Color.blue)
                 .cornerRadius(8)
         }
-        .disabled(!viewModel.isAdsterInitialized)
+        .disabled(!viewModel.isAdvergeInitialized)
     }
     
     @ViewBuilder

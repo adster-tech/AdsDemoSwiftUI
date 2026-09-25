@@ -2,11 +2,11 @@
 //  BannerView.swift
 //  AdsDemoSwiftUI
 //
-//  Created by Adster on 11/03/25.
+//  Created by Adverge on 11/03/25.
 //
 
 import SwiftUI
-import AdsFramework
+import AdvergeAdsSdk
 
 struct BannerAdView: UIViewRepresentable {
     func updateUIView(_ uiView: UIView, context: Context) {

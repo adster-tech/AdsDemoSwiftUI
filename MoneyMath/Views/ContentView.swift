@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  AdsDemoSwiftUI
 //
-//  Created by Adster on 21/08/25.
+//  Created by Adverge on 21/08/25.
 //
 
 import SwiftUI

@@ -2,7 +2,7 @@
 //  SdkType.swift
 //  AdsDemoSwiftUI
 //
-//  Created by Adster on 10/03/25.
+//  Created by Adverge on 10/03/25.
 //
 
 enum SdkType: String, CaseIterable, Identifiable {
@@ -10,6 +10,15 @@ enum SdkType: String, CaseIterable, Identifiable {
         self.rawValue
     }
     
+    // Placement keys still use the current service configuration names.
+    var placementPrefix: String {
+        switch self {
+        case .adverge: return "Adster"
+        case .advergeDirect: return "Adster-Direct"
+        default: return rawValue
+        }
+    }
+
     case gam = "GAM"
     case admob = "AdMob"
     case meta = "Meta"
@@ -19,8 +28,8 @@ enum SdkType: String, CaseIterable, Identifiable {
     case inmobi = "InMobi"
     case unity = "Unity"
     case adsease = "Adsease"
-    case adster = "Adster"
-    case adsterDirect = "Adster-Direct"
+    case adverge = "Adverge"
+    case advergeDirect = "Adverge-Direct"
 }
 
 

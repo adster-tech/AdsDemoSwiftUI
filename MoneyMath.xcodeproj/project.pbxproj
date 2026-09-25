@@ -7,17 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C3E3303E2EAE28DF005356E0 /* AdsFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3E3303B2EAE288A005356E0 /* AdsFramework.framework */; };
-		C3E3303F2EAE28DF005356E0 /* AdsFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C3E3303B2EAE288A005356E0 /* AdsFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		C3E3303E2EAE28DF005356E0 /* AdvergeAdsSdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C3E3303B2EAE288A005356E0 /* AdvergeAdsSdk.framework */; };
+		C3E3303F2EAE28DF005356E0 /* AdvergeAdsSdk.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = C3E3303B2EAE288A005356E0 /* AdvergeAdsSdk.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		C3E3303A2EAE288A005356E0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = C3E32F772EAE288A005356E0 /* AdsFramework.xcodeproj */;
+			containerPortal = C3E32F772EAE288A005356E0 /* AdvergeAdsSdk.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 8F42D4DD2D48DDC30069C5D8;
-			remoteInfo = AdsFramework;
+			remoteInfo = AdvergeAdsSdk;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -28,7 +28,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C3E3303F2EAE28DF005356E0 /* AdsFramework.framework in Embed Frameworks */,
+				C3E3303F2EAE28DF005356E0 /* AdvergeAdsSdk.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -37,7 +37,7 @@
 
 /* Begin PBXFileReference section */
 		C32310FC2D7F0C2C00BB8E91 /* MoneyMath.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MoneyMath.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C3E32F772EAE288A005356E0 /* AdsFramework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AdsFramework.xcodeproj; path = "../ios-sdk/AdsFramework/AdsFramework.xcodeproj"; sourceTree = "<group>"; };
+		C3E32F772EAE288A005356E0 /* AdvergeAdsSdk.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AdvergeAdsSdk.xcodeproj; path = "../Adverge/ios-sdk/AdvergeAdsSdk/AdvergeAdsSdk.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -66,7 +66,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C3E3303E2EAE28DF005356E0 /* AdsFramework.framework in Frameworks */,
+				C3E3303E2EAE28DF005356E0 /* AdvergeAdsSdk.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,7 +93,7 @@
 		C325DF192D9A9617005E2800 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C3E32F772EAE288A005356E0 /* AdsFramework.xcodeproj */,
+				C3E32F772EAE288A005356E0 /* AdvergeAdsSdk.xcodeproj */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -101,7 +101,7 @@
 		C3E32F782EAE288A005356E0 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C3E3303B2EAE288A005356E0 /* AdsFramework.framework */,
+				C3E3303B2EAE288A005356E0 /* AdvergeAdsSdk.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -162,7 +162,7 @@
 			projectReferences = (
 				{
 					ProductGroup = C3E32F782EAE288A005356E0 /* Products */;
-					ProjectRef = C3E32F772EAE288A005356E0 /* AdsFramework.xcodeproj */;
+					ProjectRef = C3E32F772EAE288A005356E0 /* AdvergeAdsSdk.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -173,10 +173,10 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		C3E3303B2EAE288A005356E0 /* AdsFramework.framework */ = {
+		C3E3303B2EAE288A005356E0 /* AdvergeAdsSdk.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
-			path = AdsFramework.framework;
+			path = AdvergeAdsSdk.framework;
 			remoteRef = C3E3303A2EAE288A005356E0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -339,7 +339,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MoneyMath/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = MoneyMath;
+				INFOPLIST_KEY_CFBundleDisplayName = "Adverge Demo";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
@@ -387,7 +387,7 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = MoneyMath/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = MoneyMath;
+				INFOPLIST_KEY_CFBundleDisplayName = "Adverge Demo";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;

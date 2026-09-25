@@ -2,7 +2,7 @@
 //  SettingsView.swift
 //  AdsDemoSwiftUI
 //
-//  Created by Adster on 21/08/25.
+//  Created by Adverge on 21/08/25.
 //
 
 import SwiftUI
@@ -10,14 +10,14 @@ import SwiftUI
 struct SettingsView: View {
     var items: [SettingsViewType] {
         var base: [SettingsViewType] = [.about]
-        if showAdster || Bundle.main.isDebugOrTestFlight {
-            base.append(.adster)
+        if showAdverge || Bundle.main.isDebugOrTestFlight {
+            base.append(.adverge)
             base.append(.googleAdManager)
         }
         return base
     }
     
-    private let showAdster = true
+    private let showAdverge = true
     
     
     var body: some View {
@@ -35,7 +35,7 @@ struct SettingsView: View {
     @ViewBuilder
     private func destination(for item: SettingsViewType) -> some View {
         switch item {
-        case .adster:
+        case .adverge:
             MainView(viewModel: .init())
         case .about:
             AboutView()
@@ -47,7 +47,7 @@ struct SettingsView: View {
 
 enum SettingsViewType: String, Hashable {
     case about = "About"
-    case adster = "Ads"
+    case adverge = "Ads"
     case googleAdManager = "Google Ad Manager"
 }
 

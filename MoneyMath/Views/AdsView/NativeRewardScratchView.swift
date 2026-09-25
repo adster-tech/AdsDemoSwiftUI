@@ -5,7 +5,7 @@
 
 import SwiftUI
 import UIKit
-import AdsFramework
+import AdvergeAdsSdk
 
 struct NativeRewardScratchView: View {
     @StateObject var viewModel: AdsViewModel
@@ -60,11 +60,11 @@ struct NativeRewardScratchView: View {
         VStack(alignment: .leading, spacing: 10) {
             Text("SDK Status")
                 .font(.headline)
-            Text(viewModel.isAdsterInitialized ? "Adster SDK is initialized" : "Adster SDK not initialized")
+            Text(viewModel.isAdvergeInitialized ? "Adverge SDK is initialized" : "Adverge SDK not initialized")
                 .font(.subheadline)
-                .foregroundColor(viewModel.isAdsterInitialized ? .green : .red)
+                .foregroundColor(viewModel.isAdvergeInitialized ? .green : .red)
                 .padding(8)
-                .background(viewModel.isAdsterInitialized ? Color.green.opacity(0.1) : Color.red.opacity(0.1))
+                .background(viewModel.isAdvergeInitialized ? Color.green.opacity(0.1) : Color.red.opacity(0.1))
                 .cornerRadius(6)
             Text("Selected key: \(viewModel.displayKey)")
                 .font(.callout)
@@ -91,7 +91,7 @@ struct NativeRewardScratchView: View {
                 VStack(spacing: 10) {
                     Text("COUPON UNLOCKED")
                         .font(.headline)
-                    Text("ADSTER-DEMO")
+                    Text("ADVERGE-DEMO")
                         .font(.system(size: 28, weight: .bold, design: .rounded))
                         .padding(.horizontal, 18)
                         .padding(.vertical, 10)
