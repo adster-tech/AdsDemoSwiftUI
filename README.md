@@ -2,9 +2,9 @@
 
 Open `MoneyMath.xcodeproj` and run the `AdsDemoSwiftUI` scheme. The app displays as **Adverge Demo** and builds/embeds the local `AdvergeAdsSdk` source project at `../Adverge/ios-sdk/AdvergeAdsSdk/AdvergeAdsSdk.xcodeproj`.
 
-The SDK screen uses `Adverge.sharedInstance()` and `AdvergeAdLoader`, and enables ad loading after the initialization callback. Adverge-branded adapter choices retain the existing service placement keys (`Adster-*` and `Adster-Direct-*`). The application bundle ID remains `com.adster.demoAdsApp`, matching its current service configuration.
+The SDK screen uses `Adverge.sharedInstance()` and `AdvergeAdLoader`, and enables ad loading after the initialization callback. Adapter choices use Adverge placement keys (`Adverge-*` and `Adverge-Direct-*`). The application bundle ID is `com.adverge.demoAdsApp`.
 
-The SDK currently uses the existing Adster backend. Update SDK endpoints and provision matching bundle/placement configuration before switching to an Adverge-specific backend.
+Config, targeting, ad requests and analytics use the Adverge endpoints (`*.adverge.tech`); legacy config filenames use `com_adverge_usdk`. The backend must provide matching bundle and placement configuration.
 
 Build without signing:
 

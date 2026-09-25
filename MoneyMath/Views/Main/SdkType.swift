@@ -10,14 +10,7 @@ enum SdkType: String, CaseIterable, Identifiable {
         self.rawValue
     }
     
-    // Placement keys still use the current service configuration names.
-    var placementPrefix: String {
-        switch self {
-        case .adverge: return "Adster"
-        case .advergeDirect: return "Adster-Direct"
-        default: return rawValue
-        }
-    }
+    var placementPrefix: String { rawValue }
 
     case gam = "GAM"
     case admob = "AdMob"
