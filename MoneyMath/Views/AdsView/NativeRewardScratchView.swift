@@ -26,7 +26,7 @@ struct NativeRewardScratchView: View {
                 .padding()
             }
 
-            if isOfferPresented, let ad = viewModel.mediationNativeRewardAd {
+            if isOfferPresented, viewModel.mediationNativeRewardAd != nil || !viewModel.carouselNativeRewardAds.isEmpty {
                 Color.black.opacity(0.35)
                     .ignoresSafeArea()
                     .onTapGesture {
@@ -34,9 +34,20 @@ struct NativeRewardScratchView: View {
                     }
 
                 VStack(spacing: 0) {
-                    NativeRewardOfferView(ad: ad)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 430)
+                    if let ad = viewModel.mediationNativeRewardAd {
+                        NativeRewardOfferView(ad: ad)
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 430)
+                    } else {
+                        ScrollView(.horizontal, showsIndicators: true) {
+                            HStack(spacing: 12) {
+                                ForEach(Array(viewModel.carouselNativeRewardAds.enumerated()), id: \.offset) { _, ad in
+                                    NativeRewardOfferView(ad: ad)
+                                        .frame(width: UIScreen.main.bounds.width - 48, height: 430)
+                                }
+                            }
+                        }
+                    }
                 }
                 .background(Color.white)
                 .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
@@ -51,8 +62,16 @@ struct NativeRewardScratchView: View {
                 isOfferPresented = true
             }
         }
+        .onReceive(viewModel.$carouselNativeRewardAds) { ads in
+            if !ads.isEmpty {
+                statusText = "Native reward carousel loaded"
+                isOfferPresented = true
+            }
+        }
         .onDisappear {
-            viewModel.mediationNativeRewardAd?.destroy()
+            isOfferPresented = false
+            didRequestNativeReward = false
+            viewModel.releaseAds()
         }
     }
 

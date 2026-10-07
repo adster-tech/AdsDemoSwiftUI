@@ -18,6 +18,22 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
         
     }
     
+    private var retainedCarousels: [AdsFramework.Ad] = []
+    @Published var carouselCustomNativeAds: [MediationNativeCustomFormatAd] = []
+    @Published var carouselNativeRewardAds: [MediationNativeRewardAd] = []
+
+    func releaseAds() {
+        retainedCarousels.forEach { $0.destroy() }
+        retainedCarousels = []
+        carouselBannerViews = []
+        carouselNativeAds = []
+        carouselCustomNativeAds = []
+        carouselNativeRewardAds = []
+        mediationNativeRewardAd?.destroy()
+        mediationNativeRewardAd = nil
+        isLoading = false
+    }
+
     let key: String
     let displayKey: String
     let placementKey: String
@@ -48,6 +64,7 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
                 return
             }
             
+            releaseAds()
             self.isLoading = true
             self.error = nil
             self.bannerView = nil
@@ -110,6 +127,7 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
                 return
             }
 
+            releaseAds()
             self.isLoading = true
             self.error = nil
             self.mediationNativeRewardAd = nil
@@ -137,6 +155,28 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
 }
 
 extension AdsViewModel: MediationAdDelegate {
+    func onCarouselCustomNativeAdLoaded(carouselCustomNativeAd: MediationCarouselCustomNativeAd) {
+        Task { @MainActor in
+            self.retainedCarousels.append(carouselCustomNativeAd)
+            carouselCustomNativeAd.ads.forEach { $0.eventDelegate = self }
+            self.carouselCustomNativeAds = carouselCustomNativeAd.ads
+            self.error = carouselCustomNativeAd.ads.isEmpty ? "Carousel loaded without ads." : nil
+            self.isLoading = false
+        }
+    }
+
+    func onCarouselNativeRewardAdLoaded(carouselNativeRewardAd: MediationCarouselNativeRewardAd) {
+        Task { @MainActor in
+            self.retainedCarousels.append(carouselNativeRewardAd)
+            carouselNativeRewardAd.ads.forEach { $0.eventDelegate = self }
+            self.carouselNativeRewardAds = carouselNativeRewardAd.ads
+            self.error = carouselNativeRewardAd.ads.isEmpty ? "Carousel loaded without ads." : nil
+            self.isLoading = false
+        }
+    }
+
+
+
     func onAppOpenAdLoaded(appOpenAd: any AdsFramework.MediationAppOpenAd) {
         Task { @MainActor in
             appOpenAd.eventDelegate = self
@@ -147,6 +187,7 @@ extension AdsViewModel: MediationAdDelegate {
 
     func onCarouselBannerAdLoaded(carouselBannerAd: any AdsFramework.MediationCarouselBannerAd) {
         Task { @MainActor in
+            self.retainedCarousels.append(carouselBannerAd)
             let bannerViews = carouselBannerAd.ads.compactMap { bannerAd -> BannerAdView? in
                 bannerAd.eventDelegate = self
                 guard let view = bannerAd.view else { return nil }
@@ -164,6 +205,7 @@ extension AdsViewModel: MediationAdDelegate {
 
     func onCarouselNativeAdLoaded(carouselNativeAd: any AdsFramework.MediationCarouselNativeAd) {
         Task { @MainActor in
+            self.retainedCarousels.append(carouselNativeAd)
             let nativeAds = carouselNativeAd.ads
             nativeAds.forEach { $0.eventDelegate = self }
             guard !nativeAds.isEmpty else {

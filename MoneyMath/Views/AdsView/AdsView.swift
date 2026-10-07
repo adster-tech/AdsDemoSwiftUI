@@ -55,8 +55,26 @@ struct AdView: View {
                         .padding(.horizontal, 12)
                 }
             }
+            if !viewModel.carouselCustomNativeAds.isEmpty {
+                ScrollView(.horizontal, showsIndicators: true) {
+                    HStack(spacing: 12) {
+                        ForEach(Array(viewModel.carouselCustomNativeAds.enumerated()), id: \.offset) { _, ad in
+                            CustomNativeAdView(ad: ad)
+                                .frame(width: UIScreen.main.bounds.width * 0.8, height: 300)
+                        }
+                    }
+                    .padding(.horizontal, 12)
+                }
+                if let message = viewModel.lastCustomNativeClickMessage {
+                    Text(message).font(.footnote).foregroundColor(.green)
+                }
+            }
             Spacer()
         }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        .onDisappear {
+            viewModel.releaseAds()
+            viewModel.didAppear = false
+        }
         .onAppear {
             guard !viewModel.didAppear else { return }
             viewModel.didAppear = true

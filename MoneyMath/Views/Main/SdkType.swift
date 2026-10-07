@@ -37,6 +37,8 @@ enum SdkAdType: String, CaseIterable, Identifiable {
     case nativeReward = "NativeReward"
     case carouselBanner = "CarouselBanner"
     case carouselNative = "CarouselNative"
+    case carouselCustomNative = "CarouselCustomNative"
+    case carouselNativeReward = "CarouselNativeReward"
     case fsn = "FSN"
     case unified = "Unified"
     case video = "Video"

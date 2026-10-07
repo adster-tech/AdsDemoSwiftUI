@@ -18,7 +18,7 @@ class MainViewModel: ObservableObject {
         [.rewardedInterstitial, .native, .nativeReward],
         [.appopen, .carouselBanner, .carouselNative],
         [.customNative, .fsn, .unified],
-        [.video]
+        [.video, .carouselCustomNative, .carouselNativeReward]
     ]
     
     @Published private(set) var selectedSdkType = SdkType.gam
@@ -28,7 +28,7 @@ class MainViewModel: ObservableObject {
 
     var selectedKeyIndexes: [Int] {
         switch selectedAdType {
-        case .carouselBanner, .carouselNative:
+        case .carouselCustomNative, .carouselNativeReward:
             return [0]
         default:
             return Array(0..<10)
