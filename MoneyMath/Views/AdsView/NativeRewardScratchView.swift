@@ -36,17 +36,11 @@ struct NativeRewardScratchView: View {
                 VStack(spacing: 0) {
                     if let ad = viewModel.mediationNativeRewardAd {
                         NativeRewardOfferView(ad: ad)
+                            .id(ObjectIdentifier(ad))
                             .frame(maxWidth: .infinity)
                             .frame(height: 430)
                     } else {
-                        ScrollView(.horizontal, showsIndicators: true) {
-                            HStack(spacing: 12) {
-                                ForEach(Array(viewModel.carouselNativeRewardAds.enumerated()), id: \.offset) { _, ad in
-                                    NativeRewardOfferView(ad: ad)
-                                        .frame(width: UIScreen.main.bounds.width - 48, height: 430)
-                                }
-                            }
-                        }
+                        NativeRewardCarouselView(ads: viewModel.carouselNativeRewardAds)
                     }
                 }
                 .background(Color.white)
@@ -300,7 +294,38 @@ private final class ScratchOverlayUIView: UIView {
     }
 }
 
-private struct NativeRewardOfferView: UIViewRepresentable {
+struct NativeRewardCarouselView: View {
+    let ads: [MediationNativeRewardAd]
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            if ads.count > 1 {
+                Text("Swipe to explore \(ads.count) offers")
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+                    .padding(.horizontal, 12)
+            }
+            GeometryReader { geometry in
+                ScrollView(.horizontal, showsIndicators: true) {
+                    HStack(spacing: 12) {
+                        ForEach(ads, id: \.selfIdentifier) { ad in
+                            NativeRewardOfferView(ad: ad)
+                                .frame(width: max(1, geometry.size.width - 48), height: 430)
+                        }
+                    }
+                    .padding(.horizontal, 12)
+                }
+            }
+            .frame(height: 450)
+        }
+    }
+}
+
+private extension MediationNativeRewardAd {
+    var selfIdentifier: ObjectIdentifier { ObjectIdentifier(self) }
+}
+
+struct NativeRewardOfferView: UIViewRepresentable {
     let ad: MediationNativeRewardAd
 
     func makeUIView(context: Context) -> UIView {

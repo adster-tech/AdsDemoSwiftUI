@@ -10,67 +10,77 @@ struct AdView: View {
     @StateObject var viewModel: AdsViewModel
     
     var body: some View {
-        VStack(spacing: 24) {
-            detailsView
-            if let bannerView = viewModel.bannerView {
-                bannerView
-                    .frame(maxWidth: .infinity, alignment: .center)
-            }
-            if !viewModel.carouselBannerViews.isEmpty {
-                ScrollView(.horizontal, showsIndicators: true) {
-                    HStack(spacing: 12) {
-                        ForEach(Array(viewModel.carouselBannerViews.enumerated()), id: \.offset) { _, bannerView in
-                            bannerView
-                                .frame(width: 300, height: 250)
-                        }
-                    }
-                    .padding(.horizontal, 12)
+        ScrollView {
+            VStack(spacing: 24) {
+                detailsView
+                if let bannerView = viewModel.bannerView {
+                    bannerView
+                        .frame(maxWidth: .infinity, alignment: .center)
                 }
-            }
-            if let mediationNativeAd = viewModel.mediationNativeAd {
-                NativeAdView(ad: mediationNativeAd)
-                    .frame(alignment: .center)
-            }
-            if !viewModel.carouselNativeAds.isEmpty {
-                ScrollView(.horizontal, showsIndicators: true) {
-                    HStack(spacing: 12) {
-                        ForEach(Array(viewModel.carouselNativeAds.enumerated()), id: \.offset) { _, nativeAd in
-                            NativeAdView(ad: nativeAd)
-                                .frame(width: UIScreen.main.bounds.width * 0.8, height: 260, alignment: .topLeading)
+                if !viewModel.carouselBannerViews.isEmpty {
+                    ScrollView(.horizontal, showsIndicators: true) {
+                        HStack(spacing: 12) {
+                            ForEach(Array(viewModel.carouselBannerViews.enumerated()), id: \.offset) { _, bannerView in
+                                bannerView
+                                    .frame(width: 300, height: 250)
+                            }
                         }
-                    }
-                    .padding(.horizontal, 12)
-                }
-            }
-            if let customNativeAd = viewModel.mediationCustomNativeAd {
-                CustomNativeAdView(ad: customNativeAd)
-                    .frame(maxWidth: .infinity, alignment: .top)
-                if let clickMessage = viewModel.lastCustomNativeClickMessage {
-                    Text(clickMessage)
-                        .font(.footnote)
-                        .foregroundColor(.green)
-                        .padding(8)
-                        .background(Color.green.opacity(0.1))
-                        .cornerRadius(6)
                         .padding(.horizontal, 12)
-                }
-            }
-            if !viewModel.carouselCustomNativeAds.isEmpty {
-                ScrollView(.horizontal, showsIndicators: true) {
-                    HStack(spacing: 12) {
-                        ForEach(Array(viewModel.carouselCustomNativeAds.enumerated()), id: \.offset) { _, ad in
-                            CustomNativeAdView(ad: ad)
-                                .frame(width: UIScreen.main.bounds.width * 0.8, height: 300)
-                        }
                     }
-                    .padding(.horizontal, 12)
                 }
-                if let message = viewModel.lastCustomNativeClickMessage {
-                    Text(message).font(.footnote).foregroundColor(.green)
+                if let mediationNativeAd = viewModel.mediationNativeAd {
+                    NativeAdView(ad: mediationNativeAd)
+                        .frame(alignment: .center)
                 }
-            }
-            Spacer()
-        }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                if !viewModel.carouselNativeAds.isEmpty {
+                    ScrollView(.horizontal, showsIndicators: true) {
+                        HStack(spacing: 12) {
+                            ForEach(Array(viewModel.carouselNativeAds.enumerated()), id: \.offset) { _, nativeAd in
+                                NativeAdView(ad: nativeAd)
+                                    .frame(width: UIScreen.main.bounds.width * 0.8, height: 260, alignment: .topLeading)
+                            }
+                        }
+                        .padding(.horizontal, 12)
+                    }
+                }
+                if let nativeRewardAd = viewModel.mediationNativeRewardAd {
+                    NativeRewardOfferView(ad: nativeRewardAd)
+                        .id(ObjectIdentifier(nativeRewardAd))
+                        .frame(height: 430)
+                }
+                if !viewModel.carouselNativeRewardAds.isEmpty {
+                    NativeRewardCarouselView(ads: viewModel.carouselNativeRewardAds)
+                }
+                if let customNativeAd = viewModel.mediationCustomNativeAd {
+                    CustomNativeAdView(ad: customNativeAd)
+                        .frame(maxWidth: .infinity, alignment: .top)
+                    if let clickMessage = viewModel.lastCustomNativeClickMessage {
+                        Text(clickMessage)
+                            .font(.footnote)
+                            .foregroundColor(.green)
+                            .padding(8)
+                            .background(Color.green.opacity(0.1))
+                            .cornerRadius(6)
+                            .padding(.horizontal, 12)
+                    }
+                }
+                if !viewModel.carouselCustomNativeAds.isEmpty {
+                    ScrollView(.horizontal, showsIndicators: true) {
+                        HStack(spacing: 12) {
+                            ForEach(Array(viewModel.carouselCustomNativeAds.enumerated()), id: \.offset) { _, ad in
+                                CustomNativeAdView(ad: ad)
+                                    .frame(width: UIScreen.main.bounds.width * 0.8, height: 300)
+                            }
+                        }
+                        .padding(.horizontal, 12)
+                    }
+                    if let message = viewModel.lastCustomNativeClickMessage {
+                        Text(message).font(.footnote).foregroundColor(.green)
+                    }
+                }
+                Spacer()
+            }.frame(maxWidth: .infinity, alignment: .topLeading)
+        }
         .onDisappear {
             viewModel.releaseAds()
             viewModel.didAppear = false
