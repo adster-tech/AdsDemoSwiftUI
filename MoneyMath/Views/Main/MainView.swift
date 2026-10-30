@@ -1,178 +1,120 @@
-//
-//  MainView.swift
-//  AdsDemoSwiftUI
-//
-//  Created by Adster on 10/03/25.
-//
-
 import SwiftUI
 import RazorpayAdsSdk
 
 struct MainView: View {
     @StateObject var viewModel: MainViewModel
-    @State private var isAdsterInitialized = false
-    @State private var adsterStatusMessage = "Adster SDK not initialized"
+    @State private var isRazorpayInitialized = false
     @State private var isInitializing = false
-    
+    @State private var initializationError: String?
+
     var body: some View {
-        ScrollView(showsIndicators: false) {
-            adsterStatusView
-            selectionView
-            keyListView
-        }
-        .navigationDestination(
-            isPresented: $viewModel.isLinkClicked,
-            destination: {
-                if let key = viewModel.selectedKey {
-                    AdView(viewModel: .init(key: key, isAdsterInitialized: isAdsterInitialized))
-                }
-            }
-        )
-    }
-    
-    private var adsterStatusView: some View {
-        VStack(spacing: 16) {
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Adster SDK Status")
-                    .font(.headline)
-                    .foregroundColor(.primary)
-                
-                Text(adsterStatusMessage)
-                    .font(.subheadline)
-                    .foregroundColor(isAdsterInitialized ? .green : .orange)
-                    .padding(12)
-                    .background(Color.gray.opacity(0.1))
-                    .cornerRadius(8)
-            }
-            
-            if isInitializing {
-                ProgressView()
-                    .progressViewStyle(.circular)
-                    .tint(.blue)
-                    .frame(width: 50, height: 50)
-                    .padding(16)
-            }
-            
-            Button(action: initializeAdsterSDK) {
-                HStack {
-                    Image(systemName: "power")
-                    Text("Initialize Adster SDK")
-                }
-                .frame(maxWidth: .infinity)
-            }
-            .buttonStyle(.borderedProminent)
-            .disabled(isAdsterInitialized || isInitializing)
-        }
-        .padding()
-        .background(Color.blue.opacity(0.1))
-        .cornerRadius(12)
-        .padding(.horizontal)
-        .padding(.top)
-    }
-    
-    private var selectionView: some View {
-        VStack(spacing: 32) {
-            sdkView
-            adTypesView
-        }
-        .padding(.vertical, 32)
-        .padding(.horizontal, 8)
-        .background(Color.gray.opacity(isAdsterInitialized ? 0.5 : 0.2))
-        .disabled(!isAdsterInitialized)
-    }
-    
-    private var sdkView: some View {
-        VStack(spacing: 12) {
-            ForEach(viewModel.sdkTypes, id: \.self) { list in
-                HStack(alignment: .center, spacing: .zero) {
-                    ForEach(list) { type in
-                        Text(type.rawValue)
-                            .font(.footnote)
-                            .foregroundColor(
-                                viewModel.selectedSdkType == type
-                                ? .blue
-                                : .black
-                            )
-                            .fontWeight(.semibold)
-                            .underline(viewModel.selectedSdkType == type, color: .blue)
-                            .frame(maxWidth: .infinity)
-                            .onTapGesture {
-                                viewModel.update(type)
-                            }
+        List {
+            Section {
+                HStack(spacing: 12) {
+                    Image(systemName: isRazorpayInitialized ? "checkmark.circle.fill" : "power.circle")
+                        .foregroundStyle(isRazorpayInitialized ? Color.green : Color.blue)
+                        .font(.title2)
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("Razorpay SDK").font(.headline)
+                        Text(isRazorpayInitialized ? "Ready to load ads" : (isInitializing ? "Initializing…" : "Initialize to start testing"))
+                            .font(.caption).foregroundStyle(.secondary)
+                    }
+                    Spacer()
+                    if isInitializing {
+                        ProgressView()
+                    } else if !isRazorpayInitialized {
+                        Button("Initialize", action: initializeRazorpaySDK)
+                            .buttonStyle(.borderedProminent)
+                            .controlSize(.small)
                     }
                 }
-            }
-        }
-        .padding(8)
-        .overlay {
-            RoundedRectangle(cornerRadius: 12)
-                .stroke(lineWidth: 1)
-        }
-    }
-    
-    private var adTypesView: some View {
-        VStack(spacing: 12) {
-            ForEach(viewModel.sdkAdTypes, id: \.self) { list in
-                HStack(alignment: .center, spacing: .zero) {
-                    ForEach(list) { type in
-                        Text(type.rawValue)
-                            .font(.footnote)
-                            .foregroundColor(
-                                viewModel.selectedAdType == type
-                                ? .blue
-                                : .black
-                            )
-                            .fontWeight(.semibold)
-                            .underline(viewModel.selectedAdType == type, color: .blue)
-                            .frame(maxWidth: .infinity)
-                            .onTapGesture {
-                                viewModel.update(type)
-                            }
-                    }
+                .padding(.vertical, 4)
+                if let initializationError {
+                    Text(initializationError).font(.footnote).foregroundStyle(.red)
                 }
             }
-        }
-        .padding(8)
-        .overlay {
-            RoundedRectangle(cornerRadius: 12)
-                .stroke(lineWidth: 1)
-        }
-    }
-    
-    private var keyListView: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            ForEach(0..<10) { count in
-                let text = "\(viewModel.selectedSdkType.rawValue)-\(viewModel.selectedAdType.rawValue)-\(count)"
-                Text(text)
-                    .font(.body)
-                    .foregroundColor(isAdsterInitialized ? .primary : .secondary)
-                    .onTapGesture {
-                        if isAdsterInitialized {
-                            viewModel.select(text)
+
+            Section {
+                Picker("Network", selection: Binding(get: { viewModel.selectedSdkType }, set: { viewModel.update($0) })) {
+                    ForEach(viewModel.sdkTypes.flatMap { $0 }) { network in
+                        Text(network.displayName).tag(network)
+                    }
+                }
+                .pickerStyle(.menu)
+                Picker("Ad format", selection: Binding(get: { viewModel.selectedAdType }, set: { viewModel.update($0) })) {
+                    ForEach(viewModel.sdkAdTypes.flatMap { $0 }) { format in
+                        Text(format.displayName).tag(format)
+                    }
+                }
+                .pickerStyle(.menu)
+                if viewModel.showsNativeSize {
+                    Picker("Native size", selection: $viewModel.nativeAdSize) {
+                        ForEach(NativeAdSize.allCases) { size in
+                            Text(size.title).tag(size)
                         }
                     }
+                    .pickerStyle(.menu)
+                }
+            } header: {
+                Text("Ad configuration")
+            } footer: {
+                if viewModel.showsNativeSize { Text(viewModel.nativeAdSize.detail) }
+            }
+
+            Section {
+                ForEach(viewModel.selectedKeyIndexes, id: \.self) { index in
+                    let key = "\(viewModel.selectedSdkType.rawValue)-\(viewModel.selectedAdType.rawValue)-\(index)"
+                    Button { viewModel.select(key) } label: {
+                        HStack(spacing: 12) {
+                            Text(String(index))
+                                .font(.caption.monospacedDigit().weight(.semibold))
+                                .foregroundStyle(.blue)
+                                .frame(width: 28, height: 28)
+                                .background(Color.blue.opacity(0.08), in: RoundedRectangle(cornerRadius: 7))
+                            Text(key.replacingOccurrences(of: "Adster", with: "Razorpay")).font(.subheadline).foregroundStyle(.primary)
+                                .fixedSize(horizontal: false, vertical: true)
+                            Spacer(minLength: 4)
+                            Image(systemName: "chevron.right").font(.caption.weight(.semibold)).foregroundStyle(.tertiary)
+                        }
+                        .padding(.vertical, 3)
+                    }
+                    .disabled(!isRazorpayInitialized)
+                }
+            } header: {
+                HStack { Text("Placements"); Spacer(); Text("\(viewModel.selectedKeyIndexes.count)") }
+            } footer: {
+                Text(isRazorpayInitialized ? "Choose a placement to load an ad." : "Initialize the SDK to enable placements.")
             }
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.horizontal, 16)
-        .padding(.vertical, 24)
+        .listStyle(.insetGrouped)
+        .navigationTitle("Ad demo")
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationDestination(isPresented: $viewModel.isLinkClicked) {
+            if let key = viewModel.selectedKey {
+                if viewModel.selectedAdType == .nativeReward || viewModel.selectedAdType == .carouselNativeReward {
+                    NativeRewardScratchView(viewModel: .init(key: key, isRazorpayInitialized: isRazorpayInitialized))
+                } else {
+                    AdView(viewModel: .init(key: key, isRazorpayInitialized: isRazorpayInitialized,
+                                           nativeAdSize: viewModel.showsNativeSize ? viewModel.nativeAdSize : nil))
+                }
+            }
+        }
     }
-    
-    // MARK: Adster SDK Functions
-    private func initializeAdsterSDK() {
+
+    private func initializeRazorpaySDK() {
+        guard !isInitializing else { return }
         isInitializing = true
-        adsterStatusMessage = "Initializing Adster SDK..."
-        
-        // Simulate SDK initialization
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            Razorpay.sharedInstance().start() // Initialize the Adster SDK
-            self.isInitializing = false
-            self.isAdsterInitialized = true
-            self.adsterStatusMessage = "Adster SDK initialized successfully"
+        initializationError = nil
+        Razorpay.sharedInstance().start { status in
+            DispatchQueue.main.async {
+                isInitializing = false
+                isRazorpayInitialized = status != nil
+                initializationError = status == nil ? "Initialization failed. Please try again." : nil
+            }
         }
     }
 }
 
 #Preview {
-    MainView(viewModel: .init())
+    NavigationStack { MainView(viewModel: .init()) }
 }

@@ -108,14 +108,14 @@ struct AboutView: View {
                 
                 // Credits
                 VStack(spacing: 6) {
-                    Label("Developed by Adster", systemImage: "person.fill")
+                    Label("Razorpay Ads Demo", systemImage: "person.fill")
                         .font(.subheadline)
                     
                     Text("Version \(appVersion)")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                     
-                    Text("© \(currentYear) Adster. All rights reserved.")
+                    Text("Built with Razorpay Ads SDK")
                         .font(.footnote)
                         .foregroundColor(.gray)
                 }
