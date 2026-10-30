@@ -58,15 +58,3 @@ struct BannerAdView: UIViewRepresentable {
         return CGSize(width: 300, height: 250)
     }
 }
-
-struct MediaAdView: UIViewRepresentable {
-    let mediationAd: MediationNativeAd
-    func makeUIView(context: Context) -> UIView {
-        let containerView = NativeAdContainerView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 200))
-        containerView.configure(with: mediationAd)
-        return containerView
-    }
-    
-    func updateUIView(_ uiView: UIView, context: Context) {
-    }
-}

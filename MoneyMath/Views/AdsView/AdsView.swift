@@ -8,8 +8,55 @@ import SwiftUI
 import AdsFramework
 struct AdView: View {
     @StateObject var viewModel: AdsViewModel
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
+        Group {
+            if viewModel.nativeAdSize == .fullscreen {
+                fullscreenNativeContent
+            } else {
+                inlineContent
+            }
+        }
+        .toolbar(viewModel.nativeAdSize == .fullscreen ? .hidden : .automatic, for: .tabBar)
+        .toolbar(viewModel.nativeAdSize == .fullscreen ? .hidden : .automatic, for: .navigationBar)
+        .onDisappear {
+            viewModel.releaseAds()
+            viewModel.didAppear = false
+        }
+        .onAppear {
+            guard !viewModel.didAppear else { return }
+            viewModel.didAppear = true
+            viewModel.loadAdActivity()
+        }
+    }
+
+    private var fullscreenNativeContent: some View {
+        VStack(spacing: 12) {
+            HStack {
+                Text("Native ad · Fullscreen").font(.subheadline).foregroundStyle(.secondary)
+                Spacer()
+                Button { dismiss() } label: { Label("Close ad", systemImage: "xmark") }
+                    .buttonStyle(.bordered)
+            }
+            .padding(.horizontal, 12)
+            if let ad = viewModel.mediationNativeAd {
+                NativeAdView(ad: ad, size: .fullscreen)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else if let ad = viewModel.mediationCustomNativeAd {
+                CustomNativeAdView(ad: ad, size: .fullscreen)
+                    .id(ObjectIdentifier(ad))
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+                ScrollView { detailsView }
+                    .frame(maxHeight: .infinity)
+            }
+        }
+        .padding(.vertical, 12)
+        .background(Color(uiColor: .systemBackground))
+    }
+
+    private var inlineContent: some View {
         ScrollView {
             VStack(spacing: 24) {
                 detailsView
@@ -29,7 +76,7 @@ struct AdView: View {
                     }
                 }
                 if let mediationNativeAd = viewModel.mediationNativeAd {
-                    NativeAdView(ad: mediationNativeAd)
+                    NativeAdView(ad: mediationNativeAd, size: viewModel.nativeAdSize)
                         .frame(alignment: .center)
                 }
                 if !viewModel.carouselNativeAds.isEmpty {
@@ -37,7 +84,7 @@ struct AdView: View {
                         HStack(spacing: 12) {
                             ForEach(Array(viewModel.carouselNativeAds.enumerated()), id: \.offset) { _, nativeAd in
                                 NativeAdView(ad: nativeAd)
-                                    .frame(width: UIScreen.main.bounds.width * 0.8, height: 260, alignment: .topLeading)
+                                    .frame(width: UIScreen.main.bounds.width * 0.8, alignment: .topLeading)
                             }
                         }
                         .padding(.horizontal, 12)
@@ -52,7 +99,8 @@ struct AdView: View {
                     NativeRewardCarouselView(ads: viewModel.carouselNativeRewardAds)
                 }
                 if let customNativeAd = viewModel.mediationCustomNativeAd {
-                    CustomNativeAdView(ad: customNativeAd)
+                    CustomNativeAdView(ad: customNativeAd, size: viewModel.nativeAdSize)
+                        .id(ObjectIdentifier(customNativeAd))
                         .frame(maxWidth: .infinity, alignment: .top)
                     if let clickMessage = viewModel.lastCustomNativeClickMessage {
                         Text(clickMessage)
@@ -69,7 +117,8 @@ struct AdView: View {
                         HStack(spacing: 12) {
                             ForEach(Array(viewModel.carouselCustomNativeAds.enumerated()), id: \.offset) { _, ad in
                                 CustomNativeAdView(ad: ad)
-                                    .frame(width: UIScreen.main.bounds.width * 0.8, height: 300)
+                                    .id(ObjectIdentifier(ad))
+                                    .frame(width: UIScreen.main.bounds.width * 0.8, alignment: .topLeading)
                             }
                         }
                         .padding(.horizontal, 12)
@@ -78,17 +127,9 @@ struct AdView: View {
                         Text(message).font(.footnote).foregroundColor(.green)
                     }
                 }
-                Spacer()
-            }.frame(maxWidth: .infinity, alignment: .topLeading)
-        }
-        .onDisappear {
-            viewModel.releaseAds()
-            viewModel.didAppear = false
-        }
-        .onAppear {
-            guard !viewModel.didAppear else { return }
-            viewModel.didAppear = true
-            viewModel.loadAdActivity()
+            }
+            .frame(maxWidth: .infinity, alignment: .topLeading)
+            .padding(.bottom, 24)
         }
     }
     
@@ -137,6 +178,9 @@ struct AdView: View {
                 .bold()
                 .underline()
                 .foregroundColor(.brown)
+            if let size = viewModel.nativeAdSize {
+                Text("Native size: \(size.title)").font(.footnote).foregroundColor(.secondary)
+            }
             Text("Placement: \(viewModel.placementKey)")
                 .font(.footnote)
                 .foregroundColor(.secondary)

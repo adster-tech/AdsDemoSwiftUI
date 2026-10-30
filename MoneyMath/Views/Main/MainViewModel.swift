@@ -25,6 +25,9 @@ class MainViewModel: ObservableObject {
     @Published private(set) var selectedAdType = SdkAdType.banner
     @Published private(set) var selectedKey: String? = nil
     @Published var isLinkClicked: Bool = false
+    @Published var nativeAdSize: NativeAdSize = .big
+
+    var showsNativeSize: Bool { selectedAdType == .native || selectedAdType == .customNative }
 
     var selectedKeyIndexes: [Int] {
         switch selectedAdType {

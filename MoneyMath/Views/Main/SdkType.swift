@@ -45,3 +45,20 @@ enum SdkAdType: String, CaseIterable, Identifiable {
     case appopen = "Appopen"
     case customNative = "CustomNative"
 }
+
+// Display labels are separate from the raw values used to construct placement keys.
+extension SdkAdType {
+    var displayName: String {
+        switch self {
+        case .rewardedInterstitial: return "Rewarded interstitial"
+        case .nativeReward: return "Native reward"
+        case .carouselBanner: return "Carousel banner"
+        case .carouselNative: return "Carousel native"
+        case .carouselCustomNative: return "Carousel custom native"
+        case .carouselNativeReward: return "Carousel native reward"
+        case .appopen: return "App open"
+        case .customNative: return "Custom native"
+        default: return rawValue
+        }
+    }
+}

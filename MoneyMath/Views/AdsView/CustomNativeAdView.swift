@@ -27,6 +27,7 @@ private enum CustomNativeAsset {
 
 struct CustomNativeAdView: View {
     let ad: MediationNativeCustomFormatAd
+    var size: NativeAdSize? = nil
     /// Called after every per-asset tap (after `performClick` is invoked on the ad).
     /// Useful for surfacing the asset name in the demo UI for debugging.
     var onAssetTapped: ((String) -> Void)? = nil
@@ -34,15 +35,62 @@ struct CustomNativeAdView: View {
     @State private var didRecordImpression = false
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            headerView
-            assetsView
+        cardLayout {
+            mediaView
+            detailLayout {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Ad").font(.caption2).foregroundStyle(.secondary)
+                    if let headline = ad.getText(for: CustomNativeAsset.headline), !headline.isEmpty {
+                        Text(headline)
+                            .font(.headline)
+                            .lineLimit(size == nil ? nil : 2)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .onTapGesture { performClick(on: CustomNativeAsset.clickUrl) }
+                    }
+                    if let text = ad.getText(for: "Attribution") ?? ad.getText(for: CustomNativeAsset.body), !text.isEmpty {
+                        Text(text)
+                            .font(.footnote)
+                            .lineLimit(size == nil ? nil : 2)
+                            .fixedSize(horizontal: false, vertical: true)
+                            .onTapGesture { performClick(on: CustomNativeAsset.clickUrl) }
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .leading)
+                if let logo = gamBridge?.getImage(for: CustomNativeAsset.logo) {
+                    Group {
+                        if let bitmap = logo.image {
+                            Image(uiImage: bitmap).resizable().scaledToFit()
+                        } else if let url = logo.imageURL {
+                            AsyncImage(url: url) { image in image.resizable().scaledToFit() }
+                                placeholder: { Color.clear }
+                        }
+                    }
+                    .frame(width: 32, height: 32)
+                    .onTapGesture { performClick(on: CustomNativeAsset.clickUrl) }
+                }
+                if let cta = ad.getText(for: CustomNativeAsset.cta), !cta.isEmpty {
+                    Button { performClick(on: CustomNativeAsset.cta) } label: {
+                        Text(cta)
+                            .font(.subheadline.weight(.semibold))
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 14)
+                            .padding(.vertical, 10)
+                            .frame(maxWidth: size == nil ? nil : .infinity)
+                            .foregroundStyle(.white)
+                            .background(Color.blue, in: RoundedRectangle(cornerRadius: 8))
+                    }
+                    .buttonStyle(.plain)
+                    .frame(maxWidth: size == nil ? 140 : .infinity)
+                }
+            }
+            .padding(.horizontal, 12)
+            .padding(.bottom, 12)
+            .padding(.top, hasMedia && size != .small ? 0 : 12)
+            .fixedSize(horizontal: false, vertical: true)
         }
-        .padding(16)
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .stroke(Color.gray.opacity(0.4), lineWidth: 1)
-        )
+        .background(Color(uiColor: .secondarySystemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.gray.opacity(0.2)))
         .background(CustomNativeViewabilityTracker(ad: ad))
         .padding(.horizontal, 12)
         .onAppear {
@@ -52,81 +100,56 @@ struct CustomNativeAdView: View {
         }
     }
 
-    // MARK: - Sections
+    private var cardLayout: AnyLayout {
+        size == .small ? AnyLayout(NativeCompactLayout()) : AnyLayout(VStackLayout(alignment: .leading, spacing: 12))
+    }
+    private var detailLayout: AnyLayout {
+        size == nil ? AnyLayout(HStackLayout(alignment: .center, spacing: 12)) : AnyLayout(VStackLayout(alignment: .leading, spacing: 8))
+    }
 
-    private var headerView: some View {
-        HStack(alignment: .top, spacing: 12) {
-            if let logoImage = uiImage(for: CustomNativeAsset.logo) {
-                Image(uiImage: logoImage)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 40, height: 40)
-                    .cornerRadius(6)
-                    .onTapGesture {
-                        performClick(on: CustomNativeAsset.clickUrl)
-                    }
-            }
-            if let headline = ad.getText(for: CustomNativeAsset.headline) {
-                Text(headline)
-                    .font(.headline)
-                    .lineLimit(2)
-                    .onTapGesture {
-                        performClick(on: CustomNativeAsset.clickUrl)
-                    }
-            }
-            Spacer()
-        }
+    private var gamBridge: MediationNativeCustomFormatAdGAM? { ad as? MediationNativeCustomFormatAdGAM }
+    private var hasMedia: Bool {
+        ad.mediaView != nil || gamBridge?.getMediaContent() != nil || gamBridge?.getImage(for: CustomNativeAsset.image) != nil
     }
 
     @ViewBuilder
-    private var assetsView: some View {
-        if let bodyText = ad.getText(for: CustomNativeAsset.body) {
-            Text(bodyText)
-                .font(.footnote)
-                .foregroundColor(.primary)
-                .lineLimit(nil)
-                .onTapGesture {
-                    performClick(on: CustomNativeAsset.clickUrl)
-                }
-        }
-
-        if let mainImage = uiImage(for: CustomNativeAsset.image) {
-            Image(uiImage: mainImage)
-                .resizable()
-                .scaledToFit()
-                .frame(maxWidth: .infinity)
-                .cornerRadius(8)
-                .onTapGesture {
-                    performClick(on: CustomNativeAsset.clickUrl)
-                }
-        }
-
-        if let ctaText = ad.getText(for: CustomNativeAsset.cta) {
-            Button {
-                performClick(on: CustomNativeAsset.cta)
-            } label: {
-                Text(ctaText)
-                    .font(.footnote)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 10)
-                    .frame(maxWidth: .infinity)
-                    .background(Color.blue)
-                    .cornerRadius(8)
-            }
-            .buttonStyle(.plain)
+    private var mediaView: some View {
+        if hasMedia {
+            rawMediaView
+                .modifier(NativeMediaSizing(size: size, defaultRatio: mediaRatio))
+                .clipped()
         }
     }
 
-    // MARK: - Helpers
+    private var mediaRatio: CGFloat {
+        let ratio = gamBridge?.getMediaContent()?.aspectRatio ?? 0
+        return ratio.isFinite && ratio > 0 ? CGFloat(ratio) : 16.0 / 9.0
+    }
 
-    /// Pulls a `UIImage` out of the ad. The GAM `NativeAdImage` returned by the
-    /// `MediationNativeCustomFormatAdGAM` bridge exposes the bitmap through
-    /// its `image` property when the asset is loaded in-process.
-    private func uiImage(for assetName: String) -> UIImage? {
-        guard let gamBridge = ad as? MediationNativeCustomFormatAdGAM else { return nil }
-        return gamBridge.getImage(for: assetName)?.image
+    @ViewBuilder
+    private var rawMediaView: some View {
+        if let media = ad.mediaView {
+            // No enclosing tap gesture: playback, mute and skip belong to the SDK.
+            EmbeddedAdMediaView(media: media)
+        } else if let content = gamBridge?.getMediaContent() {
+            GoogleCustomNativeMedia(content: content)
+        } else if let asset = gamBridge?.getImage(for: CustomNativeAsset.image) {
+            Group {
+                if let bitmap = asset.image {
+                    Image(uiImage: bitmap).resizable().scaledToFit()
+                } else if let url = asset.imageURL {
+                    // Adster exposes image assets by URL; a nil bitmap is not a missing asset.
+                    AsyncImage(url: url) { image in
+                        image.resizable().scaledToFit()
+                    } placeholder: {
+                        Color.gray.opacity(0.08).overlay(ProgressView())
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .clipped()
+            .onTapGesture { performClick(on: CustomNativeAsset.clickUrl) }
+        }
     }
 
     /// Triggers a custom click on the named asset. The SDK forwards the call to
@@ -175,4 +198,14 @@ private final class ViewabilityTrackingView: UIView {
         hasRequestedTracking = true
         ad?.trackViewability(self)
     }
+}
+
+private struct GoogleCustomNativeMedia: UIViewRepresentable {
+    let content: GoogleMobileAds.MediaContent
+    func makeUIView(context: Context) -> GoogleMobileAds.MediaView {
+        let view = GoogleMobileAds.MediaView()
+        view.mediaContent = content
+        return view
+    }
+    func updateUIView(_ uiView: GoogleMobileAds.MediaView, context: Context) {}
 }

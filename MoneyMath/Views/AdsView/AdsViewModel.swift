@@ -29,6 +29,11 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
         carouselNativeAds = []
         carouselCustomNativeAds = []
         carouselNativeRewardAds = []
+        mediationNativeAd?.destroy()
+        mediationNativeAd = nil
+        mediationCustomNativeAd?.destroy()
+        mediationCustomNativeAd = nil
+        bannerView = nil
         mediationNativeRewardAd?.destroy()
         mediationNativeRewardAd = nil
         isLoading = false
@@ -38,6 +43,7 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
     let displayKey: String
     let placementKey: String
     let isAdsterInitialized: Bool
+    let nativeAdSize: NativeAdSize?
     @Published var didAppear = false
     @Published var error: String? = nil
     @Published var isLoading: Bool = false
@@ -50,7 +56,8 @@ class AdsViewModel: ObservableObject, MediationRewardedInterstitialAdEventDelega
     @Published var lastCustomNativeClickMessage: String? = nil
     @Published var revenueMessage: String? = nil
     
-    init(key: String, isAdsterInitialized: Bool = false) {
+    init(key: String, isAdsterInitialized: Bool = false, nativeAdSize: NativeAdSize? = nil) {
+        self.nativeAdSize = nativeAdSize
         self.displayKey = key
         self.key = key.replacingOccurrences(of: "-", with: "_").lowercased()
         self.placementKey = self.key
@@ -265,6 +272,7 @@ extension AdsViewModel: MediationAdDelegate {
     
     func onNativeAdLoaded(nativeAd: AdsFramework.MediationNativeAd) {
         Task { @MainActor in
+            guard self.didAppear else { nativeAd.destroy(); return }
             setNativeAdFromAdster(nativeAd: nativeAd)
             self.isLoading = false
         }
@@ -285,36 +293,11 @@ extension AdsViewModel: MediationAdDelegate {
     }
     
     func setNativeAdFromAdster(nativeAd: AdsFramework.MediationNativeAd) {
-        Task { @MainActor in
-            nativeAd.eventDelegate = self
-            let bundle = Bundle(for: MediationNativeAdView.self)
-            let nib = UINib(nibName: "NativeView", bundle: bundle)
-            guard let adView = nib.instantiate(withOwner: nil, options: nil).first as? MediationNativeAdView else { return }
-            
-            (adView.bodyView as? UILabel)?.text = nativeAd.body
-            (adView.headlineView as? UILabel)?.text = nativeAd.headline
-            (adView.ctaView as? UIButton)?.setTitle(nativeAd.callToAction, for: .normal)
-            (adView.ctaView as? UIButton)?.isUserInteractionEnabled = false
-            adView.setNativeAd(nativeAd: nativeAd)
-            if let mediaView = nativeAd.mediaView {
-                addMediaViewToParentView(childView: mediaView, parentView: adView.mediaView)
-            }
-            addBannerViewToView(adView)
-        }
+        if mediationNativeAd !== nativeAd { mediationNativeAd?.destroy() }
+        nativeAd.eventDelegate = self
+        mediationNativeAd = nativeAd
     }
-    
-    func addMediaViewToParentView(childView: UIView, parentView: UIView) {
-           childView.translatesAutoresizingMaskIntoConstraints = false
-           parentView.addSubview(childView)
 
-           NSLayoutConstraint.activate([
-               childView.leadingAnchor.constraint(equalTo: parentView.leadingAnchor),
-               childView.trailingAnchor.constraint(equalTo: parentView.trailingAnchor),
-               childView.topAnchor.constraint(equalTo: parentView.topAnchor),
-               childView.bottomAnchor.constraint(equalTo: parentView.bottomAnchor)
-           ])
-    }
-    
     func addBannerViewToView(_ bannerView: UIView) {
         Task { @MainActor in
             self.bannerView = .init(bannerView: bannerView)
@@ -324,6 +307,8 @@ extension AdsViewModel: MediationAdDelegate {
     
     func onCustomNativeAdLoaded(customNativeAd: any AdsFramework.MediationNativeCustomFormatAd) {
         Task { @MainActor in
+            guard self.didAppear else { customNativeAd.destroy(); return }
+            if self.mediationCustomNativeAd !== customNativeAd { self.mediationCustomNativeAd?.destroy() }
             customNativeAd.eventDelegate = self
             self.mediationCustomNativeAd = customNativeAd
             let formatId = customNativeAd.getCustomFormatId() ?? "unknown format"
